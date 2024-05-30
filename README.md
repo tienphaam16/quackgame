@@ -1,23 +1,11 @@
-#  Tự động nhặt trứng Quack Quack game
+#  Tool tự động lụm trứng Quack Quack Game
 
-> Bạn phải có NodeJS trên máy tính > https://nodejs.org
+> Đây công cụ tui làm ra chỉ để thử sức code nên nó rất đơn giản. Vì công việc của tui là Sửa Laptop chứ không phải Dev mấy má ưi 😍
 
-> Bạn phải mở song song cửa sổ Quack Quack và Terminal để công cụ thu thập trứng chạy ổn định nhé
+> Windows / Mac / Linux đều dùng được miễn có cài NodeJS. Link tải đây https://nodejs.org/en/download/prebuilt-installer
 
-## Bước 1: Lấy ACCESS_TOKEN của mình và bỏ vào quack.js
+> Video hướng dẫn https://www.tiktok.com/@mhqb365/video/7373837354257091857
 
-> Dùng Tele Web, mở game Quack Quack lên rồi mở Devtools > Application > Local storage > play.quackquack.games > telegram-user.state.token
+> Mọi người có hứng thú với con game vô tri này thì đăng ký qua link ủng hộ tui nhé https://t.me/quackquack_game_bot?start=6hn8Xrp7DK
 
-<img src="./img/1.png" />
-
-## Bước 2: Khởi chạy
-
-> Bước 2: Mở Terminal trong folder mã nguồn rồi gõ vào:
-
-```sh
-node quack
-```
-
-<img src="./img/2.png" />
-
-> From https://mhqb365.com with ♥
+From https://mhqb365.com with ♥
