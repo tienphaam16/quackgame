@@ -1,11 +1,61 @@
-#  Tool tự động lụm trứng Quack Quack Game
+# Tool Quack Quack Game
 
-> Đây công cụ tui làm ra chỉ để thử sức code nên nó rất đơn giản. Vì công việc của tui là Sửa Laptop chứ không phải Dev mấy má ưi 😍
+> Đây công cụ tui làm ra chỉ để thử sức code nên nó rất đơn giản. Công việc của tui là Sửa Laptop chứ không phải Dev mấy má ưi 😍
 
 > Windows / Mac / Linux đều dùng được miễn có cài NodeJS. Link tải đây https://nodejs.org/en/download/prebuilt-installer
 
-> Video hướng dẫn https://www.tiktok.com/@mhqb365/video/7373837354257091857
-
 > Mọi người có hứng thú với con game vô tri này thì đăng ký qua link ủng hộ tui nhé https://t.me/quackquack_game_bot?start=6hn8Xrp7DK
 
-From https://mhqb365.com with ♥
+> Link Tool https://j2c.cc/quack, các link khác đều là bản copy, cẩn thận khi sử dụng bản copy
+
+## Tính năng
+
+> Lụm Zịt Zàng (có thể bật|tắt trong file config.json)
+
+> Lụm toàn bộ trứng (có thể bật|tắt trong file config.json)
+
+> Bản cập nhật này chỉ để thêm các thư viện  (axios, easytimer, random-useragent) để Tool hoạt động ổn định hơn
+
+> Không claim TON từ Zịt Zàng (vì muốn claim phải có key ví, ai lại đi bỏ key ví vào Tool người khác bao giờ)
+
+> Chưa có ấp trứng kiếm vịt xịn, nhưng trong tương lai gần sẽ có
+
+## Cách dùng
+
+> Cài NodeJS chưa? Chưa thì quay lên trên lấy link tải về cài vào
+
+> Tải Tool về, thấy cái nút (<> Code) màu xanh lá ở trên hem? bấm vào đó để Download ZIP
+
+> Giải nén và truy cập vào folder của Tool
+
+> Copy Token game paste vào file token.json rồi lưu lại (chỉ thấy mỗi chữ token nếu bạn không bật hiển thị định dạng tệp trên máy tính)
+
+<img src="./images/1.png" />
+
+> Xem cài đặt Tool ở file config.json (chỉ thấy mỗi chữ config nếu bạn không bật hiển thị định dạng tệp trên máy tính)
+
+#### config.json
+
+```json
+{
+  "nest": 3, // số tổ vịt bạn đang có, nếu có nhiều hơn thì thay số vào
+  "sleepTime": 3, // thời gian nghỉ giữa mỗi request (thao tác), đơn vị: s (second)
+  "goldenDuck": "on", // on|off : bật|tắt đập vịt vàng
+  "harvestEgg": "on", // on|off : bật|tắt lụm tất cả trứng, không phân biệt trứng xịn|lỏ
+}
+
+```
+
+> Mở Terminal / PowerShell / Cmd trong folder Tool
+
+> Gõ vào lệnh: ```npm install``` để cài đặt các thư viện cần thiết
+
+> Gõ vào lệnh: ```node quack``` để khởi chạy
+
+<img src="./images/2.png" />
+
+> Xem lại lịch sử đập Zịt Zàng ở file log.txt (chỉ thấy mỗi chữ token nếu bạn không bật hiển thị định dạng tệp trên máy tính)
+
+<img src="./images/3.png" />
+
+From https://mhqb365.com with Love ♥
