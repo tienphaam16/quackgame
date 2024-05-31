@@ -8,7 +8,7 @@ async function getBalance(token, ua) {
     const balanceInfo = await getAction(token, "balance/get", ua);
     // console.log("balanceInfo", balanceInfo.data);
 
-    balanceInfo.data.data.data.map((bl) => {
+    balanceInfo.data.data.data.forEach((bl) => {
       if (bl.symbol === "PET") {
         wallets.push({
           symbol: "PET 🐸",
@@ -22,7 +22,7 @@ async function getBalance(token, ua) {
       }
     });
 
-    wallets.map((w) => {
+    wallets.forEach((w) => {
       walletStr += `[ ${Number(w.balance).toFixed(2)} ${w.symbol} ] `;
     });
     console.log("[ WALLETS 💰 ] :", walletStr);
