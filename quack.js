@@ -1,5 +1,5 @@
-const TELEGRAM_USER = require("./token.json");
-const ACCESS_TOKEN = TELEGRAM_USER.state.token;
+const loadToken = require('./modules/loadToken');
+const ACCESS_TOKEN = loadToken();
 const randomUseragent = require("random-useragent");
 
 const ua = randomUseragent.getRandom();
