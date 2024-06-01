@@ -114,7 +114,7 @@ async function layEgg(token, nest_id, listNests, listDucks, ua) {
   try {
     const duck = getDuckToLay(listDucks);
 
-    const { data } = await await postAction(
+    const { data } = await postAction(
       token,
       "nest/lay-egg",
       "nest_id=" + nest_id + "&duck_id=" + duck.id,

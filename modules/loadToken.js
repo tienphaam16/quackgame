@@ -1,20 +1,20 @@
-const TOKEN_FILE_PATH = './token.json';
-const fs = require('fs');
+const TOKEN_FILE_PATH = "./token.json";
+const fs = require("fs");
 
-const ERROR_MESSAGE = 'Lỗi định dạng file token, vui lòng dán token vào file'; 
+const ERROR_MESSAGE =
+  "\nLỗi định dạng Token, vui lòng dán Token vào file token.json\nXem cách lấy Token ở phần README của j2c.cc/quack\n";
 
 function loadUserLoginInfo() {
-  let content = '';
+  let content = "";
   try {
-    content = fs.readFileSync(TOKEN_FILE_PATH, 'utf8');
+    content = fs.readFileSync(TOKEN_FILE_PATH, "utf8");
   } catch {
-    fs.writeFileSync(TOKEN_FILE_PATH, '');
+    fs.writeFileSync(TOKEN_FILE_PATH, "");
   }
-  
+
   try {
     return JSON.parse(content);
-  }
-  catch {
+  } catch {
     console.error(ERROR_MESSAGE);
     process.exit(1);
   }

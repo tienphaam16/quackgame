@@ -12,11 +12,11 @@
 
 > Lụm Zịt Zàng (có thể bật|tắt trong file config.json)
 
+> Không claim TON từ Zịt Zàng (vì muốn claim phải có key ví, ai lại đi bỏ key ví vào Tool người khác bao giờ)
+
 > Lụm toàn bộ trứng (có thể bật|tắt trong file config.json)
 
 > Bản cập nhật này chỉ để thêm các thư viện  (axios, easytimer, random-useragent) để Tool hoạt động ổn định hơn
-
-> Không claim TON từ Zịt Zàng (vì muốn claim phải có key ví, ai lại đi bỏ key ví vào Tool người khác bao giờ)
 
 > Chưa có ấp trứng kiếm vịt xịn, nhưng trong tương lai gần sẽ có
 
@@ -28,13 +28,15 @@
 
 > Giải nén và truy cập vào folder của Tool
 
-> Copy Token game paste vào file token.json rồi lưu lại (chỉ thấy mỗi chữ token nếu bạn không bật hiển thị định dạng tệp trên máy tính)
+> Cần hiện đuôi file để thao tác dễ hơn, ví dụ file config.json mà máy không hiện đuôi file thì chỉ nhìn thấy file có tên config
+
+> Copy Token game paste vào file token.json rồi lưu lại. Nếu chưa có thì tạo mới (Chuột phải > New > Text Document > token.json)
+
+> Cách lấy Token game, xem hình dưới nè
 
 <img src="./images/1.png" />
 
-> Xem cài đặt Tool ở file config.json (chỉ thấy mỗi chữ config nếu bạn không bật hiển thị định dạng tệp trên máy tính)
-
-#### config.json
+> Cài đặt Tool ở file config.json
 
 ```json
 {
@@ -43,18 +45,17 @@
   "goldenDuck": "on", // on|off : bật|tắt đập vịt vàng
   "harvestEgg": "on", // on|off : bật|tắt lụm tất cả trứng, không phân biệt trứng xịn|lỏ
 }
-
 ```
 
 > Mở Terminal / PowerShell / Cmd trong folder Tool
 
-> Gõ vào lệnh: ```npm install``` để cài đặt các thư viện cần thiết
+> Gõ vào lệnh ```npm install``` để cài đặt các thư viện cần thiết
 
-> Gõ vào lệnh: ```node quack``` để khởi chạy
+> Gõ vào lệnh ```node quack``` để khởi chạy
 
 <img src="./images/2.png" />
 
-> Xem lại lịch sử đập Zịt Zàng ở file log.txt (chỉ thấy mỗi chữ token nếu bạn không bật hiển thị định dạng tệp trên máy tính)
+> Xem lại lịch sử đập Zịt Zàng ở file log.txt
 
 <img src="./images/3.png" />
 
