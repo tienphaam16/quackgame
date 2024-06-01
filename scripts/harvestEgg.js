@@ -20,7 +20,7 @@ async function getListReload(token, ua, new_game = false) {
     const listReload = await getAction(token, endpoint, ua);
     // console.log("listReload info", listReload);
 
-    listReload.data.data.nest.map((n) => {
+    listReload.data.data.nest.forEach((n) => {
       if (n.type_egg) listNests.push(n);
     });
     // console.log("listNests", listNests.length);
@@ -30,8 +30,8 @@ async function getListReload(token, ua, new_game = false) {
     listDucks = listReload.data.data.duck;
     // console.log("listDucks", listDucks.length);
 
-    const nests = listNests.map((i) => i.id);
-    console.log(`[ NEST 🌕 ${listNests.length} ] :`, nests);
+    const nestIds = listNests.map((i) => i.id);
+    console.log(`[ NEST 🌕 ${listNests.length} ] :`, nestIds);
 
     await sleep(config.sleepTime);
     collectFromList(token, listNests, listDucks, ua);
