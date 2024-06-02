@@ -1,9 +1,27 @@
 const getAction = require("../actions/get");
 const sleep = require("./sleep");
+const config = require("../config.json");
 
 async function getBalance(token, ua) {
+  let retry = 0;
+  let data = null;
+  while (retry < config.retryCount) {
+    if (!!data) {
+      break;
+    }
+    data = await getBalanceInternal(token, ua);
+    retry++;
+  }
+
+  return data;
+}
+
+async function getBalanceInternal(token, ua) {
   try {
-    return await getBalanceInternal(token, ua);
+    const response = await getAction(token, "balance/get", ua);
+    // console.log("getBalance", response);
+    const wallets = extractWalletsInfo(response);
+    return wallets;
   } catch (error) {
     console.log("getBalance error");
     if (error.response) {
@@ -15,15 +33,16 @@ async function getBalance(token, ua) {
       if (status === 503 || status === 502) {
         console.log("Mat ket noi, tu dong ket noi sau 30s");
         await sleep(30);
-        return await getBalanceInternal(token, ua);
+        return null;
       } else if (status === 401) {
         console.log(`\nToken loi hoac het han roi\n`);
+        process.exit(1);
       } else if (status === 400) {
         await sleep(10);
-        return await getBalanceInternal(token, ua);
+        return null;
       } else {
         await sleep(5);
-        return await getBalanceInternal(token, ua);
+        return null;
       }
     } else if (error.request) {
       console.log("request", error.request);
@@ -33,13 +52,9 @@ async function getBalance(token, ua) {
   }
 }
 
-async function getBalanceInternal(token, ua) {
+async function extractWalletsInfo(response) {
   let wallets = [];
-
-  const { data } = await getAction(token, "balance/get", ua);
-  // console.log("getBalance", data);
-
-  data.data.data.forEach((bl) => {
+  response.data.data.data.forEach((bl) => {
     if (bl.symbol === "PET") {
       wallets.push({
         symbol: "PET 🐸",

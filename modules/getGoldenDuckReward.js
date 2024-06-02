@@ -1,9 +1,27 @@
 const getAction = require("../actions/get");
 const sleep = require("./sleep");
+const config = require("../config.json");
 
 async function getGoldenDuckReward(token, ua) {
+  let retry = 0;
+  let data = null;
+  while (retry < config.retryCount) {
+    if (!!data) {
+      break;
+    }
+    data = await getGoldenDuckRewardInternal(token, ua);
+    retry++;
+  }
+
+  return data;
+}
+
+async function getGoldenDuckRewardInternal(token, ua) {
   try {
-    return await getGoldenDuckRewardInternal(token, ua);
+    const response = await getAction(token, "golden-duck/reward", ua);
+    data = response.data;
+    // console.log("getGoldenDuckReward", data);
+    return data;
   } catch (error) {
     console.log("getGoldenDuckReward error");
     if (error.response) {
@@ -15,17 +33,18 @@ async function getGoldenDuckReward(token, ua) {
       if (status === 503 || status === 502) {
         console.log("Mat ket noi, tu dong ket noi sau 30s");
         await sleep(30);
-        return await getGoldenDuckRewardInternal(token, ua);
+        return null;
       } else if (status === 401) {
         console.log(`\nToken loi hoac het han roi\n`);
+        process.exit(1);
       } else if (status === 400) {
         // if (error.response.data.error_code === "NOT_ENOUGH_TIME_TO_GOLDEN_DUCK")
         //   return { error: true, messaga: "Chua toi gio dap Zit Zang" };
-        // await sleep(10);
-        // return await getGoldenDuckRewardInternal(token, ua);
+        await sleep(10);
+        return null;
       } else {
         await sleep(5);
-        return await getGoldenDuckRewardInternal(token, ua);
+        return null;
       }
     } else if (error.request) {
       console.log("request", error.request);
@@ -33,12 +52,8 @@ async function getGoldenDuckReward(token, ua) {
       console.log("error", error.message);
     }
   }
-}
 
-async function getGoldenDuckRewardInternal(token, ua) {
-  const { data } = await getAction(token, "golden-duck/reward", ua);
-  // console.log("getGoldenDuckReward", data);
-  return data;
+  return null;
 }
 
 module.exports = getGoldenDuckReward;
