@@ -3,7 +3,9 @@ const sleep = require("./sleep");
 
 async function getGoldenDuckInfo(token, ua) {
   try {
-    return await getGoldenDuckInfoInternal(token, ua);
+    const { data } = await getAction(token, "golden-duck/info", ua);
+    // console.log(data);
+    return data.data;
   } catch (error) {
     console.log("getGoldenDuckInfo error");
     if (error.response) {
@@ -15,15 +17,15 @@ async function getGoldenDuckInfo(token, ua) {
       if (status === 503 || status === 502) {
         console.log("Mat ket noi, tu dong ket noi sau 30s");
         await sleep(30);
-        return getGoldenDuckInfoInternal(token, ua);
+        getGoldenDuckInfo(token, ua);
       } else if (status === 401) {
         console.log(`\nToken loi hoac het han roi\n`);
       } else if (status === 400) {
         // await sleep(10);
-        // return getGoldenDuckInfoInternal(token, ua);
+        // getGoldenDuckInfo(token, ua);
       } else {
         await sleep(5);
-        return getGoldenDuckInfoInternal(token, ua);
+        getGoldenDuckInfo(token, ua);
       }
     } else if (error.request) {
       console.log("request", error.request);
@@ -31,12 +33,6 @@ async function getGoldenDuckInfo(token, ua) {
       console.log("error", error.message);
     }
   }
-}
-
-async function getGoldenDuckInfoInternal() {
-  const { data } = await getAction(token, "golden-duck/info", ua);
-  // console.log(data);
-  return data.data;
 }
 
 module.exports = getGoldenDuckInfo;
