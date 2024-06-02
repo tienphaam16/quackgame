@@ -26,7 +26,6 @@ let wallets = null;
 let timerInstance = new Timer();
 let eggs = 0;
 let timeToGoldenDuck = 0;
-let myInterval = null;
 
 function getDuckToLay(ducks) {
   let duck = null;
@@ -69,16 +68,27 @@ async function collectFromList(token, ua, listNests, listDucks) {
   }
 }
 
-async function collectGoldenDuck() {
+async function harvestAllEgg() {
   try {
-    if (timeToGoldenDuck === 0) {
-      clearInterval(myInterval);
+    if (!run) {
+      wallets = await getBalance(ACCESS_TOKEN, ua);
+      timerInstance.start();
+      console.log("\nTool by mhqb365 - Link j2c.cc/quack\n");
+    }
+    // console.log(wallets);
+    console.log(
+      `THOI GIAN CHAY : [ ${timerInstance
+        .getTimeValues()
+        .toString(["days", "hours", "minutes", "seconds"])} ]`
+    );
+    console.log(`TONG THU HOACH : [ ${eggs} EGG 🥚]`);
+    console.log("---");
 
+    if (timeToGoldenDuck <= 0) {
       const data = await getGoldenDuckInfo(ACCESS_TOKEN, ua);
-      // console.log("collectGoldenDuck", data);
+      console.log("collectGoldenDuck", data);
 
       if (data.time_to_golden_duck === 0) {
-        clearInterval(myInterval);
         console.log("[ GOLDEN DUCK 🐥 ] : Zit Zang xuat hien");
         const rewardData = await getGoldenDuckReward(ACCESS_TOKEN, ua);
         // console.log("rewardData", rewardData);
@@ -97,35 +107,13 @@ async function collectGoldenDuck() {
           console.log("claimReward", claimReward);
         }
       } else timeToGoldenDuck = data.time_to_golden_duck;
-    } else {
-      myInterval = setInterval(() => {
+
+      setInterval(() => {
         timeToGoldenDuck--;
       }, 1e3);
     }
 
     console.log(`[ GOLDEN DUCK 🐥 ] : ${timeToGoldenDuck}s nua gap`);
-  } catch (error) {
-    console.log("collectGoldenDuck error", error);
-  }
-}
-
-async function harvestAllEgg() {
-  try {
-    if (!run) {
-      wallets = await getBalance(ACCESS_TOKEN, ua);
-      timerInstance.start();
-      console.log("\nTool by mhqb365 - Link j2c.cc/quack\n");
-    }
-    // console.log(wallets);
-    console.log(
-      `THOI GIAN CHAY : [ ${timerInstance
-        .getTimeValues()
-        .toString(["days", "hours", "minutes", "seconds"])} ]`
-    );
-    console.log(`TONG THU HOACH : [ ${eggs} EGG 🥚]`);
-    console.log("---");
-
-    await collectGoldenDuck();
 
     if (!run) {
       let walletStr = "";
