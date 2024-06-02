@@ -12,7 +12,15 @@ function getRewardInfo(data) {
 
 async function claimGoldenDuck(token, ua, reward) {
   try {
-    return await claimGoldenDuckInternal(token, ua, reward);
+    const { data } = await postAction(token, "golden-duck/claim", "type=1", ua);
+    // console.log("goldenDuckClaim", data);
+    if (data.data) {
+      const rewardInfo = getRewardInfo(reward);
+      console.log(`[ GOLDEN DUCK 🐥 ] : ${rewardInfo}`);
+      addLog(`[ GOLDEN DUCK 🐥 ] : ${rewardInfo}\n`);
+      await sleep(config.sleepTime);
+      return data.data;
+    }
   } catch (error) {
     console.log("claimGoldenDuck error");
     if (error.response) {
@@ -24,36 +32,21 @@ async function claimGoldenDuck(token, ua, reward) {
       if (status === 503 || status === 502) {
         console.log("Mat ket noi, tu dong ket noi sau 30s");
         await sleep(30);
-        return await claimGoldenDuckInternal(token, ua, reward);
+        claimGoldenDuck(token, ua, reward);
       } else if (status === 401) {
         console.log(`\nToken loi hoac het han roi\n`);
       } else if (status === 400) {
         // await sleep(10);
-        // return await claimGoldenDuckInternal(token, ua, );
+        // claimGoldenDuck(token, ua, );
       } else {
         await sleep(5);
-        return await claimGoldenDuckInternal(token, ua, reward);
+        claimGoldenDuck(token, ua, reward);
       }
     } else if (error.request) {
       console.log("request", error.request);
     } else {
       console.log("error", error.message);
     }
-  }
-}
-
-async function claimGoldenDuckInternal(token, ua, reward) {
-  const { data } = await postAction(token, "golden-duck/claim", "type=1", ua);
-  // console.log("goldenDuckClaim", data);
-  if (data.data) {
-    const rewardInfo = getRewardInfo(reward);
-    console.log(`[ GOLDEN DUCK 🐥 ] : ${rewardInfo}`);
-    addLog(`[ GOLDEN DUCK 🐥 ] : ${rewardInfo}\n`);
-    await sleep(config.sleepTime);
-    return data.data;
-  } else {
-    console.log('Claim zịt zàng thất bại');
-    return null;
   }
 }
 
