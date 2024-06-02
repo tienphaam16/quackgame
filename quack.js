@@ -73,9 +73,9 @@ async function harvestAllEgg() {
     if (!run) {
       wallets = await getBalance(ACCESS_TOKEN, ua);
       timerInstance.start();
-      console.log("\nTool by mhqb365 - Link j2c.cc/quack\n");
     }
     // console.log(wallets);
+    console.log("LINK TOOL : [ j2c.cc/quack ]");
     console.log(
       `THOI GIAN CHAY : [ ${timerInstance
         .getTimeValues()

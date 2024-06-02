@@ -37,7 +37,7 @@ async function getGoldenDuckReward(token, ua) {
 
 async function getGoldenDuckRewardInternal(token, ua) {
   const { data } = await getAction(token, "golden-duck/reward", ua);
-  console.log("getGoldenDuckReward", data);
+  // console.log("getGoldenDuckReward", data);
   return data;
 }
 
