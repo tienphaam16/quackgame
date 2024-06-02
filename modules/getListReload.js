@@ -2,9 +2,42 @@ const getAction = require("../actions/get");
 const config = require("../config.json");
 const sleep = require("./sleep");
 
+isErrorOccured = false;
+
 async function getListReload(token, ua, new_game = false) {
+  let retry = 0;
+  let data = null;
+  while (retry < config.retryCount) {
+    if (!!data) {
+      break;
+    }
+    data = await getListReloadInternal(token, ua, isErrorOccured ? true : new_game);
+    retry++;
+  }
+
+  return data;
+}
+
+async function getListReloadInternal(token, ua, new_game) {
   try {
-    return await getListReloadInternal(token, ua, new_game);
+    let listNests = [];
+    let listDucks = [];
+  
+    let data = await getListReloadInternalCallAPI(token, ua, new_game);
+    isErrorOccured = false;
+  
+    data.data.nest.forEach((n) => {
+      if (n.type_egg) listNests.push(n);
+    });
+  
+    if (listNests.length < config.nest) {
+      data = await getListReloadInternalCallAPI(token, ua, true);
+    } 
+  
+    isErrorOccured = false;
+    listDucks = data.data.duck;
+  
+    return { listNests, listDucks };
   } catch (error) {
     console.log("getListReload error");
     if (error.response) {
@@ -16,15 +49,19 @@ async function getListReload(token, ua, new_game = false) {
       if (status === 503 || status === 502) {
         console.log("Mat ket noi, tu dong ket noi sau 30s");
         await sleep(30);
-        return await getListReloadInternal(token, ua, true);
+        isErrorOccured = true;
+        return null;
       } else if (status === 401) {
         console.log(`\nToken loi hoac het han roi\n`);
+        process.exit(1);
       } else if (status === 400) {
         await sleep(10);
-        return await getListReloadInternal(token, ua, true);
+        isErrorOccured = true;
+        return null;
       } else {
         await sleep(5);
-        return await getListReloadInternal(token, ua, true);
+        isErrorOccured = true;
+        return null;
       }
     } else if (error.request) {
       console.log("request", error.request);
@@ -32,25 +69,7 @@ async function getListReload(token, ua, new_game = false) {
       console.log("error", error.message);
     }
   }
-}
-
-async function getListReloadInternal(token, ua, new_game) {
-  let listNests = [];
-  let listDucks = [];
-
-  let data = await getListReloadInternalCallAPI(token, ua, new_game);
-
-  data.data.nest.forEach((n) => {
-    if (n.type_egg) listNests.push(n);
-  });
-
-  if (listNests.length < config.nest) {
-    data = await getListReloadInternalCallAPI(token, ua, true);
-  } 
-
-  listDucks = data.data.duck;
-
-  return { listNests, listDucks };
+  return null;
 }
 
 async function getListReloadInternalCallAPI(token, ua, new_game = false) {
