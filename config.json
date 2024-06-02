@@ -1,7 +1,4 @@
 {
   "nest": 3,
-  "sleepTime": 3,
-  "goldenDuck": "on",
-  "harvestEgg": "on",
-  "hatchEgg": "off"
+  "sleepTime": 1
 }
