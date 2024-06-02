@@ -1,30 +1,18 @@
-const getAction = require("../actions/get");
+const postAction = require("../actions/post");
 const sleep = require("./sleep");
 
-async function getBalance(token, ua) {
+async function collectEgg(token, ua, nest_id) {
   try {
-    let wallets = [];
-
-    const { data } = await getAction(token, "balance/get", ua);
-    // console.log("getBalance", data);
-
-    data.data.data.forEach((bl) => {
-      if (bl.symbol === "PET") {
-        wallets.push({
-          symbol: "PET 🐸",
-          balance: bl.balance,
-        });
-      } else if (bl.symbol === "EGG") {
-        wallets.push({
-          symbol: "EGG 🥚",
-          balance: bl.balance,
-        });
-      }
-    });
-
-    return wallets;
+    const { data } = await postAction(
+      token,
+      "nest/collect",
+      "nest_id=" + nest_id,
+      ua
+    );
+    // console.log("collectEgg", data);
+    return data;
   } catch (error) {
-    console.log("getBalance error");
+    console.log("collectEgg error");
     if (error.response) {
       // console.log(error.response.data);
       console.log("status", error.response.status);
@@ -34,15 +22,15 @@ async function getBalance(token, ua) {
       if (status === 503 || status === 502) {
         console.log("Mat ket noi, tu dong ket noi sau 30s");
         await sleep(30);
-        getBalance(token, ua);
+        collectEgg(token, ua, nest_id);
       } else if (status === 401) {
         console.log(`\nToken loi hoac het han roi\n`);
       } else if (status === 400) {
         await sleep(10);
-        getBalance(token, ua);
+        collectEgg(token, ua, nest_id);
       } else {
         await sleep(5);
-        getBalance(token, ua);
+        collectEgg(token, ua, nest_id);
       }
     } else if (error.request) {
       console.log("request", error.request);
@@ -52,4 +40,4 @@ async function getBalance(token, ua) {
   }
 }
 
-module.exports = getBalance;
+module.exports = collectEgg;
