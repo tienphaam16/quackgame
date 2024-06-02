@@ -86,7 +86,7 @@ async function harvestAllEgg() {
 
     if (timeToGoldenDuck <= 0) {
       const data = await getGoldenDuckInfo(ACCESS_TOKEN, ua);
-      console.log("collectGoldenDuck", data);
+      // console.log("collectGoldenDuck", data);
 
       if (data.time_to_golden_duck === 0) {
         console.log("[ GOLDEN DUCK 🐥 ] : Zit Zang xuat hien");
@@ -104,7 +104,7 @@ async function harvestAllEgg() {
             ua,
             rewardData.data
           );
-          console.log("claimReward", claimReward);
+          // console.log("claimReward", claimReward);
         }
       } else timeToGoldenDuck = data.time_to_golden_duck;
 

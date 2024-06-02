@@ -13,7 +13,7 @@ function getRewardInfo(data) {
 async function claimGoldenDuck(token, ua, reward) {
   try {
     const { data } = await postAction(token, "golden-duck/claim", "type=1", ua);
-    console.log("goldenDuckClaim", data);
+    // console.log("goldenDuckClaim", data);
     if (data.data) {
       const rewardInfo = getRewardInfo(reward);
       console.log(`[ GOLDEN DUCK 🐥 ] : ${rewardInfo}`);
