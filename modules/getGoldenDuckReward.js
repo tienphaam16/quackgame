@@ -3,9 +3,7 @@ const sleep = require("./sleep");
 
 async function getGoldenDuckReward(token, ua) {
   try {
-    const { data } = await getAction(token, "golden-duck/reward", ua);
-    console.log("getGoldenDuckReward", data);
-    return data;
+    return await getGoldenDuckRewardInternal(token, ua);
   } catch (error) {
     console.log("getGoldenDuckReward error");
     if (error.response) {
@@ -17,17 +15,17 @@ async function getGoldenDuckReward(token, ua) {
       if (status === 503 || status === 502) {
         console.log("Mat ket noi, tu dong ket noi sau 30s");
         await sleep(30);
-        getGoldenDuckReward(token, ua);
+        return await getGoldenDuckRewardInternal(token, ua);
       } else if (status === 401) {
         console.log(`\nToken loi hoac het han roi\n`);
       } else if (status === 400) {
         // if (error.response.data.error_code === "NOT_ENOUGH_TIME_TO_GOLDEN_DUCK")
         //   return { error: true, messaga: "Chua toi gio dap Zit Zang" };
         // await sleep(10);
-        // getGoldenDuckReward(token, ua);
+        // return await getGoldenDuckRewardInternal(token, ua);
       } else {
         await sleep(5);
-        getGoldenDuckReward(token, ua);
+        return await getGoldenDuckRewardInternal(token, ua);
       }
     } else if (error.request) {
       console.log("request", error.request);
@@ -35,6 +33,12 @@ async function getGoldenDuckReward(token, ua) {
       console.log("error", error.message);
     }
   }
+}
+
+async function getGoldenDuckRewardInternal(token, ua) {
+  const { data } = await getAction(token, "golden-duck/reward", ua);
+  console.log("getGoldenDuckReward", data);
+  return data;
 }
 
 module.exports = getGoldenDuckReward;
