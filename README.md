@@ -28,7 +28,9 @@
 
 > Giải nén và truy cập vào folder của Tool
 
-> Máy tính cần hiện đuôi file để thao tác dễ hơn
+> Máy tính cần hiện đuôi file để thao tác dễ hơn. Thao tác bằng cách từ start menu, folder options -> bỏ tick phần bôi đỏ
+![image](https://github.com/mhqb365/quack-quack-game/assets/119036507/c1b0ebd3-4087-4966-9ae9-b5f9ce8712b8)
+
 
 > Ví dụ file ```config.json``` mà máy không hiện đuôi file thì chỉ nhìn thấy cái file có tên ```config``` thôi
 
