@@ -8,6 +8,14 @@
 
 > Link Tool https://j2c.cc/quack
 
+## Tuyên bố miễn trừ trách nhiệm
+
+> Tui (mhqb365) là chủ sở hữu của những đoạn code trên, tuyên bố sẽ miễn trừ trách nhiệm khi bạn sử dụng những đoạn code này
+
+> Bạn có quyền sử dụng nó tùy ý, tuy nhiên xin lưu ý rằng trong mọi trường hợp, khi bạn sử dụng những đoạn code trên cho những mục đích xấu, sửa đổi hoặc những việc tương tự nhằm mục đích gây hại cho những cá nhân, tổ chức khác, bạn sẽ phải chịu trách nhiệm cho những việc đó. Tôi sẽ không phải chịu bất cứ trách nhiệm gì từ việc này
+
+> Chúc bạn sử dụng bot vui vẻ!
+
 ## Tính năng
 
 > Lụm Zịt Zàng (cái con bạch tuột mỏ vịt xuất hiện mỗi 30 phút)

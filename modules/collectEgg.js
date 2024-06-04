@@ -24,7 +24,7 @@ async function collectEggInternal(token, ua, nest_id) {
       "nest_id=" + nest_id,
       ua
     );
-    return response.data;
+    return response;
   } catch (error) {
     console.log("collectEgg error");
     if (error.response) {
