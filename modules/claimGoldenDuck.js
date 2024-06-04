@@ -35,7 +35,8 @@ async function claimGoldenDuckInternal(token, ua, reward) {
       await sleep(config.sleepTime);
       return data.data;
     } else {
-      console.log('Claim zịt zàng thất bại');
+      console.log("Claim zịt zàng thất bại");
+      addLog("Claim zịt zàng thất bại\n");
       return null;
     }
   } catch (error) {
@@ -43,10 +44,10 @@ async function claimGoldenDuckInternal(token, ua, reward) {
     if (error.response) {
       // console.log(error.response.data);
       console.log("status", error.response.status);
-      console.log("data", error.response.data);
+      // console.log("data", error.response.data);
       const status = error.response.status;
       // console.log(error.response.headers);
-      if (status === 503 || status === 502) {
+      if (status === 503 || status === 502 || status === 504) {
         console.log("Mat ket noi, tu dong ket noi sau 30s");
         await sleep(30);
         return null;
@@ -54,6 +55,7 @@ async function claimGoldenDuckInternal(token, ua, reward) {
         console.log(`\nToken loi hoac het han roi\n`);
         process.exit(1);
       } else if (status === 400) {
+        console.log("data", error.response.data);
         await sleep(10);
         return null;
       } else {

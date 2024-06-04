@@ -26,10 +26,10 @@ async function getGoldenDuckInfoInternal(token, ua) {
     if (error.response) {
       // console.log(error.response.data);
       console.log("status", error.response.status);
-      console.log("data", error.response.data);
+      // console.log("data", error.response.data);
       const status = error.response.status;
       // console.log(error.response.headers);
-      if (status === 503 || status === 502) {
+      if (status === 503 || status === 502 || status === 504) {
         console.log("Mat ket noi, tu dong ket noi sau 30s");
         await sleep(30);
         return null;
@@ -37,6 +37,7 @@ async function getGoldenDuckInfoInternal(token, ua) {
         console.log(`\nToken loi hoac het han roi\n`);
         process.exit(1);
       } else if (status === 400) {
+        console.log("data", error.response.data);
         await sleep(10);
         return null;
       } else {
