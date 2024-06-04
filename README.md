@@ -46,6 +46,7 @@
 {
   "nest": 3, // số tổ vịt bạn đang có, nếu có nhiều hơn thì thay số vào
   "sleepTime": 1, // thời gian nghỉ giữa mỗi request (thao tác), đơn vị: s(second), số càng lớn thì càng chậm
+  "retryCount": 5 // số lần thử lại khi lụm trứng lỗi, quá số lần sẽ dừng Tool
 }
 ```
 
