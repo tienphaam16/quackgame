@@ -42,10 +42,11 @@ async function collectEggInternal(token, ua, nest_id) {
         process.exit(1);
       } else if (status === 400) {
         console.log("data", error.response.data);
-        await sleep(10);
+        console.log("Mat ket noi, tu dong ket noi sau 3s");
+        await sleep(3);
         return null;
       } else {
-        await sleep(5);
+        await sleep(3);
         return null;
       }
     } else if (error.request) {
