@@ -24,7 +24,7 @@
 
 > Lụm toàn bộ trứng
 
-> Bản cập nhật này chỉ để thêm các thư viện  (axios, easytimer, random-useragent) để Tool hoạt động ổn định hơn
+> Tùy chọn chức năng lụm tất cả trứng & Zịt Zàng hoặc chỉ lụm Zịt Zàng
 
 > Chưa có ấp trứng kiếm vịt xịn, nhưng trong tương lai gần sẽ có
 
@@ -54,7 +54,7 @@
 {
   "nest": 3, // số tổ vịt bạn đang có, nếu có nhiều hơn thì thay số vào
   "sleepTime": 1, // thời gian nghỉ giữa mỗi request (thao tác), đơn vị: s(second), số càng lớn thì càng chậm
-  "retryCount": 5 // số lần thử lại khi lụm trứng lỗi, quá số lần sẽ dừng Tool
+  "retryCount": 5 // số lần thử lại khi mất kết nối, quá số lần sẽ dừng Tool
 }
 ```
 
@@ -62,7 +62,9 @@
 
 > Gõ vào lệnh ```npm install``` để cài đặt các thư viện cần thiết
 
-> Gõ vào lệnh ```node quack``` để khởi chạy
+> Gõ vào lệnh ```node quack``` để chạy chức năng lụm tất cả trứng lẫn Zịt Zàng
+
+> Hoặc gõ vào lệnh ```node quack 1``` để chạy chức năng chỉ lụm Zịt Zàng
 
 <img src="./images/2.png" />
 
