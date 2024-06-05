@@ -10,9 +10,6 @@ const ua = randomUseragent.getRandom((ua) => {
 });
 // console.log(ua);
 
-const config = require("../config.json");
-// console.log(config);
-
 let run = false;
 let timerInstance = new Timer();
 let accessToken = null;
