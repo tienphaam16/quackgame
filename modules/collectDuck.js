@@ -33,7 +33,7 @@ async function collectDuckInternal(token, ua, nest_id) {
       // console.log("data", error.response.data);
       const status = error.response.status;
       // console.log(error.response.headers);
-      if (status === 503 || status === 502 || status === 504) {
+      if (status >= 500) {
         console.log("Mat ket noi, tu dong ket noi sau 30s");
         await sleep(30);
         return null;
@@ -51,8 +51,14 @@ async function collectDuckInternal(token, ua, nest_id) {
       }
     } else if (error.request) {
       console.log("request", error.request);
+      console.log("Mat ket noi, tu dong ket noi sau 30s");
+      await sleep(30);
+      return null;
     } else {
       console.log("error", error.message);
+      console.log("Mat ket noi, tu dong ket noi sau 30s");
+      await sleep(30);
+      return null;
     }
   }
 
