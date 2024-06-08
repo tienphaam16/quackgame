@@ -1,5 +1,7 @@
 # Quack Quack Game Tool
 
+<img src="./images/8.png" />
+
 > Đây công cụ tui làm ra chỉ để thử sức code nên nó rất đơn giản. Công việc của tui là Sửa Laptop chứ không phải Dev mấy má ưi 😍
 
 > Windows / Mac / Linux đều dùng được miễn có cài NodeJS. Link tải đây https://nodejs.org/en/download/prebuilt-installer
@@ -86,7 +88,7 @@
 
 > Hoặc gõ vào lệnh ```node quack 2``` để chạy chức năng Lụm trứng lỏ, ấp trứng xịn & lụm ZỊT ZÀNG
 
-<img src="./images/2.png" />
+<img src="./images/7.png" />
 
 ## Phần phụ
 
