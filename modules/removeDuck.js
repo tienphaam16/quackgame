@@ -1,46 +1,29 @@
 const postAction = require("../actions/post");
-const addLog = require("./addLog");
 const sleep = require("./sleep");
 const config = require("../config.json");
 
-function getRewardInfo(data) {
-  if (data.type === 1) return `[ ${data.amount} TON ]`;
-  if (data.type === 2) return `[ ${data.amount} PEPET 🐸 ]`;
-  if (data.type === 3) return `[ ${data.amount} EGG 🥚 ]`;
-  if (data.type === 4) return `[ ${data.amount} TRU ]`;
-}
-
-async function claimGoldenDuck(token, ua, reward) {
+async function removeDuck(token, ua, duck_id) {
   let retry = 0;
   let data = null;
   while (retry < config.retryCount) {
     if (!!data) {
       break;
     }
-    data = await claimGoldenDuckInternal(token, ua, reward);
+    data = await removeDuckInternal(token, ua, duck_id);
     retry++;
   }
 
   return data;
 }
 
-async function claimGoldenDuckInternal(token, ua, reward) {
+async function removeDuckInternal(token, ua, duck_id) {
   try {
-    const response = await postAction(token, "golden-duck/claim", "type=1", ua);
-    // console.log("goldenDuckClaim", data);
-    if (response.data.data) {
-      const rewardInfo = getRewardInfo(reward);
-      console.log(`[ GOLDEN DUCK 🐥 ] : ${rewardInfo}`);
-      addLog(`[ GOLDEN DUCK 🐥 ] : ${rewardInfo}\n`);
-      await sleep(config.sleepTime);
-      return data.data;
-    } else {
-      console.log("Lum ZIT ZANG that bai");
-      addLog("Lum ZIT ZANG that bai\n");
-      return null;
-    }
+    const data = `ducks=%7B%22ducks%22%3A%5B${duck_id}%5D%7D`;
+    const response = await postAction(token, "duck/remove", data, ua);
+    // console.log(response);
+    return response.data;
   } catch (error) {
-    console.log("claimGoldenDuck error");
+    console.log("removeDuck error");
     if (error.response) {
       // console.log(error.response.data);
       console.log("status", error.response.status);
@@ -60,7 +43,6 @@ async function claimGoldenDuckInternal(token, ua, reward) {
         await sleep(3);
         return null;
       } else {
-        console.log("Mat ket noi, tu dong ket noi sau 3s");
         await sleep(3);
         return null;
       }
@@ -74,4 +56,4 @@ async function claimGoldenDuckInternal(token, ua, reward) {
   return null;
 }
 
-module.exports = claimGoldenDuck;
+module.exports = removeDuck;

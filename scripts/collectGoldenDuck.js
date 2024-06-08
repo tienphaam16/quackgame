@@ -14,6 +14,8 @@ let run = false;
 let timerInstance = new Timer();
 let accessToken = null;
 let timeToGoldenDuck = 0;
+let eggs = 0;
+let pepet = 0;
 
 async function collectGoldenDuckInternal(token) {
   try {
@@ -21,15 +23,15 @@ async function collectGoldenDuckInternal(token) {
     // console.log("collectGoldenDuckInternal", data);
 
     if (data.time_to_golden_duck === 0) {
-      console.log("[ GOLDEN DUCK 🐥 ] : Zit Zang xuat hien");
+      console.log("[ GOLDEN DUCK 🐥 ] : ZIT ZANG xuat hien");
       const rewardData = await getGoldenDuckReward(accessToken, ua);
       // console.log("rewardData", rewardData);
       if (rewardData.data.type === 0) {
         console.log("[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau");
         addLog("[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau\n");
       } else if (rewardData.data.type === 1 || rewardData.data.type === 4) {
-        console.log("[ GOLDEN DUCK 🐥 ] : TON | TRU -> Bo qua");
-        addLog("[ GOLDEN DUCK 🐥 ] : TON | TRU -> Bo qua\n");
+        console.log("[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP");
+        addLog("[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP\n");
       } else {
         const claimReward = await claimGoldenDuck(
           accessToken,
@@ -37,6 +39,8 @@ async function collectGoldenDuckInternal(token) {
           rewardData.data
         );
         // console.log("claimReward", claimReward);
+        if (rewardData.data.type === 2) pepet += rewardData.data.amount;
+        if (rewardData.data.type === 3) eggs += rewardData.data.amount;
         console.clear();
         collectGoldenDuck(token);
       }
@@ -64,6 +68,7 @@ async function collectGoldenDuck(token) {
         .getTimeValues()
         .toString(["days", "hours", "minutes", "seconds"])} ]`
     );
+    console.log(`TONG THU HOACH : [ ${eggs} EGG 🥚 ] [ ${pepet} 🐸 ]`);
     console.log();
 
     run = true;

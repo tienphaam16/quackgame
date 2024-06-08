@@ -1,4 +1,3 @@
-const getBalance = require("../modules/getBalance");
 const getListReload = require("../modules/getListReload");
 const collectEgg = require("../modules/collectEgg");
 const layEgg = require("../modules/layEgg");
@@ -19,9 +18,9 @@ const config = require("../config.json");
 // console.log(config);
 
 let run = false;
-let wallets = null;
 let timerInstance = new Timer();
 let eggs = 0;
+let pepet = 0;
 let timeToGoldenDuck = 0;
 let accessToken = null;
 
@@ -46,10 +45,6 @@ async function collectFromList(token, ua, listNests, listDucks) {
     await layEgg(token, ua, listNests[0].id, duck.id);
     console.log(`Da thu hoach [ NEST 🌕 ${listNests[0].id} ]`);
 
-    wallets.forEach((w) => {
-      if (w.symbol === "EGG 🥚") w.balance = Number(w.balance) + 1;
-    });
-
     eggs++;
     listNests.shift();
     listDucks = listDucks.filter((d) => d.id !== duck.id);
@@ -64,11 +59,8 @@ async function harvestEggGoldenDuck(token) {
   try {
     accessToken = token;
 
-    if (!run) {
-      wallets = await getBalance(accessToken, ua);
-      timerInstance.start();
-    }
-    // console.log(wallets);
+    if (!run) timerInstance.start();
+
     console.log("[ ALL EGG AND GOLDEN DUCK MODE ]");
     console.log();
     console.log("LINK TOOL : [ j2c.cc/quack ]");
@@ -77,7 +69,7 @@ async function harvestEggGoldenDuck(token) {
         .getTimeValues()
         .toString(["days", "hours", "minutes", "seconds"])} ]`
     );
-    console.log(`TONG THU HOACH : [ ${eggs} EGG 🥚]`);
+    console.log(`TONG THU HOACH : [ ${eggs} EGG 🥚 ] [ ${pepet} 🐸 ]`);
     console.log();
 
     if (timeToGoldenDuck <= 0) {
@@ -85,15 +77,15 @@ async function harvestEggGoldenDuck(token) {
       // console.log("collectGoldenDuck", data);
 
       if (data.time_to_golden_duck === 0) {
-        console.log("[ GOLDEN DUCK 🐥 ] : Zit Zang xuat hien");
+        console.log("[ GOLDEN DUCK 🐥 ] : ZIT ZANG xuat hien");
         const rewardData = await getGoldenDuckReward(accessToken, ua);
         // console.log("rewardData", rewardData);
         if (rewardData.data.type === 0) {
           console.log("[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau");
           addLog("[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau\n");
         } else if (rewardData.data.type === 1 || rewardData.data.type === 4) {
-          console.log("[ GOLDEN DUCK 🐥 ] : TON | TRU -> Bo qua");
-          addLog("[ GOLDEN DUCK 🐥 ] : TON | TRU -> Bo qua\n");
+          console.log("[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP");
+          addLog("[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP\n");
         } else {
           const claimReward = await claimGoldenDuck(
             accessToken,
@@ -101,6 +93,8 @@ async function harvestEggGoldenDuck(token) {
             rewardData.data
           );
           // console.log("claimReward", claimReward);
+          if (rewardData.data.type === 2) pepet += rewardData.data.amount;
+          if (rewardData.data.type === 3) eggs += rewardData.data.amount;
         }
       } else timeToGoldenDuck = data.time_to_golden_duck;
 
@@ -110,16 +104,6 @@ async function harvestEggGoldenDuck(token) {
     }
 
     console.log(`[ GOLDEN DUCK 🐥 ] : ${timeToGoldenDuck}s nua gap`);
-
-    if (!run) {
-      let walletStr = "";
-      wallets.forEach((w) => {
-        walletStr += `[ ${Number(w.balance).toFixed(2)} ${w.symbol} ] `;
-      });
-      console.log("[ WALLETS 💰 ] :", walletStr);
-      console.log();
-    }
-
     // console.log("timeToGoldenDuck", timeToGoldenDuck);
 
     const { listNests, listDucks } = await getListReload(
@@ -131,7 +115,8 @@ async function harvestEggGoldenDuck(token) {
 
     run = true;
     const nestIds = listNests.map((i) => i.id);
-    console.log(`[ NEST 🌕 ${listNests.length} ] :`, nestIds);
+    console.log(`[ ${listNests.length} NEST 🌕 ] :`, nestIds);
+    console.log();
     collectFromList(accessToken, ua, listNests, listDucks);
   } catch (error) {
     console.log("harvestEggGoldenDuck error", error);

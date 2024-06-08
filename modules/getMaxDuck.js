@@ -1,46 +1,28 @@
-const postAction = require("../actions/post");
-const addLog = require("./addLog");
+const getAction = require("../actions/get");
 const sleep = require("./sleep");
 const config = require("../config.json");
 
-function getRewardInfo(data) {
-  if (data.type === 1) return `[ ${data.amount} TON ]`;
-  if (data.type === 2) return `[ ${data.amount} PEPET 🐸 ]`;
-  if (data.type === 3) return `[ ${data.amount} EGG 🥚 ]`;
-  if (data.type === 4) return `[ ${data.amount} TRU ]`;
-}
-
-async function claimGoldenDuck(token, ua, reward) {
+async function getMaxDuck(token, ua) {
   let retry = 0;
   let data = null;
   while (retry < config.retryCount) {
     if (!!data) {
       break;
     }
-    data = await claimGoldenDuckInternal(token, ua, reward);
+    data = await getMaxDuckInternal(token, ua);
     retry++;
   }
 
   return data;
 }
 
-async function claimGoldenDuckInternal(token, ua, reward) {
+async function getMaxDuckInternal(token, ua) {
   try {
-    const response = await postAction(token, "golden-duck/claim", "type=1", ua);
-    // console.log("goldenDuckClaim", data);
-    if (response.data.data) {
-      const rewardInfo = getRewardInfo(reward);
-      console.log(`[ GOLDEN DUCK 🐥 ] : ${rewardInfo}`);
-      addLog(`[ GOLDEN DUCK 🐥 ] : ${rewardInfo}\n`);
-      await sleep(config.sleepTime);
-      return data.data;
-    } else {
-      console.log("Lum ZIT ZANG that bai");
-      addLog("Lum ZIT ZANG that bai\n");
-      return null;
-    }
+    const response = await getAction(token, "nest/max-duck", ua);
+    // console.log("getMaxDuck", response);
+    return response.data;
   } catch (error) {
-    console.log("claimGoldenDuck error");
+    console.log("getMaxDuck error");
     if (error.response) {
       // console.log(error.response.data);
       console.log("status", error.response.status);
@@ -70,8 +52,6 @@ async function claimGoldenDuckInternal(token, ua, reward) {
       console.log("error", error.message);
     }
   }
-
-  return null;
 }
 
-module.exports = claimGoldenDuck;
+module.exports = getMaxDuck;
