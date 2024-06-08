@@ -70,7 +70,7 @@
 
 ```json
 {
-  "nest": 3, // số tổ vịt bạn đang có, nếu bạn có nhiều hơn thì thay số vào
+  "nest": 3, // số TỔ vịt bạn đang có, nếu bạn có nhiều hơn thì thay số vào (cái tổ|ổ chứ không phải số con vịt nhen mấy má)
   "sleepTime": 1, // thời gian nghỉ giữa mỗi lần lụm trứng, đơn vị: s(second), số càng lớn thì càng chậm
   "retryCount": 5, // số lần thử lại khi mất kết nối, quá số lần sẽ dừng Tool
 }
