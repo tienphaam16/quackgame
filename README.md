@@ -1,4 +1,4 @@
-# Auto Quack Quack Game Tool
+# Quack Quack Game Tool
 
 > Đây công cụ tui làm ra chỉ để thử sức code nên nó rất đơn giản. Công việc của tui là Sửa Laptop chứ không phải Dev mấy má ưi 😍
 
@@ -17,6 +17,8 @@
 > Chúc bạn sử dụng Tool vui vẻ
 
 ## Tính năng
+
+> Chạy hoàn toàn độc lập, không bị ảnh hưởng khi mở game
 
 > Tự động lụm trứng
 
@@ -42,7 +44,7 @@
 
 > Nếu vịt có tổng điểm cao hơn thì xịn hơn
 
-> Tool sẽ tự động để vịt xịn và xóa vịt lỏ đi
+> Tool sẽ tự động chọn ra vịt lỏ để xóa đi khi FARM vịt đầy
 
 ## Cách dùng
 
@@ -78,7 +80,7 @@
 
 ## Tùy chọn tính năng chạy Tool
 
-> Gõ vào lệnh ```node quack``` để chạy chức năng Lụm tất cả trứng & lụm ZỊT ZÀNG
+> Gõ vào Terminal / PowerShell / Cmd lệnh ```node quack``` để chạy chức năng Lụm tất cả trứng & lụm ZỊT ZÀNG
 
 > Hoặc gõ vào lệnh ```node quack 1``` để chạy chức năng Không lụm trứng mà chỉ lụm ZỊT ZÀNG
 
@@ -88,7 +90,7 @@
 
 ## Phần phụ
 
-> Xem lại lịch sử lụm ZỊT ZÀNG & lịch sử ấp được vịt xịn ở file ```log.txt```
+> Xem lại lịch sử lụm ZỊT ZÀNG, ấp vịt xịn ở file ```log.txt```
 
 <img src="./images/3.png" />
 
