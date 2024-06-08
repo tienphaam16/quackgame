@@ -235,8 +235,10 @@ async function hatchEggGoldenDuck(token) {
             rewardData.data
           );
           // console.log("claimReward", claimReward);
-          if (rewardData.data.type === 2) pepet += rewardData.data.amount;
-          if (rewardData.data.type === 3) eggs += rewardData.data.amount;
+          if (rewardData.data.type === 2)
+            pepet += Number(rewardData.data.amount);
+          if (rewardData.data.type === 3)
+            eggs += Number(rewardData.data.amount);
         }
       } else timeToGoldenDuck = data.time_to_golden_duck;
 

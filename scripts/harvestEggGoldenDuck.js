@@ -40,7 +40,7 @@ async function collectFromList(token, ua, listNests, listDucks) {
 
   const { data } = await collectEgg(token, ua, listNests[0].id);
   // console.log(data);
-  if (data) {
+  if (data.error_code === "") {
     const duck = getDuckToLay(listDucks);
     await layEgg(token, ua, listNests[0].id, duck.id);
     console.log(`Da thu hoach [ NEST 🌕 ${listNests[0].id} ]`);
@@ -52,6 +52,14 @@ async function collectFromList(token, ua, listNests, listDucks) {
 
     await sleep(config.sleepTime);
     collectFromList(token, ua, listNests, listDucks);
+  } else {
+    if (data.error_code === "THIS_NEST_DONT_HAVE_EGG_AVAILABLE") {
+      const duck = getDuckToLay(listDucks);
+      await layEgg(token, ua, listNests[0].id, duck.id);
+      listDucks = listDucks.filter((d) => d.id !== duck.id);
+      await sleep(config.sleepTime);
+      harvestEggGoldenDuck(token);
+    }
   }
 }
 
@@ -93,8 +101,10 @@ async function harvestEggGoldenDuck(token) {
             rewardData.data
           );
           // console.log("claimReward", claimReward);
-          if (rewardData.data.type === 2) pepet += rewardData.data.amount;
-          if (rewardData.data.type === 3) eggs += rewardData.data.amount;
+          if (rewardData.data.type === 2)
+            pepet += Number(rewardData.data.amount);
+          if (rewardData.data.type === 3)
+            eggs += Number(rewardData.data.amount);
         }
       } else timeToGoldenDuck = data.time_to_golden_duck;
 
