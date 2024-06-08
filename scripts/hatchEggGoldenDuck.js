@@ -31,58 +31,34 @@ let maxRareEgg = null;
 let maxRareDuck = null;
 
 function calculatorRareEgg(nest) {
-  switch (nest) {
-    case 3:
-      return 2;
-    case 4:
-      return 3;
-    case 5:
-      return 4;
-    case 6:
-      return 5;
-    case 7:
-      return 6;
-    case 8:
-      return 7;
-    case 9:
-      return 8;
-  }
+  return nest - 1;
 }
 
-function showRareEgg(rate) {
-  if (rate === 1) return "COMMON";
-  if (rate === 2) return "COMMON *";
-  if (rate === 3) return "UNCOMMON";
-  if (rate === 4) return "UNCOMMON *";
-  if (rate === 5) return "RARE";
-  if (rate === 6) return "RARE *";
-  if (rate === 7) return "EPIC";
-  if (rate === 8) return "EPIC *";
-  if (rate === 9) return "LEGENDARY";
-  if (rate === 10) return "LEGENDARY *";
-  if (rate === 11) return "MYTHIC";
-  if (rate === 12) return "MYTHIC *";
-  if (rate === 13) return "ETERNAL";
-  if (rate === 14) return "ETERNAL *";
-  return null;
-}
+const RARE_EGG = [
+  undefined,
+  "COMMON",
+  "COMMON *",
+  "UNCOMMON",
+  "UNCOMMON *",
+  "RARE",
+  "RARE *",
+  "EPIC",
+  "EPIC *",
+  "LEGENDARY",
+  "LEGENDARY *",
+  "MYTHIC",
+  "MYTHIC *",
+  "ETERNAL",
+  "ETERNAL *",
+];
 
-function filterRareDuck(rate) {
-  switch (rate) {
-    case 1:
-      return "COMMON";
-    case 2:
-      return "RARE";
-    case 3:
-      return "LEGENDARY";
-  }
-}
+const RARE_DUCK = [undefined, "COMMON", "RARE", "LEGENDARY"];
 
 function showRareDuck(duck) {
   return [
-    filterRareDuck(duck.metadata.arm_rare),
-    filterRareDuck(duck.metadata.body_rare),
-    filterRareDuck(duck.metadata.head_rare),
+    RARE_DUCK[duck.metadata.head_rare],
+    RARE_DUCK[duck.metadata.arm_rare],
+    RARE_DUCK[duck.metadata.body_rare],
   ].join(", ");
 }
 
@@ -103,9 +79,9 @@ async function collectFromList(token, ua, listNests, listDucks) {
     if (listNests[0].type_egg >= maxRareEgg) {
       // console.log(listNests[0].type_egg);
       console.log(
-        `Dang ap [ NEST 🌕 ${listNests[0].id} ] : [ EGG 🥚 ${showRareEgg(
-          listNests[0].type_egg
-        )} ]`
+        `Dang ap [ NEST 🌕 ${listNests[0].id} ] : [ EGG 🥚 ${
+          RARE_EGG[listNests[0].type_egg]
+        } ]`
       );
       const eggToHatch = await hatchEgg(token, ua, listNests[0].id);
       // console.log("eggToHatch", eggToHatch);
@@ -180,9 +156,9 @@ async function collectFromList(token, ua, listNests, listDucks) {
         const duck = getDuckToLay(listDucks);
         await layEgg(token, ua, listNests[0].id, duck.id);
         console.log(
-          `Da thu hoach [ NEST 🌕 ${listNests[0].id} ] : [ EGG 🥚 ${showRareEgg(
-            listNests[0].type_egg
-          )} ]`
+          `Da thu hoach [ NEST 🌕 ${listNests[0].id} ] : [ EGG 🥚 ${
+            RARE_EGG[listNests[0].type_egg]
+          } ]`
         );
         eggs++;
         listNests.shift();
