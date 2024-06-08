@@ -2,7 +2,7 @@
 
 <img src="./images/8.png" />
 
-> Đây công cụ tui làm ra chỉ để thử sức code nên nó rất đơn giản. Công việc của tui là Sửa Laptop chứ không phải Dev mấy má ưi 😍
+> Đây công cụ tui làm ra chỉ để thử sức code nên nó rất đơn giản vì công việc của tui là Sửa Laptop chứ không phải Coder mấy má ưi 😍
 
 > Windows / Mac / Linux đều dùng được miễn có cài NodeJS. Link tải đây https://nodejs.org/en/download/prebuilt-installer
 
@@ -46,15 +46,17 @@
 
 > Nếu vịt có tổng điểm cao hơn thì xịn hơn
 
-> Tool sẽ tự động chọn ra vịt lỏ để xóa đi khi FARM vịt đầy
+> Nếu chạy chức năng ấp trứng xịn thì Tool sẽ tự động xóa đi 1 con vịt lỏ để nhường chổ khi FARM đầy
 
 ## Cách dùng
 
 > Cài NodeJS chưa? Chưa thì kéo lên trên lấy link tải về cài vào
 
-> Tải Tool về, thấy cái nút (<> Code) màu xanh lá ở trên hem? Bấm vào đó để Download ZIP về, giải nén rồi mở folder vừa giải nén ra
+> Tải Tool về, thấy cái nút (<> Code) màu xanh lá ở trên hem? Bấm vào đó để Download ZIP về, giải nén rồi mở folder Tool vừa giải nén ra
 
-> Máy tính cần hiện đuôi file để thao tác dễ hơn. Hiện đuôi file bằng cách Start menu (bấm phím Windows) > File Explorer options > View > bỏ tick Hide extentions for known file types > OK
+> Máy tính cần hiện đuôi file để thao tác dễ hơn
+
+> Hiện đuôi file trên Windows bằng cách mở Start menu (bấm phím Windows) > File Explorer Options > View > bỏ tick Hide extentions for known file types > OK
 
 ![image](https://github.com/mhqb365/quack-quack-game/assets/119036507/c1b0ebd3-4087-4966-9ae9-b5f9ce8712b8)
 
@@ -76,7 +78,7 @@
 }
 ```
 
-> Mở Terminal / PowerShell / Cmd trong folder Tool (đè Shift + chuột phải > Open PowerShell)
+> Mở Terminal / PowerShell / Cmd trong folder Tool (trên Windows thì đè Shift + chuột phải > Open PowerShell)
 
 > Gõ vào lệnh ```npm install``` để cài đặt các thư viện cần thiết
 
@@ -92,8 +94,8 @@
 
 ## Phần phụ
 
-> Xem lại lịch sử lụm ZỊT ZÀNG, ấp vịt xịn ở file ```log.txt```
+> Xem lại lịch sử lụm ZỊT ZÀNG ở file ```goldenDuck.txt```
 
-<img src="./images/3.png" />
+> Xem lại lịch sử ấp trứng xịn ở file ```farm.txt```
 
 From https://mhqb365.com with Love ♥ and GoodLuck

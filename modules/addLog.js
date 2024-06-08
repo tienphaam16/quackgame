@@ -1,9 +1,10 @@
 const fs = require("fs");
 
-function addLog(msg) {
+function addLog(msg, type) {
   const time = new Date().toLocaleString();
   const logStr = `${time} | ${msg}`;
-  fs.appendFileSync("./log.txt", logStr, "utf-8");
+  const filename = type === "farm" ? "farm.txt" : "goldenDuck.txt";
+  fs.appendFileSync(filename, logStr, "utf-8");
 }
 
 module.exports = addLog;

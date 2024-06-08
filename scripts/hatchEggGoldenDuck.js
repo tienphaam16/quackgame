@@ -123,7 +123,8 @@ async function collectFromList(token, ua, listNests, listDucks) {
         addLog(
           `FARM : [ DUCK 🦆 ${duck.id} : ${showRareDuck(
             duck
-          )} ] > vit lor > DELETE\n`
+          )} ] > vit lor > DELETE\n`,
+          "farm"
         );
         listDucks = listDucks.filter((d) => d.id !== duck.id);
         await sleep(config.sleepTime);
@@ -156,7 +157,8 @@ async function collectFromList(token, ua, listNests, listDucks) {
           addLog(
             `Da thu hoach [ DUCK 🦆 ${
               duckCollected.data.duck_id
-            } ] : [ ${showRareDuck(duckCollected.data)} ]\n`
+            } ] : [ ${showRareDuck(duckCollected.data)} ]\n`,
+            "farm"
           );
           await sleep(config.sleepTime);
         }
@@ -224,10 +226,13 @@ async function hatchEggGoldenDuck(token) {
         // console.log("rewardData", rewardData);
         if (rewardData.data.type === 0) {
           console.log("[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau");
-          addLog("[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau\n");
+          addLog(
+            "[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau\n",
+            "goldenDuck"
+          );
         } else if (rewardData.data.type === 1 || rewardData.data.type === 4) {
           console.log("[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP");
-          addLog("[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP\n");
+          addLog("[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP\n", "goldenDuck");
         } else {
           const claimReward = await claimGoldenDuck(
             accessToken,

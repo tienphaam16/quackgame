@@ -6,7 +6,8 @@ const args = process.argv;
 const script = args[2];
 
 const fs = require("fs");
-fs.writeFileSync("./log.txt", "", "utf-8");
+fs.writeFileSync("./goldenDuck.txt", "", "utf-8");
+fs.writeFileSync("./farm.txt", "", "utf-8");
 
 const harvestEggGoldenDuck = require("./scripts/harvestEggGoldenDuck");
 const collectGoldenDuck = require("./scripts/collectGoldenDuck");

@@ -90,10 +90,13 @@ async function harvestEggGoldenDuck(token) {
         // console.log("rewardData", rewardData);
         if (rewardData.data.type === 0) {
           console.log("[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau");
-          addLog("[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau\n");
+          addLog(
+            "[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau\n",
+            "goldenDuck"
+          );
         } else if (rewardData.data.type === 1 || rewardData.data.type === 4) {
           console.log("[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP");
-          addLog("[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP\n");
+          addLog("[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP\n", "goldenDuck");
         } else {
           const claimReward = await claimGoldenDuck(
             accessToken,
