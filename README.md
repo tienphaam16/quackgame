@@ -2,7 +2,7 @@
 
 <img src="./images/8.png" />
 
-> Đây công cụ tui làm ra chỉ để thử sức code nên nó rất đơn giản vì công việc của tui là Sửa Laptop chứ không phải Coder mấy má ưi 😍
+> Đây công cụ tui làm ra chỉ để thử sức code nên nó rất đơn giản vì công việc của tui là sửa laptop chứ không phải code mấy má ưi 😍\n
 
 > Windows / Mac / Linux đều dùng được miễn có cài NodeJS. Link tải đây https://nodejs.org/en/download/prebuilt-installer
 
@@ -24,7 +24,7 @@
 
 > Tự động lụm trứng
 
-> Tự động lụm ZỊT ZÀNG (cái con bạch tuột mỏ vịt xuất hiện mỗi 30 phút, vì lý do bảo mật nên không claim được TON nhé)
+> Tự động lụm ZỊT ZÀNG (cái con bạch tuột mỏ vịt xuất hiện mỗi 30 phút, vì lý do bảo mật nên không lụm được TON nhé)
 
 > Tự động ấp trứng xịn để tìm vịt xịn
 
@@ -32,7 +32,7 @@
 
 ## Tiêu chí ấp trứng tìm vịt xịn
 
-> Khi chạy chức năng ấp trứng thì Tool sẽ tự chọn trứng có rate thấp (trứng hiếm) để ấp, dựa vào bảng độ hiếm
+> Khi chạy chức năng ấp trứng thì Tool sẽ tự chọn trứng hiếm để ấp (2 loại trứng có rate thấp nhất), dựa theo bảng độ hiếm này
 
 <img src="./images/6.jpg" />
 
@@ -44,9 +44,13 @@
 - RARE : 2 điểm
 - LEGENDARY : 3 điểm
 
-> Nếu vịt có tổng điểm cao hơn thì xịn hơn
+> Vịt có tổng điểm cao hơn thì xịn hơn
 
-> Nếu chạy chức năng ấp trứng xịn thì Tool sẽ tự động xóa đi 1 con vịt lỏ để nhường chổ khi FARM đầy
+> Ấp ra vịt lỏ tự động xóa luôn
+
+> Khi chạy chức năng ấp trứng thì Tool sẽ tự động xóa đi 1 con vịt lỏ nhất để nhường chổ khi FARM đầy
+
+> Nói chung cái tính năng ấp trứng này là hoàn toàn tự động, tiếu chí là tạo ra FARM toàn vịt xịn theo số tổ rơm mà bạn có
 
 ## Cách dùng
 
@@ -72,7 +76,6 @@
 
 ```json
 {
-  "nest": 3, // số ổ rơm bạn đang có, nếu bạn có nhiều hơn thì thay số vào (cái tổ|ổ chứ không phải số con vịt nhen mấy má)
   "sleepTime": 1, // thời gian nghỉ giữa mỗi lần lụm trứng, đơn vị: s(second), số càng lớn thì càng chậm
   "retryCount": 5, // số lần thử lại khi mất kết nối, quá số lần sẽ dừng Tool
 }
@@ -97,5 +100,11 @@
 > Xem lại lịch sử lụm ZỊT ZÀNG ở file ```goldenDuck.txt```
 
 > Xem lại lịch sử ấp trứng xịn ở file ```farm.txt```
+
+## Các lỗi thường gặp
+
+<img src="./images/9.png" />
+
+> Gặp lỗi trên chỉ cần dán dòng lệnh này vào rồi enter là được ```Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser```
 
 From https://mhqb365.com with Love ♥ and GoodLuck

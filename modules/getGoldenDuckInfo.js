@@ -20,7 +20,7 @@ async function getGoldenDuckInfoInternal(token, ua) {
   try {
     const response = await getAction(token, "golden-duck/info", ua);
     // console.log(data);
-    return response.data.data;
+    return response.data;
   } catch (error) {
     console.log("getGoldenDuckInfo error");
     if (error.response) {
@@ -37,10 +37,7 @@ async function getGoldenDuckInfoInternal(token, ua) {
         console.log(`\nToken loi hoac het han roi\n`);
         process.exit(1);
       } else if (status === 400) {
-        console.log("data", error.response.data);
-        console.log("Mat ket noi, tu dong ket noi sau 3s");
-        await sleep(3);
-        return null;
+        return error.response.data;
       } else {
         console.log("Mat ket noi, tu dong ket noi sau 3s");
         await sleep(3);

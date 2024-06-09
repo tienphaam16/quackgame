@@ -41,10 +41,7 @@ async function collectDuckInternal(token, ua, nest_id) {
         console.log(`\nToken loi hoac het han roi\n`);
         process.exit(1);
       } else if (status === 400) {
-        console.log("data", error.response.data);
-        console.log("Mat ket noi, tu dong ket noi sau 3s");
-        await sleep(3);
-        return null;
+        return error.response.data;
       } else {
         await sleep(3);
         return null;

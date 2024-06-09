@@ -27,7 +27,7 @@ async function hatchEggInternal(token, ua, nest_id) {
     // console.log(response);
     return response.data;
   } catch (error) {
-    console.log("hatchEgg error");
+    // console.log("hatchEgg error");
     if (error.response) {
       // console.log(error.response.data);
       console.log("status", error.response.status);
@@ -42,17 +42,7 @@ async function hatchEggInternal(token, ua, nest_id) {
         console.log(`\nToken loi hoac het han roi\n`);
         process.exit(1);
       } else if (status === 400) {
-        console.log("data", error.response.data);
-        if (error.response.data.error_code === "REACH_MAX_NUMBER_OF_DUCK") {
-          return error.response.data;
-        } else {
-          console.log("Mat ket noi, tu dong ket noi sau 3s");
-          await sleep(3);
-          return null;
-        }
-      } else {
-        await sleep(3);
-        return null;
+        return error.response.data;
       }
     } else if (error.request) {
       console.log("request", error.request);

@@ -24,7 +24,7 @@ async function collectEggInternal(token, ua, nest_id) {
       "nest_id=" + nest_id,
       ua
     );
-    return response;
+    return response.data;
   } catch (error) {
     console.log("collectEgg error");
     if (error.response) {
@@ -41,14 +41,7 @@ async function collectEggInternal(token, ua, nest_id) {
         console.log(`\nToken loi hoac het han roi\n`);
         process.exit(1);
       } else if (status === 400) {
-        if (error.response.data === "THIS_NEST_DONT_HAVE_EGG_AVAILABLE") {
-          return error.response.data;
-        } else {
-          console.log("data", error.response.data);
-          console.log("Mat ket noi, tu dong ket noi sau 3s");
-          await sleep(3);
-          return null;
-        }
+        return error.response.data;
       } else {
         await sleep(3);
         return null;
