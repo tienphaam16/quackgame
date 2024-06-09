@@ -329,39 +329,51 @@ async function hatchEggGoldenDuck(token) {
             ua
           );
           // console.log("getGoldenDuckRewardData", getGoldenDuckRewardData);
-          if (getGoldenDuckRewardData.data.type === 0) {
-            console.log("[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau");
-            addLog("[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau\n");
-          } else if (
-            getGoldenDuckRewardData.data.type === 1 ||
-            getGoldenDuckRewardData.data.type === 4
-          ) {
-            console.log("[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP");
-            addLog("[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP\n");
-          } else {
-            const claimGoldenDuckData = await claimGoldenDuck(accessToken, ua);
-            // console.log("claimGoldenDuckData", claimGoldenDuckData);
-            if (claimGoldenDuckData.error_code !== "") {
-              console.log(
-                "claimGoldenDuckData error",
-                claimGoldenDuckData.error_code
-              );
-            } else {
-              if (getGoldenDuckRewardData.data.type === 2)
-                pepet += Number(getGoldenDuckRewardData.data.amount);
-              if (getGoldenDuckRewardData.data.type === 3)
-                eggs += Number(getGoldenDuckRewardData.data.amount);
 
-              console.log(
-                `[ GOLDEN DUCK 🐥 ] : ${goldenDuckRewardText(
-                  getGoldenDuckRewardData.data
-                )}`
+          if (getGoldenDuckRewardData.error_code !== "") {
+            console.log(
+              "getGoldenDuckRewardData error",
+              getGoldenDuckRewardData.error_code
+            );
+            console.log(ERROR_MESSAGE);
+          } else {
+            if (getGoldenDuckRewardData.data.type === 0) {
+              console.log("[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau");
+              addLog("[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau\n");
+            } else if (
+              getGoldenDuckRewardData.data.type === 1 ||
+              getGoldenDuckRewardData.data.type === 4
+            ) {
+              console.log("[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP");
+              addLog("[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP\n");
+            } else {
+              const claimGoldenDuckData = await claimGoldenDuck(
+                accessToken,
+                ua
               );
-              addLog(
-                `[ GOLDEN DUCK 🐥 ] : ${goldenDuckRewardText(
-                  getGoldenDuckRewardData.data
-                )}\n`
-              );
+              // console.log("claimGoldenDuckData", claimGoldenDuckData);
+              if (claimGoldenDuckData.error_code !== "") {
+                console.log(
+                  "claimGoldenDuckData error",
+                  claimGoldenDuckData.error_code
+                );
+              } else {
+                if (getGoldenDuckRewardData.data.type === 2)
+                  pepet += Number(getGoldenDuckRewardData.data.amount);
+                if (getGoldenDuckRewardData.data.type === 3)
+                  eggs += Number(getGoldenDuckRewardData.data.amount);
+
+                console.log(
+                  `[ GOLDEN DUCK 🐥 ] : ${goldenDuckRewardText(
+                    getGoldenDuckRewardData.data
+                  )}`
+                );
+                addLog(
+                  `[ GOLDEN DUCK 🐥 ] : ${goldenDuckRewardText(
+                    getGoldenDuckRewardData.data
+                  )}\n`
+                );
+              }
             }
           }
         } else
