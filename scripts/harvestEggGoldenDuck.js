@@ -66,7 +66,7 @@ async function collectFromList(token, listNests, listDucks) {
     const collectEggData = await collectEgg(token, ua, listNests[0].id);
     // console.log("collectEggData", collectEggData);
     if (collectEggData.error_code !== "") {
-      if (data.error_code === "THIS_NEST_DONT_HAVE_EGG_AVAILABLE") {
+      if (collectEggData.error_code === "THIS_NEST_DONT_HAVE_EGG_AVAILABLE") {
         const duck = getDuckToLay(listDucks);
         const layEggData = await layEgg(token, ua, listNests[0].id, duck.id);
         // console.log("layEggData", layEggData);
