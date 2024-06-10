@@ -19,6 +19,7 @@ const config = require("../config.json");
 const getMaxDuck = require("../modules/getMaxDuck");
 const collectDuck = require("../modules/collectDuck");
 const removeDuck = require("../modules/removeDuck");
+const goldenDuckRewardText = require("../modules/goldenDuckRewardText");
 
 const ERROR_MESSAGE = "Chup man hinh va tao issue Github de tui tim cach fix";
 
@@ -281,13 +282,6 @@ async function collectFromList(token, listNests, listDucks) {
       }
     }
   }
-}
-
-function goldenDuckRewardText(data) {
-  if (data.type === 1) return `[ ${data.amount} TON ]`;
-  if (data.type === 2) return `[ ${data.amount} PEPET 🐸 ]`;
-  if (data.type === 3) return `[ ${data.amount} EGG 🥚 ]`;
-  if (data.type === 4) return `[ ${data.amount} TRU ]`;
 }
 
 async function hatchEggGoldenDuck(token) {

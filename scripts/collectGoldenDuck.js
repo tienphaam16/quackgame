@@ -4,6 +4,7 @@ const claimGoldenDuck = require("../modules/claimGoldenDuck");
 const addLog = require("../modules/addLog");
 const Timer = require("easytimer.js").Timer;
 const randomUseragent = require("random-useragent");
+const goldenDuckRewardText = require("../modules/goldenDuckRewardText");
 
 const ua = randomUseragent.getRandom((ua) => {
   return ua.browserName === "Chrome";
@@ -20,13 +21,6 @@ let eggs = 0;
 let pepet = 0;
 
 let myInterval = null;
-
-function goldenDuckRewardText(data) {
-  if (data.type === 1) return `[ ${data.amount} TON ]`;
-  if (data.type === 2) return `[ ${data.amount} PEPET 🐸 ]`;
-  if (data.type === 3) return `[ ${data.amount} EGG 🥚 ]`;
-  if (data.type === 4) return `[ ${data.amount} TRU ]`;
-}
 
 async function collectGoldenDuckInternal(token) {
   try {

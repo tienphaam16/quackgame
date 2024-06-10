@@ -15,6 +15,7 @@ const ua = randomUseragent.getRandom((ua) => {
 // console.log(ua);
 
 const config = require("../config.json");
+const goldenDuckRewardText = require("../modules/goldenDuckRewardText");
 // console.log(config);
 
 const ERROR_MESSAGE = "Chup man hinh va tao issue Github de tui tim cach fix";
