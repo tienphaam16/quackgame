@@ -102,10 +102,13 @@ async function collectFromList(token, listNests, listDucks) {
         listNests.shift();
         listDucks = listDucks.filter((d) => d.id !== duck.id);
 
-        await sleep(config.sleepTime);
+        // await sleep(config.sleepTime);
         collectFromList(token, listNests, listDucks);
       }
     }
+  } else if (status === 3) {
+    console.log("Vao game dap cai trung sap no roi chay tool lai");
+    console.log(ERROR_MESSAGE);
   }
 }
 
