@@ -78,7 +78,7 @@
 {
   "nest": 3, // số tổ rơm bạn đang có, nếu có nhiều hơn thì thay số vào, để nguyên cũng được
   "sleepTime": 1, // thời gian nghỉ giữa mỗi lần lụm trứng, đơn vị: s(second), số càng lớn thì càng chậm
-  "retryCount": 5, // số lần thử lại khi mất kết nối, quá số lần sẽ dừng Tool
+  "retryCount": 10, // số lần thử lại khi mất kết nối, quá số lần sẽ dừng Tool
 }
 ```
 
