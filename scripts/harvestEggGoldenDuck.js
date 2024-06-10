@@ -67,6 +67,7 @@ async function collectFromList(token, listNests, listDucks) {
     // console.log("collectEggData", collectEggData);
     if (collectEggData.error_code !== "") {
       if (collectEggData.error_code === "THIS_NEST_DONT_HAVE_EGG_AVAILABLE") {
+        // console.log(collectEggData.error_code);
         const duck = getDuckToLay(listDucks);
         const layEggData = await layEgg(token, ua, listNests[0].id, duck.id);
         // console.log("layEggData", layEggData);
@@ -102,7 +103,7 @@ async function collectFromList(token, listNests, listDucks) {
         listNests.shift();
         listDucks = listDucks.filter((d) => d.id !== duck.id);
 
-        // await sleep(config.sleepTime);
+        await sleep(config.sleepTime);
         collectFromList(token, listNests, listDucks);
       }
     }
