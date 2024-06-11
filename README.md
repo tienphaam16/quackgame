@@ -24,7 +24,7 @@
 
 > Tự động lụm trứng
 
-> Tự động lụm ZỊT ZÀNG (cái con bạch tuột mỏ vịt xuất hiện mỗi 30 phút, vì lý do bảo mật nên không lụm được TON nhé)
+> Tự động lụm ZỊT ZÀNG (cái con bạch tuột mỏ vịt lâu lâu xuất hiện, vì lý do bảo mật nên không lụm được TON nhé)
 
 > Tự động ấp trứng hiếm để tìm vịt xịn
 
@@ -132,4 +132,4 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 > Cái này là do PowerShell / Cmd không hỗ trợ. Tải [Terminal](https://github.com/microsoft/terminal) về cài đặt rồi mở Tool bằng Terminal nhé
 
-From https://mhqb365.com with Love ♥ and GoodLuck
+From [mhqb365.com](https://mhqb365.com) with Love ♥ and GoodLuck
