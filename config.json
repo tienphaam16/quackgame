@@ -1,5 +1,6 @@
 {
   "nest": 3,
-  "sleepTime": 1,
+  "minSleepTime": 1,
+  "maxSleepTime": 5,
   "retryCount": 10
 }

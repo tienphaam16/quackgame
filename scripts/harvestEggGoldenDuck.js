@@ -1,7 +1,6 @@
 const getListReload = require("../modules/getListReload");
 const collectEgg = require("../modules/collectEgg");
 const layEgg = require("../modules/layEgg");
-const sleep = require("../modules/sleep");
 const getGoldenDuckInfo = require("../modules/getGoldenDuckInfo");
 const getGoldenDuckReward = require("../modules/getGoldenDuckReward");
 const claimGoldenDuck = require("../modules/claimGoldenDuck");
@@ -14,10 +13,10 @@ const ua = randomUseragent.getRandom((ua) => {
 });
 // console.log(ua);
 
-const config = require("../config.json");
 const goldenDuckRewardText = require("../modules/goldenDuckRewardText");
 const collectDuck = require("../modules/collectDuck");
 const getBalance = require("../modules/getBalance");
+const randomSleep = require("../modules/randomSleep");
 
 const ERROR_MESSAGE = "Chup man hinh va tao issue Github de tui tim cach fix";
 
@@ -60,11 +59,14 @@ function getDuckToLay(ducks) {
 }
 
 async function collectFromListInternal(token, listNests, listDucks) {
-  const nestStatus = listNests[0].status;
+  const randomIndex = Math.floor(Math.random() * listNests.length);
+  // console.log(randomIndex);
+  const nest = listNests[randomIndex];
+  const nestStatus = nest.status;
   const duck = getDuckToLay(listDucks);
 
   if (nestStatus === 2) {
-    const collectEggData = await collectEgg(token, ua, listNests[0].id);
+    const collectEggData = await collectEgg(token, ua, nest.id);
     // console.log("collectEggData", collectEggData);
 
     if (collectEggData.error_code !== "") {
@@ -73,25 +75,28 @@ async function collectFromListInternal(token, listNests, listDucks) {
 
       switch (error_code) {
         case "DUPLICATE_REQUEST":
-          await sleep(config.sleepTime);
+          console.log("this error was fixed");
+          await randomSleep();
           collectFromList(token, listNests, listDucks);
           break;
         case "THIS_NEST_DONT_HAVE_EGG_AVAILABLE":
-          const layEggData = await layEgg(token, ua, listNests[0].id, duck.id);
+          console.log("this error was fixed");
+          const layEggData = await layEgg(token, ua, nest.id, duck.id);
 
-          listNests.shift();
+          listNests = listNests.filter((n) => n.id !== nest.id);
           listDucks = listDucks.filter((d) => d.id !== duck.id);
 
-          await sleep(config.sleepTime);
+          await randomSleep();
           collectFromList(token, listNests, listDucks);
           break;
         default:
-          await sleep(config.sleepTime);
+          console.log(ERROR_MESSAGE);
+          await randomSleep();
           harvestEggGoldenDuck(token);
           break;
       }
     } else {
-      const layEggData = await layEgg(token, ua, listNests[0].id, duck.id);
+      const layEggData = await layEgg(token, ua, nest.id, duck.id);
       // console.log("layEggData", layEggData);
 
       if (layEggData.error_code !== "") {
@@ -100,49 +105,51 @@ async function collectFromListInternal(token, listNests, listDucks) {
 
         switch (error_code) {
           case "THIS_DUCK_NOT_ENOUGH_TIME_TO_LAY":
-            await sleep(config.sleepTime);
+            console.log("this error was fixed");
+            await randomSleep();
             collectFromList(token, listNests, listDucks);
             break;
           case "THIS_NEST_IS_UNAVAILABLE":
-            await sleep(config.sleepTime);
+            console.log("this error was fixed");
+            await randomSleep();
             harvestEggGoldenDuck(token);
             break;
           default:
-            await sleep(config.sleepTime);
+            await randomSleep();
             harvestEggGoldenDuck(token);
             break;
         }
       } else {
-        const rareEgg = RARE_EGG[listNests[0].type_egg];
-        msg = `Da thu hoach [ NEST 🌕 ${listNests[0].id} ] : [ EGG 🥚 ${rareEgg} ]`;
+        const rareEgg = RARE_EGG[nest.type_egg];
+        msg = `Da thu hoach [ NEST 🌕 ${nest.id} ] : [ EGG 🥚 ${rareEgg} ]`;
         console.log(msg);
 
         balanceEgg++;
-
         eggs++;
-        listNests.shift();
+
+        listNests = listNests.filter((n) => n.id !== nest.id);
         listDucks = listDucks.filter((d) => d.id !== duck.id);
 
-        await sleep(config.sleepTime);
+        await randomSleep();
         collectFromList(token, listNests, listDucks);
       }
     }
   } else if (nestStatus === 3) {
     console.log(
-      `[ NEST 🌕 ${listNests[0].id} ] dang ap trung > tu dong thu hoach vit de tiep tuc`
+      `[ NEST 🌕 ${nest.id} ] dang ap trung > tu dong thu hoach vit de tiep tuc`
     );
-    const collectDuckData = await collectDuck(token, ua, listNests[0].id);
+    const collectDuckData = await collectDuck(token, ua, nest.id);
 
     const duck = getDuckToLay(listDucks);
-    const layEggData = await layEgg(token, ua, listNests[0].id, duck.id);
+    const layEggData = await layEgg(token, ua, nest.id, duck.id);
 
-    listNests.shift();
+    listNests = listNests.filter((n) => n.id !== nest.id);
     listDucks = listDucks.filter((d) => d.id !== duck.id);
 
-    await sleep(config.sleepTime);
+    await randomSleep();
     harvestEggGoldenDuck(token);
   } else {
-    console.log(listNests[0]);
+    console.log(nest);
     console.log("Loi nay tui chua nghi den");
     console.log(ERROR_MESSAGE);
   }
@@ -154,112 +161,106 @@ async function collectFromList(token, listNests, listDucks) {
   // if (listNests.length === 0)
   //   return console.log(), harvestEggGoldenDuck(token);
   // console.log(listNests.length, listDucks.length);
-  // console.log(listNests[0]);
 
   return collectFromListInternal(token, listNests, listDucks);
 }
 
 async function harvestEggGoldenDuck(token) {
-  try {
-    accessToken = token;
+  accessToken = token;
 
-    if (!run) {
-      wallets = await getBalance(accessToken, ua);
-      wallets.forEach((w) => {
-        if (w.symbol === "EGG") balanceEgg = Number(w.balance);
-        if (w.symbol === "PET") balancePet = Number(w.balance);
-      });
-      timerInstance.start();
-      run = true;
-    }
+  if (!run) {
+    wallets = await getBalance(accessToken, ua);
+    wallets.forEach((w) => {
+      if (w.symbol === "EGG") balanceEgg = Number(w.balance);
+      if (w.symbol === "PET") balancePet = Number(w.balance);
+    });
+    timerInstance.start();
+    run = true;
+  }
 
-    console.log("[ ALL EGG AND GOLDEN DUCK MODE ]");
-    console.log();
-    console.log("Link Tool : [ j2c.cc/quack ]");
-    console.log(`Ban dang co : [ ${balanceEgg} EGG 🥚 ] [ ${balancePet} 🐸 ]`);
-    console.log();
-    console.log(
-      `Thoi gian chay : [ ${timerInstance
-        .getTimeValues()
-        .toString(["days", "hours", "minutes", "seconds"])} ]`
-    );
-    console.log(`Tong thu hoach : [ ${eggs} EGG 🥚 ] [ ${pets} 🐸 ]`);
-    console.log();
+  console.log("[ ALL EGG AND GOLDEN DUCK MODE ]");
+  console.log();
+  console.log("Link Tool : [ j2c.cc/quack ]");
+  console.log(`Ban dang co : [ ${balanceEgg} EGG 🥚 ] [ ${balancePet} 🐸 ]`);
+  console.log();
+  console.log(
+    `Thoi gian chay : [ ${timerInstance
+      .getTimeValues()
+      .toString(["days", "hours", "minutes", "seconds"])} ]`
+  );
+  console.log(`Tong thu hoach : [ ${eggs} EGG 🥚 ] [ ${pets} 🐸 ]`);
+  console.log();
 
-    if (timeToGoldenDuck <= 0) {
-      const getGoldenDuckInfoData = await getGoldenDuckInfo(accessToken, ua);
-      // console.log("getGoldenDuckInfoData", getGoldenDuckInfoData);
+  if (timeToGoldenDuck <= 0) {
+    const getGoldenDuckInfoData = await getGoldenDuckInfo(accessToken, ua);
+    // console.log("getGoldenDuckInfoData", getGoldenDuckInfoData);
 
-      if (getGoldenDuckInfoData.error_code !== "") {
-        console.log(
-          "getGoldenDuckInfoData error",
-          getGoldenDuckInfoData.error_code
+    if (getGoldenDuckInfoData.error_code !== "") {
+      console.log(
+        "getGoldenDuckInfoData error",
+        getGoldenDuckInfoData.error_code
+      );
+      console.log(ERROR_MESSAGE);
+    } else {
+      if (getGoldenDuckInfoData.data.time_to_golden_duck === 0) {
+        console.log("[ GOLDEN DUCK 🐥 ] : ZIT ZANG xuat hien");
+        const getGoldenDuckRewardData = await getGoldenDuckReward(
+          accessToken,
+          ua
         );
-        console.log(ERROR_MESSAGE);
-      } else {
-        if (getGoldenDuckInfoData.data.time_to_golden_duck === 0) {
-          console.log("[ GOLDEN DUCK 🐥 ] : ZIT ZANG xuat hien");
-          const getGoldenDuckRewardData = await getGoldenDuckReward(
-            accessToken,
-            ua
-          );
-          // console.log("getGoldenDuckRewardData", getGoldenDuckRewardData);
+        // console.log("getGoldenDuckRewardData", getGoldenDuckRewardData);
 
-          const data = getGoldenDuckRewardData.data;
-          if (data.type === 0) {
-            msg = "[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau";
-            console.log(msg);
-            addLog(msg, "\n");
-          } else if (data.type === 1 || data.type === 4) {
-            msg = "[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP";
-            console.log(msg);
-            addLog(msg, "\n");
-          } else {
-            const claimGoldenDuckData = await claimGoldenDuck(accessToken, ua);
-            // console.log("claimGoldenDuckData", claimGoldenDuckData);
-
-            goldenDuck++;
-
-            if (data.type === 2) {
-              pets += Number();
-              balancePet += Number(data.amount);
-            }
-            if (data.type === 3) {
-              eggs += Number(data.amount);
-              balanceEgg += Number(data.amount);
-            }
-
-            msg = `[ GOLDEN DUCK 🐥 ] : ${goldenDuckRewardText(data)}`;
-            console.log(msg);
-            addLog(msg, "\n");
-          }
+        const data = getGoldenDuckRewardData.data;
+        if (data.type === 0) {
+          msg = "[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau";
+          console.log(msg);
+          addLog(msg, "\n");
+        } else if (data.type === 1 || data.type === 4) {
+          msg = "[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP";
+          console.log(msg);
+          addLog(msg, "\n");
         } else {
-          timeToGoldenDuck = getGoldenDuckInfoData.data.time_to_golden_duck;
-          setInterval(() => {
-            timeToGoldenDuck--;
-          }, 1e3);
+          const claimGoldenDuckData = await claimGoldenDuck(accessToken, ua);
+          // console.log("claimGoldenDuckData", claimGoldenDuckData);
+
+          goldenDuck++;
+
+          if (data.type === 2) {
+            pets += Number();
+            balancePet += Number(data.amount);
+          }
+          if (data.type === 3) {
+            eggs += Number(data.amount);
+            balanceEgg += Number(data.amount);
+          }
+
+          msg = `[ GOLDEN DUCK 🐥 ] : ${goldenDuckRewardText(data)}`;
+          console.log(msg);
+          addLog(msg, "\n");
         }
+      } else {
+        timeToGoldenDuck = getGoldenDuckInfoData.data.time_to_golden_duck;
+        setInterval(() => {
+          timeToGoldenDuck--;
+        }, 1e3);
       }
     }
-    msg = `[ GOLDEN DUCK 🐥 ] : [ ${goldenDuck} 🐥 ] | ${timeToGoldenDuck}s nua gap`;
-    console.log(msg);
-    // console.log("timeToGoldenDuck", timeToGoldenDuck);
-
-    const { listNests, listDucks } = await getListReload(
-      accessToken,
-      ua,
-      run ? false : true
-    );
-    // console.log(listNests, listDucks);
-
-    const nestIds = listNests.map((i) => i.id);
-    console.log(`[ ${listNests.length} NEST 🌕 ] : [ ${nestIds.join(", ")} ]`);
-    console.log();
-    collectFromList(accessToken, listNests, listDucks);
-  } catch (error) {
-    console.log("harvestEggGoldenDuck error", error);
-    console.log(ERROR_MESSAGE);
   }
+  msg = `[ GOLDEN DUCK 🐥 ] : [ ${goldenDuck} 🐥 ] | ${timeToGoldenDuck}s nua gap`;
+  console.log(msg);
+  // console.log("timeToGoldenDuck", timeToGoldenDuck);
+
+  const { listNests, listDucks } = await getListReload(
+    accessToken,
+    ua,
+    run ? false : true
+  );
+  // console.log(listNests, listDucks);
+
+  const nestIds = listNests.map((i) => i.id);
+  console.log(`[ ${listNests.length} NEST 🌕 ] : [ ${nestIds.join(", ")} ]`);
+  console.log();
+  collectFromList(accessToken, listNests, listDucks);
 }
 
 module.exports = harvestEggGoldenDuck;

@@ -77,7 +77,8 @@
 ```json
 {
   "nest": 3, // số tổ rơm bạn đang có, nếu có nhiều hơn thì thay số vào, để nguyên cũng được
-  "sleepTime": 1, // thời gian nghỉ giữa mỗi lần lụm trứng, đơn vị: s(second), số càng lớn thì càng chậm
+  "minSleepTime": 1, // số giây nghỉ tối thiểu giữa mỗi thao tác
+  "maxSleepTime": 5, // số giây nghỉ tối đa giữa mỗi thao tác
   "retryCount": 10, // số lần thử lại khi mất kết nối, quá số lần sẽ dừng Tool
 }
 ```
