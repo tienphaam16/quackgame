@@ -2,7 +2,12 @@ const getAction = require("../actions/get");
 const config = require("../config.json");
 const sleep = require("./sleep");
 
-isErrorOccured = false;
+let isErrorOccured = false;
+let maxNest = config.nest;
+
+if (maxNest < 3) maxNest = 3;
+if (maxNest > 9) maxNest = 9;
+// console.log(maxNest);
 
 async function getListReload(token, ua, new_game = false) {
   let retry = 0;

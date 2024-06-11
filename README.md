@@ -32,13 +32,13 @@
 
 ## Tiêu chí ấp trứng tìm vịt xịn
 
-> Khi chạy chức năng ấp trứng thì Tool sẽ tự chọn trứng hiếm để ấp (2 loại trứng có rate thấp nhất), dựa theo bảng độ hiếm này
+> Khi chạy chức năng ấp trứng thì Tool sẽ tự chọn trứng hiếm để ấp (2 loại trứng có rate thấp nhất) theo bảng độ hiếm này
 
-<img src="./images/6.jpg" />
+<img src="./images/10.jpg" />
 
 > Khi ấp ra vịt thì dựa vào các thành phần vịt để tính điểm
 
-<img src="./images/5.png" />
+<img src="./images/11.jpg" />
 
 - COMMON : 1 điểm
 - RARE : 2 điểm
@@ -48,7 +48,7 @@
 
 > Ấp ra vịt lỏ tự động xóa luôn
 
-> Khi chạy chức năng ấp trứng thì Tool sẽ tự động xóa đi 1 con vịt lỏ nhất để nhường chổ khi FARM đầy
+> Khi chạy chức năng ấp trứng thì Tool sẽ tự động xóa đi 1 con vịt lỏ nhất để nhường chổ ấp trứng khi FARM đầy
 
 > Nói chung cái tính năng ấp trứng này là hoàn toàn tự động, tiếu chí là tạo ra FARM toàn vịt xịn theo số tổ rơm mà bạn có
 
@@ -76,9 +76,8 @@
 
 ```json
 {
-  "nest": 3, // số tổ rơm bạn đang có, nếu có nhiều hơn thì thay số vào, để nguyên cũng được
-  "minSleepTime": 1, // số giây nghỉ tối thiểu giữa mỗi thao tác
-  "maxSleepTime": 5, // số giây nghỉ tối đa giữa mỗi thao tác
+  "nest": 3, // số tổ rơm bạn đang có, nếu có nhiều hơn thì thay số vào
+  "maxSleepTime": 3, // thời gian nghỉ tối đa giữa mỗi lần lụm trứng, đơn vị: giây
   "retryCount": 10, // số lần thử lại khi mất kết nối, quá số lần sẽ dừng Tool
 }
 ```
@@ -105,8 +104,16 @@
 
 ## Các lỗi thường gặp
 
+1. SecurityError / UnauthorizedAccess
+
 <img src="./images/9.png" />
 
 > Gặp lỗi trên chỉ cần dán dòng lệnh này vào rồi enter là được ```Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser```
+
+2. Không hiển thị icon / emoji
+
+<img src="./images/12.jpg" />
+
+> Cái này là do PowerShell / Cmd không hỗ trợ và chỉ bị trên Windows. Tải [Terminal](https://github.com/microsoft/terminal) về cài đặt rồi mở Tool bằng Terminal nhé
 
 From https://mhqb365.com with Love ♥ and GoodLuck

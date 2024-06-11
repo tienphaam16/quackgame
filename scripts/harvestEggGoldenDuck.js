@@ -1,41 +1,39 @@
+const getBalance = require("../modules/getBalance");
 const getListReload = require("../modules/getListReload");
 const collectEgg = require("../modules/collectEgg");
 const layEgg = require("../modules/layEgg");
 const getGoldenDuckInfo = require("../modules/getGoldenDuckInfo");
 const getGoldenDuckReward = require("../modules/getGoldenDuckReward");
 const claimGoldenDuck = require("../modules/claimGoldenDuck");
+const goldenDuckRewardText = require("../modules/goldenDuckRewardText");
+const collectDuck = require("../modules/collectDuck");
+const randomSleep = require("../modules/randomSleep");
 const addLog = require("../modules/addLog");
-const Timer = require("easytimer.js").Timer;
 const randomUseragent = require("random-useragent");
+const Timer = require("easytimer.js").Timer;
 
 const ua = randomUseragent.getRandom((ua) => {
   return ua.browserName === "Chrome";
 });
 // console.log(ua);
 
-const goldenDuckRewardText = require("../modules/goldenDuckRewardText");
-const collectDuck = require("../modules/collectDuck");
-const getBalance = require("../modules/getBalance");
-const randomSleep = require("../modules/randomSleep");
-
 const ERROR_MESSAGE = "Chup man hinh va tao issue Github de tui tim cach fix";
 
 const RARE_EGG = [
   undefined,
-  "COMMON",
-  "COMMON *",
-  "UNCOMMON",
-  "UNCOMMON *",
-  "RARE",
-  "RARE *",
-  "EPIC",
-  "EPIC *",
-  "LEGENDARY",
-  "LEGENDARY *",
-  "MYTHIC",
-  "MYTHIC *",
-  "ETERNAL",
-  "ETERNAL *",
+  "Common *",
+  "Common **",
+  "Rare *",
+  "Rare **",
+  "Rare ***",
+  "Rare ****",
+  "Rare *****",
+  "Rare ******",
+  "Mythic *",
+  "Mythic **",
+  "Mythic ***",
+  "Mythic ****",
+  "Eternal",
 ];
 
 let run = false;
@@ -62,6 +60,7 @@ async function collectFromListInternal(token, listNests, listDucks) {
   const randomIndex = Math.floor(Math.random() * listNests.length);
   // console.log(randomIndex);
   const nest = listNests[randomIndex];
+  // console.log(nest);
   const nestStatus = nest.status;
   const duck = getDuckToLay(listDucks);
 
