@@ -36,13 +36,14 @@ const RARE_EGG = [
   "Eternal",
 ];
 
+let accessToken = null;
 let run = false;
 let timerInstance = new Timer();
 let eggs = 0;
 let pets = 0;
 let goldenDuck = 0;
 let timeToGoldenDuck = 0;
-let accessToken = null;
+let myInterval = null;
 let wallets = null;
 let balanceEgg = 0;
 let balancePet = 0;
@@ -155,13 +156,19 @@ async function collectFromListInternal(token, listNests, listDucks) {
 }
 
 async function collectFromList(token, listNests, listDucks) {
-  if (listNests.length === 0)
-    return console.clear(), harvestEggGoldenDuck(token);
-  // if (listNests.length === 0)
-  //   return console.log(), harvestEggGoldenDuck(token);
-  // console.log(listNests.length, listDucks.length);
+  if (timeToGoldenDuck <= 0) {
+    clearInterval(myInterval);
+    myInterval = null;
+    harvestEggGoldenDuck(token);
+  } else {
+    if (listNests.length === 0)
+      return console.clear(), harvestEggGoldenDuck(token);
+    // if (listNests.length === 0)
+    //   return console.log(), harvestEggGoldenDuck(token);
+    // console.log(listNests.length, listDucks.length);
 
-  return collectFromListInternal(token, listNests, listDucks);
+    return collectFromListInternal(token, listNests, listDucks);
+  }
 }
 
 async function harvestEggGoldenDuck(token) {
@@ -239,7 +246,8 @@ async function harvestEggGoldenDuck(token) {
         }
       } else {
         timeToGoldenDuck = getGoldenDuckInfoData.data.time_to_golden_duck;
-        setInterval(() => {
+
+        myInterval = setInterval(() => {
           timeToGoldenDuck--;
         }, 1e3);
       }
