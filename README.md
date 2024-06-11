@@ -88,31 +88,33 @@
 
 ## Tùy chọn tính năng chạy Tool
 
-> Gõ vào Terminal / PowerShell / Cmd lệnh
+- Gõ vào Terminal / PowerShell / Cmd lệnh
 ```bash
 node quack
 ```
-để chạy chức năng Lụm tất cả trứng & lụm ZỊT ZÀNG
+> để chạy chức năng Lụm tất cả trứng & lụm ZỊT ZÀNG
 
-> Hoặc gõ vào lệnh
+- Hoặc gõ vào lệnh
 ```bash
 node quack 1
 ```
-để chạy chức năng Không lụm trứng mà chỉ lụm ZỊT ZÀNG
+> để chạy chức năng Không lụm trứng mà chỉ lụm ZỊT ZÀNG
 
-> Hoặc gõ vào lệnh
+- Hoặc gõ vào lệnh
 ```bash
 node quack 2
 ```
-để chạy chức năng Lụm trứng lỏ, ấp trứng xịn & lụm ZỊT ZÀNG
+> để chạy chức năng Lụm trứng lỏ, ấp trứng xịn & lụm ZỊT ZÀNG
 
 <img src="./images/7.png" />
 
 ## Phần phụ
 
-> Xem lại lịch sử lụm ZỊT ZÀNG ở file ```goldenDuck.txt```
+> Xem lại lịch sử trong thư mục ```logs```
 
-> Xem lại lịch sử ấp trứng xịn ở file ```farm.txt```
+> Lịch sử lụm ZỊT ZÀNG ở file ```goldenDuck_ngày_tháng_năm.txt```
+
+> Lịch sử ấp trứng ở file ```farm_ngày_tháng_năm.txt```
 
 ## Các lỗi thường gặp
 
@@ -132,4 +134,4 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 > Cái này là do PowerShell / Cmd không hỗ trợ. Tải [Terminal](https://github.com/microsoft/terminal) về cài đặt rồi mở Tool bằng Terminal nhé
 
-From [mhqb365.com](https://mhqb365.com) with Love ♥ and GoodLuck
+From [mhqb365.com](https://mhqb365.com) with Love ❤ and GoodLuck
