@@ -1,14 +1,14 @@
 # Quack Quack Game Tool
 
-<img src="./images/8.png" />
+<img src="./images/13.jpg" />
 
-> Đây công cụ tui làm ra chỉ để thử sức code nên nó rất đơn giản vì công việc của tui là sửa laptop chứ không phải code mấy má ưi 😍
+> Đây công cụ tui làm ra chỉ để thử sức code nên nó rất đơn giản vì công việc của tui là sửa laptop chứ không phải làm về code mấy má ưi 😍
 
-> Windows / Mac / Linux đều dùng được miễn có cài NodeJS. Link tải đây https://nodejs.org/en/download/prebuilt-installer
+> Windows / Mac / Linux đều dùng được miễn có cài khứa này 👉 [NodeJS](https://nodejs.org/en/download/prebuilt-installer)
 
-> Mọi người có hứng thú với con game vô tri này thì đăng ký qua link ủng hộ tui nhé https://t.me/quackquack_game_bot?start=6hn8Xrp7DK
+> Mọi người có hứng thú với con game vô tri này thì đây 👉 [Quack Quack Game](https://t.me/quackquack_game_bot?start=6hn8Xrp7DK)
 
-> Link Tool https://j2c.cc/quack
+> Link Tool 👉 [j2c.cc/quack](https://j2c.cc/quack)
 
 ## Tuyên bố miễn trừ trách nhiệm
 
@@ -26,11 +26,11 @@
 
 > Tự động lụm ZỊT ZÀNG (cái con bạch tuột mỏ vịt xuất hiện mỗi 30 phút, vì lý do bảo mật nên không lụm được TON nhé)
 
-> Tự động ấp trứng xịn để tìm vịt xịn
+> Tự động ấp trứng hiếm để tìm vịt xịn
 
 > Tùy chọn chức năng để chạy Tool
 
-## Tiêu chí ấp trứng tìm vịt xịn
+## Tiêu chí ấp trứng
 
 > Khi chạy chức năng ấp trứng thì Tool sẽ tự chọn trứng hiếm để ấp (2 loại trứng có rate thấp nhất) theo bảng độ hiếm này
 
@@ -40,9 +40,9 @@
 
 <img src="./images/11.jpg" />
 
-- COMMON : 1 điểm
-- RARE : 2 điểm
 - LEGENDARY : 3 điểm
+- RARE : 2 điểm
+- COMMON : 1 điểm
 
 > Vịt có tổng điểm cao hơn thì xịn hơn
 
@@ -50,13 +50,13 @@
 
 > Khi chạy chức năng ấp trứng thì Tool sẽ tự động xóa đi 1 con vịt lỏ nhất để nhường chổ ấp trứng khi FARM đầy
 
-> Nói chung cái tính năng ấp trứng này là hoàn toàn tự động, tiếu chí là tạo ra FARM toàn vịt xịn theo số tổ rơm mà bạn có
+> Nói chung cái tính năng ấp trứng này là hoàn toàn tự động, tiêu chí là tạo FARM toàn vịt xịn theo số tổ rơm mà bạn có
 
 ## Cách dùng
 
 > Cài NodeJS chưa? Chưa thì kéo lên trên lấy link tải về cài vào
 
-> Tải Tool về, thấy cái nút (<> Code) màu xanh lá ở trên hem? Bấm vào đó để Download ZIP về, giải nén rồi mở folder Tool vừa giải nén ra
+> Tải Tool về, thấy cái nút (<> Code) màu xanh lá ở trên hem? Bấm vào đó để Download ZIP về, giải nén rồi mở thư mục vừa giải nén ra
 
 > Máy tính cần hiện đuôi file để thao tác dễ hơn
 
@@ -72,7 +72,7 @@
 
 <img src="./images/4.png" />
 
-> Cài đặt Tool ở file ```config.json```, giữ nguyên hoặc xem chú thích bên dưới để cài đặt
+> Cài đặt Tool ở file ```config.json```, giữ nguyên hoặc xem chú thích bên dưới để tùy chỉnh
 
 ```json
 {
@@ -82,17 +82,29 @@
 }
 ```
 
-> Mở Terminal / PowerShell / Cmd trong folder Tool (trên Windows thì đè Shift + chuột phải > Open PowerShell)
+> Mở Terminal / PowerShell / Cmd trong thư mục Tool (trên Windows thì đè Shift + chuột phải > Open PowerShell window here)
 
 > Gõ vào lệnh ```npm install``` để cài đặt các thư viện cần thiết
 
 ## Tùy chọn tính năng chạy Tool
 
-> Gõ vào Terminal / PowerShell / Cmd lệnh ```node quack``` để chạy chức năng Lụm tất cả trứng & lụm ZỊT ZÀNG
+> Gõ vào Terminal / PowerShell / Cmd lệnh
+```bash
+node quack
+```
+để chạy chức năng Lụm tất cả trứng & lụm ZỊT ZÀNG
 
-> Hoặc gõ vào lệnh ```node quack 1``` để chạy chức năng Không lụm trứng mà chỉ lụm ZỊT ZÀNG
+> Hoặc gõ vào lệnh
+```bash
+node quack 1
+```
+để chạy chức năng Không lụm trứng mà chỉ lụm ZỊT ZÀNG
 
-> Hoặc gõ vào lệnh ```node quack 2``` để chạy chức năng Lụm trứng lỏ, ấp trứng xịn & lụm ZỊT ZÀNG
+> Hoặc gõ vào lệnh
+```bash
+node quack 2
+```
+để chạy chức năng Lụm trứng lỏ, ấp trứng xịn & lụm ZỊT ZÀNG
 
 <img src="./images/7.png" />
 
@@ -108,12 +120,16 @@
 
 <img src="./images/9.png" />
 
-> Gặp lỗi trên chỉ cần dán dòng lệnh này vào rồi enter là được ```Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser```
+> Gặp lỗi trên chỉ cần dán dòng lệnh dưới đây vào rồi enter là được
+
+```bash
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
 
 2. Không hiển thị icon / emoji
 
 <img src="./images/12.jpg" />
 
-> Cái này là do PowerShell / Cmd không hỗ trợ và chỉ bị trên Windows. Tải [Terminal](https://github.com/microsoft/terminal) về cài đặt rồi mở Tool bằng Terminal nhé
+> Cái này là do PowerShell / Cmd không hỗ trợ. Tải [Terminal](https://github.com/microsoft/terminal) về cài đặt rồi mở Tool bằng Terminal nhé
 
 From https://mhqb365.com with Love ♥ and GoodLuck
