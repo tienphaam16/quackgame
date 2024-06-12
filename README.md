@@ -78,7 +78,7 @@
 {
   "nest": 3, // số tổ rơm bạn đang có, nếu có nhiều hơn thì thay số vào
   "maxSleepTime": 3, // thời gian nghỉ tối đa giữa mỗi lần lụm trứng, đơn vị: giây
-  "retryCount": 10, // số lần thử lại khi mất kết nối, quá số lần sẽ dừng Tool
+  "retryCount": 86400, // số lần thử lại khi mất kết nối, quá số lần sẽ dừng Tool
 }
 ```
 
@@ -112,9 +112,13 @@ node quack 2
 
 > Xem lại lịch sử trong thư mục ```logs```
 
-> Lịch sử lụm ZỊT ZÀNG ở file ```goldenDuck_ngày_tháng_năm.txt```
+> Lịch sử lụm ZỊT ZÀNG ở file ```golden_duck_log_ngày_tháng_năm.txt```
 
-> Lịch sử ấp trứng ở file ```farm_ngày_tháng_năm.txt```
+> Lịch sử ấp trứng ở file ```farm_log_ngày_tháng_năm.txt```
+
+> Lịch sử lỗi ở file ```error_log_ngày_tháng_năm.txt```
+
+> Lịch sử khác file ```log_ngày_tháng_năm.txt```
 
 ## Các lỗi thường gặp
 
