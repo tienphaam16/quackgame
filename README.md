@@ -124,7 +124,7 @@ node quack 2
 
 1. SecurityError / UnauthorizedAccess
 
-<img src="./images/9.png" />
+<img src="./images/14.jpg" />
 
 > Gặp lỗi trên chỉ cần dán dòng lệnh dưới đây vào rồi enter là được
 
