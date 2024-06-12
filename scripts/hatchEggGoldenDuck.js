@@ -46,7 +46,7 @@ let accessToken = null;
 let run = false;
 let timerInstance = new Timer();
 let eggs = 0;
-let pepet = 0;
+let pets = 0;
 let goldenDuck = 0;
 let timeToGoldenDuck = 0;
 let myInterval = null;
@@ -327,13 +327,16 @@ async function hatchEggGoldenDuck(token) {
   console.log("[ GOLDEN DUCK AND HATCH MODE ]");
   console.log();
   console.log("Link Tool : [ j2c.cc/quack ]");
-  console.log(`Ban dang co : [ ${balanceEgg} EGG 🥚 ] [ ${balancePet} 🐸 ]`);
+  console.log(
+    `Ban dang co : [ ${balanceEgg} EGG 🥚 ] [ ${balancePet} PET 🐸 ]`
+  );
+  console.log();
   console.log(
     `Thoi gian chay : [ ${timerInstance
       .getTimeValues()
       .toString(["days", "hours", "minutes", "seconds"])} ]`
   );
-  console.log(`Tong thu hoach : [ ${eggs} EGG 🥚 ] [ ${pepet} 🐸 ]`);
+  console.log(`Tong thu hoach : [ ${eggs} EGG 🥚 ] [ ${pets} PET 🐸 ]`);
   console.log();
 
   if (timeToGoldenDuck <= 0) {
@@ -372,7 +375,7 @@ async function hatchEggGoldenDuck(token) {
           goldenDuck++;
 
           if (data.data.type === 2) {
-            pepet += Number(data.data.amount);
+            pets += Number(data.data.amount);
             balancePet += Number(data.data.amount);
           }
           if (data.data.type === 3) {

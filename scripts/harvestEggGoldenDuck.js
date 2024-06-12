@@ -187,14 +187,16 @@ async function harvestEggGoldenDuck(token) {
   console.log("[ ALL EGG AND GOLDEN DUCK MODE ]");
   console.log();
   console.log("Link Tool : [ j2c.cc/quack ]");
-  console.log(`Ban dang co : [ ${balanceEgg} EGG 🥚 ] [ ${balancePet} 🐸 ]`);
+  console.log(
+    `Ban dang co : [ ${balanceEgg} EGG 🥚 ] [ ${balancePet} PET 🐸 ]`
+  );
   console.log();
   console.log(
     `Thoi gian chay : [ ${timerInstance
       .getTimeValues()
       .toString(["days", "hours", "minutes", "seconds"])} ]`
   );
-  console.log(`Tong thu hoach : [ ${eggs} EGG 🥚 ] [ ${pets} 🐸 ]`);
+  console.log(`Tong thu hoach : [ ${eggs} EGG 🥚 ] [ ${pets} PET 🐸 ]`);
   console.log();
 
   if (timeToGoldenDuck <= 0) {

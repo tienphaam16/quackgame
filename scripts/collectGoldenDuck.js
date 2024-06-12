@@ -5,6 +5,7 @@ const addLog = require("../modules/addLog");
 const Timer = require("easytimer.js").Timer;
 const randomUseragent = require("random-useragent");
 const goldenDuckRewardText = require("../modules/goldenDuckRewardText");
+const getBalance = require("../modules/getBalance");
 
 const ua = randomUseragent.getRandom((ua) => {
   return ua.browserName === "Chrome";
@@ -18,9 +19,12 @@ let timerInstance = new Timer();
 let accessToken = null;
 let timeToGoldenDuck = 0;
 let eggs = 0;
-let pepet = 0;
+let pets = 0;
 let goldenDuck = 0;
 let myInterval = null;
+let wallets = null;
+let balanceEgg = 0;
+let balancePet = 0;
 
 async function collectGoldenDuckInternal(token) {
   if (timeToGoldenDuck <= 0) {
@@ -67,8 +71,14 @@ async function collectGoldenDuckInternal(token) {
 
           goldenDuck++;
 
-          if (data.data.type === 2) pepet += Number(data.data.amount);
-          if (data.data.type === 3) eggs += Number(data.data.amount);
+          if (data.data.type === 2) {
+            pets += Number(data.data.amount);
+            balancePet += Number(data.data.amount);
+          }
+          if (data.data.type === 3) {
+            eggs += Number(data.data.amount);
+            balanceEgg += Number(data.data.amount);
+          }
 
           console.log(
             `[ GOLDEN DUCK 🐥 ] : ${goldenDuckRewardText(data.data)}`
@@ -109,19 +119,28 @@ async function collectGoldenDuck(token) {
   accessToken = token;
 
   if (!run) {
+    wallets = await getBalance(accessToken, ua);
+    wallets.forEach((w) => {
+      if (w.symbol === "EGG") balanceEgg = Number(w.balance);
+      if (w.symbol === "PET") balancePet = Number(w.balance);
+    });
     timerInstance.start();
     run = true;
   }
 
   console.log("[ ONLY GOLDEN DUCK MODE ]");
   console.log();
-  console.log("LINK TOOL : [ j2c.cc/quack ]");
+  console.log("Link Tool : [ j2c.cc/quack ]");
   console.log(
-    `THOI GIAN CHAY : [ ${timerInstance
+    `Ban dang co : [ ${balanceEgg} EGG 🥚 ] [ ${balancePet} PET 🐸 ]`
+  );
+  console.log();
+  console.log(
+    `Thoi gian chay : [ ${timerInstance
       .getTimeValues()
       .toString(["days", "hours", "minutes", "seconds"])} ]`
   );
-  console.log(`TONG THU HOACH : [ ${eggs} EGG 🥚 ] [ ${pepet} 🐸 ]`);
+  console.log(`Tong thu hoach : [ ${eggs} EGG 🥚 ] [ ${pets} PET 🐸 ]`);
   console.log();
 
   msg = `[ GOLDEN DUCK 🐥 ] : [ ${goldenDuck} 🐥 ] | ${timeToGoldenDuck}s nua gap`;

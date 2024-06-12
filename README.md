@@ -30,6 +30,10 @@
 
 > Tùy chọn chức năng để chạy Tool
 
+> Ngẫu nhiên vị trí tổ rơm lụm trứng
+
+> Ngẫu nhiên thời gian lụm trứng, từ 1 đến maxSleepTime trong file ```config.json```, đơn vị: giây
+
 ## Tiêu chí ấp trứng
 
 > Khi chạy chức năng ấp trứng thì Tool sẽ tự chọn trứng hiếm để ấp (2 loại trứng có rate thấp nhất) theo bảng độ hiếm này
