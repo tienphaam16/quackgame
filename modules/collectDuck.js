@@ -1,28 +1,33 @@
-const getAction = require("../actions/get");
+const postAction = require("../actions/post");
 const sleep = require("./sleep");
 const config = require("../config.json");
+const addLog = require("./addLog");
 
-async function getGoldenDuckInfo(token, ua) {
+async function collectDuck(token, ua, nest_id) {
   let retry = 0;
   let data = null;
   while (retry < config.retryCount) {
     if (!!data) {
       break;
     }
-    data = await getGoldenDuckInfoInternal(token, ua);
+    data = await collectDuckInternal(token, ua, nest_id);
     retry++;
   }
 
   return data;
 }
 
-async function getGoldenDuckInfoInternal(token, ua) {
+async function collectDuckInternal(token, ua, nest_id) {
   try {
-    const response = await getAction(token, "golden-duck/info", ua);
-    // console.log(data);
+    const response = await postAction(
+      token,
+      "nest/collect-duck",
+      "nest_id=" + nest_id,
+      ua
+    );
     return response.data;
   } catch (error) {
-    console.log("getGoldenDuckInfo error");
+    console.log("collectDuck error");
     if (error.response) {
       // console.log(error.response.data);
       console.log("status", error.response.status);
@@ -30,7 +35,7 @@ async function getGoldenDuckInfoInternal(token, ua) {
       const status = error.response.status;
       // console.log(error.response.headers);
 
-      addLog(`getGoldenDuckInfoInternal error ${status}`, "error");
+      addLog(`collectDuck error ${status}`, "error");
 
       if (status >= 500) {
         console.log("Lost connect, auto connect after 5s, retry to die");
@@ -42,7 +47,6 @@ async function getGoldenDuckInfoInternal(token, ua) {
       } else if (status === 400) {
         return error.response.data;
       } else {
-        console.log("Lost connect, auto connect after 3s, retry to die");
         await sleep(3);
         return null;
       }
@@ -53,11 +57,11 @@ async function getGoldenDuckInfoInternal(token, ua) {
       return null;
     } else {
       console.log("error", error.message);
-      console.log("Lost connect, auto connect after 3s, retry to die");
+      console.log("Lost connect, auto connect after 5s, retry to die");
       await sleep(3);
       return null;
     }
   }
 }
 
-module.exports = getGoldenDuckInfo;
+module.exports = collectDuck;

@@ -1,28 +1,30 @@
-const getAction = require("../actions/get");
+const postAction = require("../actions/post");
 const sleep = require("./sleep");
 const config = require("../config.json");
+const addLog = require("./addLog");
 
-async function getGoldenDuckInfo(token, ua) {
+async function removeDuck(token, ua, duck_id) {
   let retry = 0;
   let data = null;
   while (retry < config.retryCount) {
     if (!!data) {
       break;
     }
-    data = await getGoldenDuckInfoInternal(token, ua);
+    data = await removeDuckInternal(token, ua, duck_id);
     retry++;
   }
 
   return data;
 }
 
-async function getGoldenDuckInfoInternal(token, ua) {
+async function removeDuckInternal(token, ua, duck_id) {
   try {
-    const response = await getAction(token, "golden-duck/info", ua);
-    // console.log(data);
+    const data = `ducks=%7B%22ducks%22%3A%5B${duck_id}%5D%7D`;
+    const response = await postAction(token, "duck/remove", data, ua);
+    // console.log(response);
     return response.data;
   } catch (error) {
-    console.log("getGoldenDuckInfo error");
+    console.log("removeDuck error");
     if (error.response) {
       // console.log(error.response.data);
       console.log("status", error.response.status);
@@ -30,7 +32,7 @@ async function getGoldenDuckInfoInternal(token, ua) {
       const status = error.response.status;
       // console.log(error.response.headers);
 
-      addLog(`getGoldenDuckInfoInternal error ${status}`, "error");
+      addLog(`layEggInternal error ${status}`, "error");
 
       if (status >= 500) {
         console.log("Lost connect, auto connect after 5s, retry to die");
@@ -60,4 +62,4 @@ async function getGoldenDuckInfoInternal(token, ua) {
   }
 }
 
-module.exports = getGoldenDuckInfo;
+module.exports = removeDuck;

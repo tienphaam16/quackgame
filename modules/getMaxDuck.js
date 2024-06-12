@@ -1,28 +1,29 @@
 const getAction = require("../actions/get");
 const sleep = require("./sleep");
 const config = require("../config.json");
+const addLog = require("./addLog");
 
-async function getGoldenDuckInfo(token, ua) {
+async function getMaxDuck(token, ua) {
   let retry = 0;
   let data = null;
   while (retry < config.retryCount) {
     if (!!data) {
       break;
     }
-    data = await getGoldenDuckInfoInternal(token, ua);
+    data = await getMaxDuckInternal(token, ua);
     retry++;
   }
 
   return data;
 }
 
-async function getGoldenDuckInfoInternal(token, ua) {
+async function getMaxDuckInternal(token, ua) {
   try {
-    const response = await getAction(token, "golden-duck/info", ua);
-    // console.log(data);
+    const response = await getAction(token, "nest/max-duck", ua);
+    // console.log("getMaxDuck", response);
     return response.data;
   } catch (error) {
-    console.log("getGoldenDuckInfo error");
+    console.log("getMaxDuck error");
     if (error.response) {
       // console.log(error.response.data);
       console.log("status", error.response.status);
@@ -30,7 +31,7 @@ async function getGoldenDuckInfoInternal(token, ua) {
       const status = error.response.status;
       // console.log(error.response.headers);
 
-      addLog(`getGoldenDuckInfoInternal error ${status}`, "error");
+      addLog(`getMaxDuckInternal error ${status}`, "error");
 
       if (status >= 500) {
         console.log("Lost connect, auto connect after 5s, retry to die");
@@ -40,7 +41,10 @@ async function getGoldenDuckInfoInternal(token, ua) {
         console.log(`\nToken loi hoac het han roi\n`);
         process.exit(1);
       } else if (status === 400) {
-        return error.response.data;
+        console.log("data", error.response.data);
+        console.log("Lost connect, auto connect after 3s, retry to die");
+        await sleep(3);
+        return null;
       } else {
         console.log("Lost connect, auto connect after 3s, retry to die");
         await sleep(3);
@@ -60,4 +64,4 @@ async function getGoldenDuckInfoInternal(token, ua) {
   }
 }
 
-module.exports = getGoldenDuckInfo;
+module.exports = getMaxDuck;

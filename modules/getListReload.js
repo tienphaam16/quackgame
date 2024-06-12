@@ -1,8 +1,14 @@
 const getAction = require("../actions/get");
 const config = require("../config.json");
+const addLog = require("./addLog");
 const sleep = require("./sleep");
 
-isErrorOccured = false;
+let isErrorOccured = false;
+let maxNest = config.nest;
+
+if (maxNest < 3) maxNest = 3;
+if (maxNest > 9) maxNest = 9;
+// console.log(maxNest);
 
 async function getListReload(token, ua, new_game = false) {
   let retry = 0;
@@ -34,7 +40,7 @@ async function getListReloadInternal(token, ua, new_game) {
       if (n.type_egg) listNests.push(n);
     });
 
-    if (listNests.length < config.nest) {
+    if (listNests.length < maxNest) {
       data = await getListReloadInternalCallAPI(token, ua, true);
     }
 
@@ -50,9 +56,12 @@ async function getListReloadInternal(token, ua, new_game) {
       // console.log("data", error.response.data);
       const status = error.response.status;
       // console.log(error.response.headers);
-      if (status === 503 || status === 502 || status === 504) {
-        console.log("Mat ket noi, tu dong ket noi sau 30s");
-        await sleep(30);
+
+      addLog(`getListReload error ${status}`, "error");
+
+      if (status >= 500) {
+        console.log("Lost connect, auto connect after 5s, retry to die");
+        await sleep(5);
         isErrorOccured = true;
         return null;
       } else if (status === 401) {
@@ -60,28 +69,34 @@ async function getListReloadInternal(token, ua, new_game) {
         process.exit(1);
       } else if (status === 400) {
         console.log("data", error.response.data);
-        await sleep(10);
+        console.log("Lost connect, auto connect after 3s, retry to die");
+        await sleep(3);
         isErrorOccured = true;
         return null;
       } else {
-        await sleep(5);
+        console.log("Lost connect, auto connect after 3s, retry to die");
+        await sleep(3);
         isErrorOccured = true;
         return null;
       }
     } else if (error.request) {
       console.log("request", error.request);
+      console.log("Lost connect, auto connect after 5s, retry to die");
+      await sleep(5);
+      return null;
     } else {
       console.log("error", error.message);
+      console.log("Lost connect, auto connect after 5s, retry to die");
+      await sleep(5);
+      return null;
     }
   }
-  return null;
 }
 
 async function getListReloadInternalCallAPI(token, ua, new_game = false) {
   const endpoint = new_game ? "nest/list" : "nest/list-reload";
   // console.log(new_game, endpoint);
   const { data } = await getAction(token, endpoint, ua);
-  // console.log("getListReload", data);
   return data;
 }
 

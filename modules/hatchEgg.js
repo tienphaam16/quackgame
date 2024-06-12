@@ -1,28 +1,34 @@
-const getAction = require("../actions/get");
+const postAction = require("../actions/post");
 const sleep = require("./sleep");
 const config = require("../config.json");
+const addLog = require("./addLog");
 
-async function getGoldenDuckInfo(token, ua) {
+async function hatchEgg(token, ua, nest_id) {
   let retry = 0;
   let data = null;
   while (retry < config.retryCount) {
     if (!!data) {
       break;
     }
-    data = await getGoldenDuckInfoInternal(token, ua);
+    data = await hatchEggInternal(token, ua, nest_id);
     retry++;
   }
 
   return data;
 }
 
-async function getGoldenDuckInfoInternal(token, ua) {
+async function hatchEggInternal(token, ua, nest_id) {
   try {
-    const response = await getAction(token, "golden-duck/info", ua);
-    // console.log(data);
+    const response = await postAction(
+      token,
+      "nest/hatch",
+      "nest_id=" + nest_id,
+      ua
+    );
+    // console.log(response);
     return response.data;
   } catch (error) {
-    console.log("getGoldenDuckInfo error");
+    // console.log("hatchEgg error");
     if (error.response) {
       // console.log(error.response.data);
       console.log("status", error.response.status);
@@ -30,7 +36,7 @@ async function getGoldenDuckInfoInternal(token, ua) {
       const status = error.response.status;
       // console.log(error.response.headers);
 
-      addLog(`getGoldenDuckInfoInternal error ${status}`, "error");
+      addLog(`hatchEggInternal error ${status}`, "error");
 
       if (status >= 500) {
         console.log("Lost connect, auto connect after 5s, retry to die");
@@ -41,10 +47,6 @@ async function getGoldenDuckInfoInternal(token, ua) {
         process.exit(1);
       } else if (status === 400) {
         return error.response.data;
-      } else {
-        console.log("Lost connect, auto connect after 3s, retry to die");
-        await sleep(3);
-        return null;
       }
     } else if (error.request) {
       console.log("request", error.request);
@@ -60,4 +62,4 @@ async function getGoldenDuckInfoInternal(token, ua) {
   }
 }
 
-module.exports = getGoldenDuckInfo;
+module.exports = hatchEgg;
