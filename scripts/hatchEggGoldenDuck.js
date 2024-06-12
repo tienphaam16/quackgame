@@ -94,22 +94,41 @@ async function collectFromListInternal(token, listNests, listDucks) {
 
         switch (error_code) {
           case "DUPLICATE_REQUEST":
-            console.log("this error was fixed");
             await randomSleep();
             collectFromList(token, listNests, listDucks);
             break;
+
           case "THIS_NEST_DONT_HAVE_EGG_AVAILABLE":
-            console.log("this error was fixed");
             const layEggData = await layEgg(token, ua, nest.id, duck.id);
 
-            listNests = listNests.filter((n) => n.id !== nest.id);
-            listDucks = listDucks.filter((d) => d.id !== duck.id);
+            if (layEggData.error_code !== "") {
+              const error_code = layEggData.error_code;
+              console.log("layEggData 1 error", error_code);
+              switch (error_code) {
+                case "THIS_DUCK_NOT_ENOUGH_TIME_TO_LAY":
+                  await randomSleep();
+                  collectFromList(token, listNests, listDucks);
+                  break;
 
-            await randomSleep();
-            collectFromList(token, listNests, listDucks);
+                case "THIS_NEST_IS_UNAVAILABLE":
+                  await randomSleep();
+                  hatchEggGoldenDuck(token);
+                  break;
+
+                default:
+                  await randomSleep();
+                  hatchEggGoldenDuck(token);
+                  break;
+              }
+            } else {
+              listNests = listNests.filter((n) => n.id !== nest.id);
+              listDucks = listDucks.filter((d) => d.id !== duck.id);
+
+              await randomSleep();
+              collectFromList(token, listNests, listDucks);
+            }
             break;
           default:
-            console.log(ERROR_MESSAGE);
             await randomSleep();
             hatchEggGoldenDuck(token);
             break;
@@ -120,17 +139,14 @@ async function collectFromListInternal(token, listNests, listDucks) {
 
         if (layEggData.error_code !== "") {
           const error_code = layEggData.error_code;
-          console.log("layEggData error", error_code);
-
+          console.log("layEggData 2 error", error_code);
           switch (error_code) {
             case "THIS_DUCK_NOT_ENOUGH_TIME_TO_LAY":
-              console.log("this error was fixed");
               await randomSleep();
               collectFromList(token, listNests, listDucks);
               break;
 
             case "THIS_NEST_IS_UNAVAILABLE":
-              console.log("this error was fixed");
               await randomSleep();
               hatchEggGoldenDuck(token);
               break;
@@ -190,11 +206,32 @@ async function collectFromListInternal(token, listNests, listDucks) {
           case "THIS_NEST_DONT_HAVE_EGG_AVAILABLE":
             const layEggData = await layEgg(token, ua, nest.id, duck.id);
 
-            listNests = listNests.filter((n) => n.id !== nest.id);
-            listDucks = listDucks.filter((d) => d.id !== duck.id);
+            if (layEggData.error_code !== "") {
+              const error_code = layEggData.error_code;
+              console.log("layEggData 3 error", error_code);
+              switch (error_code) {
+                case "THIS_DUCK_NOT_ENOUGH_TIME_TO_LAY":
+                  await randomSleep();
+                  collectFromList(token, listNests, listDucks);
+                  break;
 
-            await randomSleep();
-            collectFromList(token, listNests, listDucks);
+                case "THIS_NEST_IS_UNAVAILABLE":
+                  await randomSleep();
+                  hatchEggGoldenDuck(token);
+                  break;
+
+                default:
+                  await randomSleep();
+                  hatchEggGoldenDuck(token);
+                  break;
+              }
+            } else {
+              listNests = listNests.filter((n) => n.id !== nest.id);
+              listDucks = listDucks.filter((d) => d.id !== duck.id);
+
+              await randomSleep();
+              collectFromList(token, listNests, listDucks);
+            }
             break;
 
           default:
@@ -208,30 +245,8 @@ async function collectFromListInternal(token, listNests, listDucks) {
         // console.log("collectDuckData", collectDuckData);
 
         if (collectDuckData.error_code !== "") {
-          console.log(
-            "collectDuckData status 2 error",
-            collectDuckData.error_code
-          );
+          console.log("collectDuckData 1 error", collectDuckData.error_code);
           console.log(ERROR_MESSAGE);
-          const error_code = collectDuckData.error_code;
-
-          switch (error_code) {
-            case "THIS_NEST_DONT_HAVE_EGG_AVAILABLE":
-              const layEggData = await layEgg(token, ua, nest.id, duck.id);
-
-              if (layEggData.error_code !== "") {
-                console.log("layEggData error", layEggData.error_code);
-              } else {
-                listNests = listNests.filter((n) => n.id !== nest.id);
-                listDucks = listDucks.filter((d) => d.id !== duck.id);
-
-                await randomSleep();
-                collectFromList(token, listNests, listDucks);
-              }
-              break;
-            default:
-              break;
-          }
         } else {
           let isDeleted = false;
 
@@ -244,10 +259,7 @@ async function collectFromListInternal(token, listNests, listDucks) {
             // console.log("removeDuckData", removeDuckData);
 
             if (removeDuckData.error_code !== "") {
-              console.log(
-                "removeDuckData status 2.2 error",
-                removeDuckData.error_code
-              );
+              console.log("removeDuckData", removeDuckData.error_code);
               console.log(ERROR_MESSAGE);
             }
 
@@ -262,12 +274,28 @@ async function collectFromListInternal(token, listNests, listDucks) {
           console.log(msg);
           if (!isDeleted) addLog(msg, "farm");
 
-          const duck = getDuckToLay(listDucks);
           const layEggData = await layEgg(token, ua, nest.id, duck.id);
           // console.log("layEggData", layEggData);
 
           if (layEggData.error_code !== "") {
-            console.log("layEggData error", layEggData.error_code);
+            const error_code = layEggData.error_code;
+            console.log("layEggData 4 error", error_code);
+            switch (error_code) {
+              case "THIS_DUCK_NOT_ENOUGH_TIME_TO_LAY":
+                await randomSleep();
+                collectFromList(token, listNests, listDucks);
+                break;
+
+              case "THIS_NEST_IS_UNAVAILABLE":
+                await randomSleep();
+                hatchEggGoldenDuck(token);
+                break;
+
+              default:
+                await randomSleep();
+                hatchEggGoldenDuck(token);
+                break;
+            }
           } else {
             listNests = listNests.filter((n) => n.id !== nest.id);
             listDucks = listDucks.filter((d) => d.id !== duck.id);
@@ -283,13 +311,23 @@ async function collectFromListInternal(token, listNests, listDucks) {
       `[ NEST 🌕 ${nest.id} ] dang ap trung > tu dong thu hoach vit de tiep tuc`
     );
     const collectDuckData = await collectDuck(token, ua, nest.id);
-    const layEggData = await layEgg(token, ua, nest.id, duck.id);
 
-    listNests = listNests.filter((n) => n.id !== nest.id);
-    listDucks = listDucks.filter((d) => d.id !== duck.id);
+    if (collectDuckData.error_code !== "") {
+      console.log("collectDuckData 2 error", collectDuckData.error_code);
+      console.log(ERROR_MESSAGE);
+    } else {
+      const layEggData = await layEgg(token, ua, nest.id, duck.id);
 
-    await randomSleep();
-    collectFromList(token, listNests, listDucks);
+      if (layEggData.error_code !== "") {
+        console.log("layEggData 5 error", layEggData.error_code);
+      } else {
+        listNests = listNests.filter((n) => n.id !== nest.id);
+        listDucks = listDucks.filter((d) => d.id !== duck.id);
+
+        await randomSleep();
+        collectFromList(token, listNests, listDucks);
+      }
+    }
   }
 }
 
