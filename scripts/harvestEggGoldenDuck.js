@@ -220,11 +220,11 @@ async function harvestEggGoldenDuck(token) {
         if (data.type === 0) {
           msg = "[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau";
           console.log(msg);
-          addLog(msg);
+          addLog(msg, "golden");
         } else if (data.type === 1 || data.type === 4) {
           msg = "[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP";
           console.log(msg);
-          addLog(msg);
+          addLog(msg, "golden");
         } else {
           const claimGoldenDuckData = await claimGoldenDuck(accessToken, ua);
           // console.log("claimGoldenDuckData", claimGoldenDuckData);
@@ -242,7 +242,7 @@ async function harvestEggGoldenDuck(token) {
 
           msg = `[ GOLDEN DUCK 🐥 ] : ${goldenDuckRewardText(data)}`;
           console.log(msg);
-          addLog(msg);
+          addLog(msg, "golden");
         }
       } else {
         timeToGoldenDuck = getGoldenDuckInfoData.data.time_to_golden_duck;

@@ -53,10 +53,10 @@ async function collectGoldenDuckInternal(token) {
         const data = getGoldenDuckRewardData;
         if (data.data.type === 0) {
           console.log("[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau");
-          addLog("[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau");
+          addLog("[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau", "golden");
         } else if (data.data.type === 1 || data.data.type === 4) {
           console.log("[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP");
-          addLog("[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP");
+          addLog("[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP", "golden");
         } else {
           const claimGoldenDuckData = await claimGoldenDuck(
             accessToken,
@@ -73,7 +73,10 @@ async function collectGoldenDuckInternal(token) {
           console.log(
             `[ GOLDEN DUCK 🐥 ] : ${goldenDuckRewardText(data.data)}`
           );
-          addLog(`[ GOLDEN DUCK 🐥 ] : ${goldenDuckRewardText(data.data)}`);
+          addLog(
+            `[ GOLDEN DUCK 🐥 ] : ${goldenDuckRewardText(data.data)}`,
+            "golden"
+          );
 
           collectGoldenDuck(token);
         }

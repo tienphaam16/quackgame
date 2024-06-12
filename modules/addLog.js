@@ -11,20 +11,29 @@ try {
 }
 
 function addLog(msg, type) {
+  const logTime = new Date().toLocaleTimeString();
   const logDate = `${new Date().getDate()}_${
     new Date().getMonth() + 1
   }_${new Date().getFullYear()}`;
-  const goldDuckLog = `goldenDuck_log`;
-  const farmLog = `farm_log`;
 
-  const filename =
-    type === "farm"
-      ? `${farmLog}_${logDate}.txt`
-      : `${goldDuckLog}_${logDate}.txt`;
+  let filename = "";
 
-  const time = new Date().toLocaleTimeString();
-  const logStr = `${time} | ${msg}\n`;
-  fs.appendFileSync(`./${folderName}/${filename}`, logStr, "utf-8");
+  switch (type) {
+    case "error":
+      filename = `error_log_${logDate}.txt`;
+      break;
+    case "farm":
+      filename = `farm_log_${logDate}.txt`;
+      break;
+    case "golden":
+      filename = `golden_duck_log_${logDate}.txt`;
+      break;
+    default:
+      filename = `log_${logDate}.txt`;
+  }
+
+  const logText = `${logTime} | ${msg}\n`;
+  fs.appendFileSync(`./${folderName}/${filename}`, logText, "utf-8");
 }
 
 module.exports = addLog;

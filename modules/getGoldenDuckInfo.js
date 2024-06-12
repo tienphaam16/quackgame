@@ -29,9 +29,12 @@ async function getGoldenDuckInfoInternal(token, ua) {
       // console.log("data", error.response.data);
       const status = error.response.status;
       // console.log(error.response.headers);
+
+      addLog(`getGoldenDuckInfoInternal error ${status}`, "error");
+
       if (status >= 500) {
-        console.log("Mat ket noi, tu dong ket noi sau 30s");
-        await sleep(30);
+        console.log("Lost connect, auto connect after 5s, retry to die");
+        await sleep(5);
         return null;
       } else if (status === 401) {
         console.log(`\nToken loi hoac het han roi\n`);
@@ -39,21 +42,22 @@ async function getGoldenDuckInfoInternal(token, ua) {
       } else if (status === 400) {
         return error.response.data;
       } else {
-        console.log("Mat ket noi, tu dong ket noi sau 3s");
+        console.log("Lost connect, auto connect after 3s, retry to die");
         await sleep(3);
         return null;
       }
     } else if (error.request) {
       console.log("request", error.request);
-      console.log("Mat ket noi, tu dong ket noi sau 30s");
-      await sleep(30);
+      console.log("Lost connect, auto connect after 3s, retry to die");
+      await sleep(3);
+      return null;
     } else {
       console.log("error", error.message);
-      console.log("Mat ket noi, tu dong ket noi sau 30s");
-      await sleep(30);
+      console.log("Lost connect, auto connect after 3s, retry to die");
+      await sleep(3);
+      return null;
     }
   }
-  return null;
 }
 
 module.exports = getGoldenDuckInfo;
