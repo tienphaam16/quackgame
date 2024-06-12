@@ -1,6 +1,7 @@
 const getAction = require("../actions/get");
 const sleep = require("./sleep");
 const config = require("../config.json");
+const addLog = require("./addLog");
 
 async function getGoldenDuckInfo(token, ua) {
   let retry = 0;
