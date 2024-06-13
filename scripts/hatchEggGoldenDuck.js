@@ -339,9 +339,6 @@ async function collectFromList(token, listNests, listDucks) {
   } else {
     if (listNests.length === 0)
       return console.clear(), hatchEggGoldenDuck(token);
-    // if (listNests.length === 0)
-    //   return console.log(), hatchEggGoldenDuck(token);
-    // console.log(listNests.length, listDucks.length);
 
     return collectFromListInternal(token, listNests, listDucks);
   }
@@ -366,7 +363,9 @@ async function hatchEggGoldenDuck(token) {
   console.log();
   console.log("Link Tool : [ j2c.cc/quack ]");
   console.log(
-    `Ban dang co : [ ${balanceEgg} EGG 🥚 ] [ ${balancePet} PET 🐸 ]`
+    `Ban dang co : [ ${balanceEgg.toFixed(2)} EGG 🥚 ] [ ${balancePet.toFixed(
+      2
+    )} PET 🐸 ]`
   );
   console.log();
   console.log(
@@ -374,12 +373,15 @@ async function hatchEggGoldenDuck(token) {
       .getTimeValues()
       .toString(["days", "hours", "minutes", "seconds"])} ]`
   );
-  console.log(`Tong thu hoach : [ ${eggs} EGG 🥚 ] [ ${pets} PET 🐸 ]`);
+  console.log(
+    `Tong thu hoach : [ ${eggs.toFixed(2)} EGG 🥚 ] [ ${pets.toFixed(
+      2
+    )} PET 🐸 ]`
+  );
   console.log();
 
   if (timeToGoldenDuck <= 0) {
     const getGoldenDuckInfoData = await getGoldenDuckInfo(accessToken, ua);
-    // console.log("getGoldenDuckInfoData", getGoldenDuckInfoData);
 
     if (getGoldenDuckInfoData.error_code !== "") {
       console.log(
@@ -389,26 +391,27 @@ async function hatchEggGoldenDuck(token) {
       console.log(ERROR_MESSAGE);
     } else {
       if (getGoldenDuckInfoData.data.time_to_golden_duck === 0) {
+        clearInterval(myInterval);
+
         console.log("[ GOLDEN DUCK 🐥 ] : ZIT ZANG xuat hien");
         const getGoldenDuckRewardData = await getGoldenDuckReward(
           accessToken,
           ua
         );
-        // console.log("getGoldenDuckRewardData", getGoldenDuckRewardData);
 
         const data = getGoldenDuckRewardData;
 
         if (data.data.type === 0) {
-          msg = "[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau";
+          msg = "Chuc ban may man lan sau";
+          msg = "";
           console.log(msg);
-          addLog(msg, "golden");
+          addLog(`[ GOLDEN DUCK 🐥 ] :  ${msg}`, "golden");
         } else if (data.data.type === 1 || data.data.type === 4) {
-          msg = "[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP";
-          console.log(msg);
+          msg = goldenDuckRewardText(data.data);
+          console.log(` "[ GOLDEN DUCK 🐥 ] : ${msg}`);
           addLog(msg, "golden");
         } else {
           const claimGoldenDuckData = await claimGoldenDuck(accessToken, ua);
-          // console.log("claimGoldenDuckData", claimGoldenDuckData);
 
           goldenDuck++;
 
@@ -421,8 +424,8 @@ async function hatchEggGoldenDuck(token) {
             balanceEgg += Number(data.data.amount);
           }
 
-          msg = `[ GOLDEN DUCK 🐥 ] : ${goldenDuckRewardText(data.data)}`;
-          console.log(msg);
+          msg = goldenDuckRewardText(data.data);
+          console.log(`[ GOLDEN DUCK 🐥 ] : ${msg}`);
           addLog(msg, "golden");
         }
       } else {

@@ -6,13 +6,14 @@ const Timer = require("easytimer.js").Timer;
 const randomUseragent = require("random-useragent");
 const goldenDuckRewardText = require("../modules/goldenDuckRewardText");
 const getBalance = require("../modules/getBalance");
+const randomSleep = require("../modules/randomSleep");
 
 const ua = randomUseragent.getRandom((ua) => {
   return ua.browserName === "Chrome";
 });
 // console.log(ua);
 
-const ERROR_MESSAGE = "Chup man hinh va tao issue Github de tui tim cach fix";
+const ERROR_MESSAGE = "Chup man hinh va tao issue GitHub de tui tim cach fix";
 
 let run = false;
 let timerInstance = new Timer();
@@ -32,10 +33,6 @@ async function collectGoldenDuckInternal(token) {
       accessToken,
       ua
     );
-    // console.log(
-    //   "collectGoldenDuckInternalData",
-    //   collectGoldenDuckInternalData
-    // );
 
     if (collectGoldenDuckInternalData.error_code !== "") {
       console.log(
@@ -52,22 +49,22 @@ async function collectGoldenDuckInternal(token) {
           accessToken,
           ua
         );
-        // console.log("getGoldenDuckRewardData", getGoldenDuckRewardData);
 
         const data = getGoldenDuckRewardData;
         if (data.data.type === 0) {
-          console.log("[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau");
-          addLog("[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau", "golden");
+          msg = "Chuc ban may man lan sau";
+          console.log(`[ GOLDEN DUCK 🐥 ] : ${msg}`);
+          addLog(msg, "golden");
         } else if (data.data.type === 1 || data.data.type === 4) {
-          console.log("[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP");
-          addLog("[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP", "golden");
+          msg = `${goldenDuckRewardText(data.data)} > SKIP`;
+          console.log(`[ GOLDEN DUCK 🐥 ] : ${msg}`);
+          addLog(msg, "golden");
         } else {
           const claimGoldenDuckData = await claimGoldenDuck(
             accessToken,
             ua,
             data.data
           );
-          // console.log("claimGoldenDuckData", claimGoldenDuckData);
 
           goldenDuck++;
 
@@ -80,16 +77,13 @@ async function collectGoldenDuckInternal(token) {
             balanceEgg += Number(data.data.amount);
           }
 
-          console.log(
-            `[ GOLDEN DUCK 🐥 ] : ${goldenDuckRewardText(data.data)}`
-          );
-          addLog(
-            `[ GOLDEN DUCK 🐥 ] : ${goldenDuckRewardText(data.data)}`,
-            "golden"
-          );
-
-          collectGoldenDuck(token);
+          msg = goldenDuckRewardText(data.data);
+          console.log(`[ GOLDEN DUCK 🐥 ] : ${msg}`);
+          addLog(`${goldenDuckRewardText(data.data)}`, "golden");
         }
+
+        await randomSleep();
+        collectGoldenDuck(token);
       } else {
         timeToGoldenDuck =
           collectGoldenDuckInternalData.data.time_to_golden_duck;
@@ -132,7 +126,9 @@ async function collectGoldenDuck(token) {
   console.log();
   console.log("Link Tool : [ j2c.cc/quack ]");
   console.log(
-    `Ban dang co : [ ${balanceEgg} EGG 🥚 ] [ ${balancePet} PET 🐸 ]`
+    `Ban dang co : [ ${balanceEgg.toFixed(2)} EGG 🥚 ] [ ${balancePet.toFixed(
+      2
+    )} PET 🐸 ]`
   );
   console.log();
   console.log(
@@ -140,7 +136,11 @@ async function collectGoldenDuck(token) {
       .getTimeValues()
       .toString(["days", "hours", "minutes", "seconds"])} ]`
   );
-  console.log(`Tong thu hoach : [ ${eggs} EGG 🥚 ] [ ${pets} PET 🐸 ]`);
+  console.log(
+    `Tong thu hoach : [ ${eggs.toFixed(2)} EGG 🥚 ] [ ${pets.toFixed(
+      2
+    )} PET 🐸 ]`
+  );
   console.log();
 
   msg = `[ GOLDEN DUCK 🐥 ] : [ ${goldenDuck} 🐥 ] | ${timeToGoldenDuck}s nua gap`;

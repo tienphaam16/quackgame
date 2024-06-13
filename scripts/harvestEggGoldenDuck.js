@@ -75,12 +75,10 @@ async function collectFromListInternal(token, listNests, listDucks) {
 
       switch (error_code) {
         case "DUPLICATE_REQUEST":
-          console.log("this error was fixed");
           await randomSleep();
           collectFromList(token, listNests, listDucks);
           break;
         case "THIS_NEST_DONT_HAVE_EGG_AVAILABLE":
-          console.log("this error was fixed");
           const layEggData = await layEgg(token, ua, nest.id, duck.id);
 
           listNests = listNests.filter((n) => n.id !== nest.id);
@@ -105,12 +103,10 @@ async function collectFromListInternal(token, listNests, listDucks) {
 
         switch (error_code) {
           case "THIS_DUCK_NOT_ENOUGH_TIME_TO_LAY":
-            console.log("this error was fixed");
             await randomSleep();
             collectFromList(token, listNests, listDucks);
             break;
           case "THIS_NEST_IS_UNAVAILABLE":
-            console.log("this error was fixed");
             await randomSleep();
             harvestEggGoldenDuck(token);
             break;
@@ -163,9 +159,6 @@ async function collectFromList(token, listNests, listDucks) {
   } else {
     if (listNests.length === 0)
       return console.clear(), harvestEggGoldenDuck(token);
-    // if (listNests.length === 0)
-    //   return console.log(), harvestEggGoldenDuck(token);
-    // console.log(listNests.length, listDucks.length);
 
     return collectFromListInternal(token, listNests, listDucks);
   }
@@ -188,7 +181,9 @@ async function harvestEggGoldenDuck(token) {
   console.log();
   console.log("Link Tool : [ j2c.cc/quack ]");
   console.log(
-    `Ban dang co : [ ${balanceEgg} EGG 🥚 ] [ ${balancePet} PET 🐸 ]`
+    `Ban dang co : [ ${balanceEgg.toFixed(2)} EGG 🥚 ] [ ${balancePet.toFixed(
+      2
+    )} PET 🐸 ]`
   );
   console.log();
   console.log(
@@ -196,7 +191,11 @@ async function harvestEggGoldenDuck(token) {
       .getTimeValues()
       .toString(["days", "hours", "minutes", "seconds"])} ]`
   );
-  console.log(`Tong thu hoach : [ ${eggs} EGG 🥚 ] [ ${pets} PET 🐸 ]`);
+  console.log(
+    `Tong thu hoach : [ ${eggs.toFixed(2)} EGG 🥚 ] [ ${pets.toFixed(
+      2
+    )} PET 🐸 ]`
+  );
   console.log();
 
   if (timeToGoldenDuck <= 0) {
@@ -211,25 +210,25 @@ async function harvestEggGoldenDuck(token) {
       console.log(ERROR_MESSAGE);
     } else {
       if (getGoldenDuckInfoData.data.time_to_golden_duck === 0) {
+        clearInterval(myInterval);
+
         console.log("[ GOLDEN DUCK 🐥 ] : ZIT ZANG xuat hien");
         const getGoldenDuckRewardData = await getGoldenDuckReward(
           accessToken,
           ua
         );
-        // console.log("getGoldenDuckRewardData", getGoldenDuckRewardData);
 
         const data = getGoldenDuckRewardData.data;
         if (data.type === 0) {
-          msg = "[ GOLDEN DUCK 🐥 ] : Chuc ban may man lan sau";
-          console.log(msg);
+          msg = "Chuc ban may man lan sau";
+          console.log(`[ GOLDEN DUCK 🐥 ] : ${msg}`);
           addLog(msg, "golden");
         } else if (data.type === 1 || data.type === 4) {
-          msg = "[ GOLDEN DUCK 🐥 ] : TON | TRU > SKIP";
-          console.log(msg);
+          msg = goldenDuckRewardText(data.data);
+          console.log(`[ GOLDEN DUCK 🐥 ] : ${msg}`);
           addLog(msg, "golden");
         } else {
           const claimGoldenDuckData = await claimGoldenDuck(accessToken, ua);
-          // console.log("claimGoldenDuckData", claimGoldenDuckData);
 
           goldenDuck++;
 
@@ -242,8 +241,8 @@ async function harvestEggGoldenDuck(token) {
             balanceEgg += Number(data.amount);
           }
 
-          msg = `[ GOLDEN DUCK 🐥 ] : ${goldenDuckRewardText(data)}`;
-          console.log(msg);
+          msg = goldenDuckRewardText(data.data);
+          console.log(`[ GOLDEN DUCK 🐥 ] : ${msg}`);
           addLog(msg, "golden");
         }
       } else {
@@ -257,14 +256,12 @@ async function harvestEggGoldenDuck(token) {
   }
   msg = `[ GOLDEN DUCK 🐥 ] : [ ${goldenDuck} 🐥 ] | ${timeToGoldenDuck}s nua gap`;
   console.log(msg);
-  // console.log("timeToGoldenDuck", timeToGoldenDuck);
 
   const { listNests, listDucks } = await getListReload(
     accessToken,
     ua,
     run ? false : true
   );
-  // console.log(listNests, listDucks);
 
   const nestIds = listNests.map((i) => i.id);
   console.log(`[ ${listNests.length} NEST 🌕 ] : [ ${nestIds.join(", ")} ]`);
