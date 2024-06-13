@@ -399,15 +399,15 @@ async function hatchEggGoldenDuck(token) {
           ua
         );
 
-        const data = getGoldenDuckRewardData;
+        const { data } = getGoldenDuckRewardData;
 
-        if (data.data.type === 0) {
+        if (data.type === 0) {
           msg = "Chuc ban may man lan sau";
           msg = "";
           console.log(msg);
           addLog(`[ GOLDEN DUCK 🐥 ] :  ${msg}`, "golden");
-        } else if (data.data.type === 1 || data.data.type === 4) {
-          msg = goldenDuckRewardText(data.data);
+        } else if (data.type === 1 || data.type === 4) {
+          msg = goldenDuckRewardText(data);
           console.log(` "[ GOLDEN DUCK 🐥 ] : ${msg}`);
           addLog(msg, "golden");
         } else {
@@ -415,16 +415,16 @@ async function hatchEggGoldenDuck(token) {
 
           goldenDuck++;
 
-          if (data.data.type === 2) {
-            pets += Number(data.data.amount);
-            balancePet += Number(data.data.amount);
+          if (data.type === 2) {
+            pets += Number(data.amount);
+            balancePet += Number(data.amount);
           }
-          if (data.data.type === 3) {
-            eggs += Number(data.data.amount);
-            balanceEgg += Number(data.data.amount);
+          if (data.type === 3) {
+            eggs += Number(data.amount);
+            balanceEgg += Number(data.amount);
           }
 
-          msg = goldenDuckRewardText(data.data);
+          msg = goldenDuckRewardText(data);
           console.log(`[ GOLDEN DUCK 🐥 ] : ${msg}`);
           addLog(msg, "golden");
         }
