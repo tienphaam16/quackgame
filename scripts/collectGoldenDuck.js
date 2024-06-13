@@ -50,36 +50,36 @@ async function collectGoldenDuckInternal(token) {
           ua
         );
 
-        const data = getGoldenDuckRewardData;
-        if (data.data.type === 0) {
+        const { data } = getGoldenDuckRewardData;
+        if (data.type === 0) {
           msg = "Chuc ban may man lan sau";
           console.log(`[ GOLDEN DUCK 🐥 ] : ${msg}`);
           addLog(msg, "golden");
-        } else if (data.data.type === 1 || data.data.type === 4) {
-          msg = `${goldenDuckRewardText(data.data)} > SKIP`;
+        } else if (data.type === 1 || data.type === 4) {
+          msg = `${goldenDuckRewardText(data)} > SKIP`;
           console.log(`[ GOLDEN DUCK 🐥 ] : ${msg}`);
           addLog(msg, "golden");
         } else {
           const claimGoldenDuckData = await claimGoldenDuck(
             accessToken,
             ua,
-            data.data
+            data
           );
 
           goldenDuck++;
 
-          if (data.data.type === 2) {
-            pets += Number(data.data.amount);
-            balancePet += Number(data.data.amount);
+          if (data.type === 2) {
+            pets += Number(data.amount);
+            balancePet += Number(data.amount);
           }
-          if (data.data.type === 3) {
-            eggs += Number(data.data.amount);
-            balanceEgg += Number(data.data.amount);
+          if (data.type === 3) {
+            eggs += Number(data.amount);
+            balanceEgg += Number(data.amount);
           }
 
-          msg = goldenDuckRewardText(data.data);
+          msg = goldenDuckRewardText(data);
           console.log(`[ GOLDEN DUCK 🐥 ] : ${msg}`);
-          addLog(`${goldenDuckRewardText(data.data)}`, "golden");
+          addLog(`${goldenDuckRewardText(data)}`, "golden");
         }
 
         await randomSleep();

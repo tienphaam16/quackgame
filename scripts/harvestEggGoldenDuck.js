@@ -218,13 +218,13 @@ async function harvestEggGoldenDuck(token) {
           ua
         );
 
-        const data = getGoldenDuckRewardData.data;
+        const { data } = getGoldenDuckRewardData;
         if (data.type === 0) {
           msg = "Chuc ban may man lan sau";
           console.log(`[ GOLDEN DUCK 🐥 ] : ${msg}`);
           addLog(msg, "golden");
         } else if (data.type === 1 || data.type === 4) {
-          msg = goldenDuckRewardText(data.data);
+          msg = goldenDuckRewardText(data);
           console.log(`[ GOLDEN DUCK 🐥 ] : ${msg}`);
           addLog(msg, "golden");
         } else {
@@ -241,7 +241,7 @@ async function harvestEggGoldenDuck(token) {
             balanceEgg += Number(data.amount);
           }
 
-          msg = goldenDuckRewardText(data.data);
+          msg = goldenDuckRewardText(data);
           console.log(`[ GOLDEN DUCK 🐥 ] : ${msg}`);
           addLog(msg, "golden");
         }
