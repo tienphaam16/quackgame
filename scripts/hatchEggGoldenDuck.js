@@ -51,6 +51,7 @@ let goldenDuck = 0;
 let timeToGoldenDuck = 0;
 let myInterval = null;
 let maxDuckSlot = null;
+let maxNestSlot = null;
 let maxRareEgg = null;
 let maxRareDuck = null;
 let msg = null;
@@ -448,8 +449,32 @@ async function hatchEggGoldenDuck(token) {
   );
 
   if (!run) {
-    maxRareEgg = listNests.length - 1;
-    // console.log("maxRareEgg", maxRareEgg);
+    maxNestSlot = listNests.length;
+
+    switch (maxNestSlot) {
+      case 3:
+        maxRareEgg = 4;
+        break;
+      case 4:
+        maxRareEgg = 6;
+        break;
+      case 5:
+        maxRareEgg = 8;
+        break;
+      case 6:
+        maxRareEgg = 10;
+        break;
+      case 7:
+        maxRareEgg = 12;
+        break;
+      case 8:
+        maxRareEgg = 13;
+        break;
+      case 9:
+        maxRareEgg = 13;
+        break;
+    }
+    // console.log("maxRareEgg", RARE_EGG[maxRareEgg]);
 
     const duck = listDucks.reduce((prev, curr) =>
       prev.total_rare > curr.total_rare ? prev : curr
