@@ -112,6 +112,10 @@ node quack 2
 
 <img src="./images/7.png" />
 
+## Video hướng dẫn
+
+> [Windows](https://vt.tiktok.com/ZSYAonHXF/)
+
 ## Phần phụ
 
 > Xem lại lịch sử trong thư mục ```logs```
