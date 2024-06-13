@@ -140,7 +140,13 @@ node quack 2
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
-2. Không hiển thị icon / emoji
+2. ObjectNotFound / CommandNotFoundException
+
+<img src="./images/15.jpg" />
+
+> Gặp lỗi này thì dùm ơn, kéo lên trên đọc kỹ lại từ đầu 🤦‍♂️ đã cài NodeJS đâu mà chẳng gặp lỗi này
+
+3. Không hiển thị icon / emoji
 
 <img src="./images/12.jpg" />
 
