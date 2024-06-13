@@ -6,9 +6,9 @@ function getRndInteger(min, max) {
 
 function randomSleep() {
   let max = config.maxSleepTime;
-  if (max < 3) max = 3;
+  if (max < 1) max = 1;
   const sec = getRndInteger(1, max);
-  console.log(`sleep ${sec}s`);
+  // console.log(`sleep ${sec}s`);
   return new Promise((resolve) => setTimeout(resolve, sec * 1e3));
 }
 
