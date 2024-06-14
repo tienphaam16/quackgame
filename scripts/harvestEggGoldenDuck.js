@@ -64,8 +64,9 @@ async function collectFromListInternal(token, listNests, listDucks) {
   // console.log(randomIndex);
   const nest = listNests[randomIndex];
   // console.log(nest);
-  const nestStatus = nest.status;
   const duck = getDuckToLay(listDucks);
+
+  const nestStatus = nest.status;
 
   if (nestStatus === 2) {
     const collectEggData = await collectEgg(token, ua, nest.id);
@@ -82,7 +83,6 @@ async function collectFromListInternal(token, listNests, listDucks) {
           break;
         case "THIS_NEST_DONT_HAVE_EGG_AVAILABLE":
           const layEggData = await layEgg(token, ua, nest.id, duck.id);
-
           listNests = listNests.filter((n) => n.id !== nest.id);
           listDucks = listDucks.filter((d) => d.id !== duck.id);
 
@@ -119,12 +119,12 @@ async function collectFromListInternal(token, listNests, listDucks) {
         }
       } else {
         const rareEgg = RARE_EGG[nest.type_egg];
-        msg = `Da thu hoach [ NEST 🌕 ${nest.id} ] : [ EGG 🥚 ${rareEgg} ]`;
+        const amount = `+${AMOUNT_COLLECT[nest.type_egg]}`;
+        msg = `[ NEST 🌕 ${nest.id} ] : [ EGG 🥚 ${rareEgg} ] -> thu hoach (${amount})`;
         console.log(msg);
 
-        console.log(`+${AMOUNT_COLLECT[nest.type_egg]}`);
-        balanceEgg += AMOUNT_COLLECT[nest.type_egg];
-        eggs += AMOUNT_COLLECT[nest.type_egg];
+        balanceEgg += Number(AMOUNT_COLLECT[nest.type_egg]);
+        eggs += Number(AMOUNT_COLLECT[nest.type_egg]);
 
         listNests = listNests.filter((n) => n.id !== nest.id);
         listDucks = listDucks.filter((d) => d.id !== duck.id);
@@ -134,23 +134,36 @@ async function collectFromListInternal(token, listNests, listDucks) {
       }
     }
   } else if (nestStatus === 3) {
-    console.log(
-      `[ NEST 🌕 ${nest.id} ] dang ap trung > tu dong thu hoach vit de tiep tuc`
-    );
-    const collectDuckData = await collectDuck(token, ua, nest.id);
+    console.log(`[ NEST 🌕 ${nest.id} ] -> thu hoach vit`);
 
-    const duck = getDuckToLay(listDucks);
+    const collectDuckData = await collectDuck(token, ua, nest.id);
     const layEggData = await layEgg(token, ua, nest.id, duck.id);
 
-    listNests = listNests.filter((n) => n.id !== nest.id);
-    listDucks = listDucks.filter((d) => d.id !== duck.id);
+    if (layEggData.error_code !== "") {
+      const error_code = layEggData.error_code;
+      console.log("layEggData error", error_code);
 
-    await randomSleep();
-    harvestEggGoldenDuck(token);
-  } else {
-    console.log(nest);
-    console.log("Loi nay tui chua nghi den");
-    console.log(ERROR_MESSAGE);
+      switch (error_code) {
+        case "THIS_DUCK_NOT_ENOUGH_TIME_TO_LAY":
+          await randomSleep();
+          collectFromList(token, listNests, listDucks);
+          break;
+        case "THIS_NEST_IS_UNAVAILABLE":
+          await randomSleep();
+          harvestEggGoldenDuck(token);
+          break;
+        default:
+          await randomSleep();
+          harvestEggGoldenDuck(token);
+          break;
+      }
+    } else {
+      listNests = listNests.filter((n) => n.id !== nest.id);
+      listDucks = listDucks.filter((d) => d.id !== duck.id);
+
+      await randomSleep();
+      harvestEggGoldenDuck(token);
+    }
   }
 }
 
@@ -233,20 +246,28 @@ async function harvestEggGoldenDuck(token) {
         } else {
           const claimGoldenDuckData = await claimGoldenDuck(accessToken, ua);
 
-          goldenDuck++;
+          if (claimGoldenDuckData.error_code !== "") {
+            console.log(
+              "claimGoldenDuckData error",
+              claimGoldenDuckData.error_code
+            );
+            console.log(ERROR_MESSAGE);
+          } else {
+            goldenDuck++;
 
-          if (data.type === 2) {
-            pets += Number();
-            balancePet += Number(data.amount);
-          }
-          if (data.type === 3) {
-            eggs += Number(data.amount);
-            balanceEgg += Number(data.amount);
-          }
+            if (data.type === 2) {
+              pets += Number();
+              balancePet += Number(data.amount);
+            }
+            if (data.type === 3) {
+              eggs += Number(data.amount);
+              balanceEgg += Number(data.amount);
+            }
 
-          msg = goldenDuckRewardText(data);
-          console.log(`[ GOLDEN DUCK 🐥 ] : ${msg}`);
-          addLog(msg, "golden");
+            msg = goldenDuckRewardText(data);
+            console.log(`[ GOLDEN DUCK 🐥 ] : ${msg}`);
+            addLog(msg, "golden");
+          }
         }
       } else {
         timeToGoldenDuck = getGoldenDuckInfoData.data.time_to_golden_duck;
@@ -269,6 +290,7 @@ async function harvestEggGoldenDuck(token) {
   const nestIds = listNests.map((i) => i.id);
   console.log(`[ ${listNests.length} NEST 🌕 ] : [ ${nestIds.join(", ")} ]`);
   console.log();
+
   collectFromList(accessToken, listNests, listDucks);
 }
 

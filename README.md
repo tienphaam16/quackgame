@@ -36,11 +36,11 @@
 
 ## Tiêu chí ấp trứng
 
-> Khi chạy chức năng ấp trứng thì Tool sẽ tự chọn trứng hiếm để ấp (2 loại trứng có rate thấp nhất) theo bảng độ hiếm này
+> Khi chạy chức năng ấp trứng thì Tool sẽ tự chọn trứng hiếm để ấp, là loại trứng có rate thấp nhất theo bảng độ hiếm này
 
 <img src="./images/10.jpg" />
 
-> Khi ấp ra vịt thì dựa vào các thành phần vịt để tính điểm
+> Khi ấp ra vịt thì dựa vào các thành phần của vịt để tính điểm
 
 <img src="./images/11.jpg" />
 
@@ -50,11 +50,13 @@
 
 > Vịt có tổng điểm cao hơn thì xịn hơn
 
-> Ấp ra vịt lỏ tự động xóa luôn
+> Để có vịt nhiều điểm thì bạn cần có nhiều tổ rơm, này do game quy định, xem lại bảng độ hiếm
 
-> Khi chạy chức năng ấp trứng thì Tool sẽ tự động xóa đi 1 con vịt lỏ nhất để nhường chổ ấp trứng khi FARM đầy
+> Khi ấp ra vịt lỏ thì Tool sẽ tự động xóa luôn
 
-> Nói chung cái tính năng ấp trứng này là hoàn toàn tự động, tiêu chí là tạo FARM toàn vịt xịn theo số tổ rơm mà bạn có
+> Khi chạy chức năng ấp trứng thì Tool sẽ tự động xóa đi 1 con vịt lỏ nhất để nhường chổ khi FARM đầy, và sẽ tự động tắt tính năng ấp trứng khi FARM vịt đủ tiêu chuẩn xịn
+
+> Nói chung cái tính năng ấp trứng này là hoàn toàn tự động, tiêu chí là tạo FARM toàn vịt xịn
 
 ## Cách dùng
 

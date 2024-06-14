@@ -21,7 +21,7 @@ const ua = randomUseragent.getRandom((ua) => {
 });
 // console.log(ua);
 
-const ERROR_MESSAGE = "Chup man hinh va tao issue Github de tui tim cach fix";
+const ERROR_MESSAGE = "Chup man hinh va tao issue GitHub de tui tim cach fix";
 
 const RARE_EGG = [
   undefined,
@@ -62,6 +62,7 @@ let balancePet = 0;
 let balanceEgg = 0;
 let isStopHatchMode = false;
 let hideStopHatchLog = false;
+let rareToHatch = null;
 
 function showRareDuck(metadata) {
   return [
@@ -141,6 +142,7 @@ async function onlyCollectEgg(token, listNests, listDucks) {
     if (layEggData.error_code !== "") {
       const error_code = layEggData.error_code;
       console.log("layEggData 2 error", error_code);
+
       switch (error_code) {
         case "THIS_DUCK_NOT_ENOUGH_TIME_TO_LAY":
           await randomSleep();
@@ -159,10 +161,10 @@ async function onlyCollectEgg(token, listNests, listDucks) {
       }
     } else {
       const rareEgg = RARE_EGG[nest.type_egg];
-      msg = `[ NEST 🌕 ${nest.id} ] : [ EGG 🥚 ${rareEgg} ] -> thu hoach`;
+      const amount = `+${AMOUNT_COLLECT[nest.type_egg]}`;
+      msg = `[ NEST 🌕 ${nest.id} ] : [ EGG 🥚 ${rareEgg} ] -> thu hoach (${amount})`;
       console.log(msg);
 
-      console.log(`+${AMOUNT_COLLECT[nest.type_egg]}`);
       balanceEgg += AMOUNT_COLLECT[nest.type_egg];
       eggs += AMOUNT_COLLECT[nest.type_egg];
 
@@ -325,9 +327,7 @@ async function collectFromListInternal(token, listNests, listDucks) {
       }
     }
   } else if (nestStatus === 3) {
-    console.log(
-      `[ NEST 🌕 ${nest.id} ] dang ap > tu dong thu hoach vit de tiep tuc`
-    );
+    console.log(`[ NEST 🌕 ${nest.id} ] -> thu hoach`);
     const collectDuckData = await collectDuck(token, ua, nest.id);
 
     if (collectDuckData.error_code !== "") {
@@ -456,7 +456,7 @@ async function hatchEggGoldenDuck(token) {
     }
   }
 
-  msg = `[ GOLDEN DUCK 🐥 ] : [ ${goldenDuck} lan | ${timeToGoldenDuck}s nua gap ]`;
+  msg = `[ GOLDEN DUCK 🐥 ] : [ ${goldenDuck} | ${timeToGoldenDuck}s nua gap ]`;
   console.log(msg);
 
   const { listNests, listDucks } = await getListReload(
@@ -506,9 +506,11 @@ async function hatchEggGoldenDuck(token) {
 
   const lowerDuck = listDucks.filter((item) => item.total_rare < maxRareDuck);
   // console.log(lowerDuck);
+
   if (lowerDuck.length === 0 && listDucks.length === maxDuckSlot) {
     isStopHatchMode = true;
   }
+
   if (!hideStopHatchLog) {
     if (!isStopHatchMode) {
       console.log(`[ Tu dong ap EGG 🥚 ${RARE_EGG[maxRareEgg]} ]`);
