@@ -36,6 +36,8 @@ const RARE_EGG = [
   "Eternal",
 ];
 
+const AMOUNT_COLLECT = [undefined, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4];
+
 let accessToken = null;
 let run = false;
 let timerInstance = new Timer();
@@ -120,8 +122,9 @@ async function collectFromListInternal(token, listNests, listDucks) {
         msg = `Da thu hoach [ NEST 🌕 ${nest.id} ] : [ EGG 🥚 ${rareEgg} ]`;
         console.log(msg);
 
-        balanceEgg++;
-        eggs++;
+        console.log(`+${AMOUNT_COLLECT[nest.type_egg]}`);
+        balanceEgg += AMOUNT_COLLECT[nest.type_egg];
+        eggs += AMOUNT_COLLECT[nest.type_egg];
 
         listNests = listNests.filter((n) => n.id !== nest.id);
         listDucks = listDucks.filter((d) => d.id !== duck.id);

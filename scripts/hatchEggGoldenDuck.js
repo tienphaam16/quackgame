@@ -40,6 +40,8 @@ const RARE_EGG = [
   "Eternal",
 ];
 
+const AMOUNT_COLLECT = [undefined, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4];
+
 const RARE_DUCK = [undefined, "COMMON", "RARE", "LEGENDARY"];
 
 let accessToken = null;
@@ -59,6 +61,7 @@ let wallets = null;
 let balancePet = 0;
 let balanceEgg = 0;
 let isStopHatchMode = false;
+let hideStopHatchLog = false;
 
 function showRareDuck(metadata) {
   return [
@@ -159,8 +162,9 @@ async function onlyCollectEgg(token, listNests, listDucks) {
       msg = `[ NEST 🌕 ${nest.id} ] : [ EGG 🥚 ${rareEgg} ] -> thu hoach`;
       console.log(msg);
 
-      balanceEgg++;
-      eggs++;
+      console.log(`+${AMOUNT_COLLECT[nest.type_egg]}`);
+      balanceEgg += AMOUNT_COLLECT[nest.type_egg];
+      eggs += AMOUNT_COLLECT[nest.type_egg];
 
       listNests = listNests.filter((n) => n.id !== nest.id);
       listDucks = listDucks.filter((d) => d.id !== duck.id);
@@ -505,10 +509,14 @@ async function hatchEggGoldenDuck(token) {
   if (lowerDuck.length === 0 && listDucks.length === maxDuckSlot) {
     isStopHatchMode = true;
   }
-
-  !isStopHatchMode
-    ? console.log(`[ Tu dong ap EGG 🥚 ${RARE_EGG[maxRareEgg]} ]`)
-    : console.log(`[ FARM du tieu chuan, khong ap trung nua ]`);
+  if (!hideStopHatchLog) {
+    if (!isStopHatchMode) {
+      console.log(`[ Tu dong ap EGG 🥚 ${RARE_EGG[maxRareEgg]} ]`);
+    } else {
+      console.log(`[ FARM du tieu chuan, khong can ap trung ]`);
+      hideStopHatchLog = true;
+    }
+  }
 
   console.log();
   collectFromList(accessToken, listNests, listDucks);
