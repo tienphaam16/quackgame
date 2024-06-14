@@ -58,6 +58,7 @@ let msg = null;
 let wallets = null;
 let balancePet = 0;
 let balanceEgg = 0;
+let isStopHatchMode = false;
 
 function showRareDuck(metadata) {
   return [
@@ -75,72 +76,32 @@ function getDuckToLay(ducks) {
   return duck;
 }
 
-async function collectFromListInternal(token, listNests, listDucks) {
+async function onlyCollectEgg(token, listNests, listDucks) {
   const randomIndex = Math.floor(Math.random() * listNests.length);
   // console.log(randomIndex);
   const nest = listNests[randomIndex];
   // console.log(nest);
-  const nestStatus = nest.status;
   const duck = getDuckToLay(listDucks);
-  // console.log(duck);
 
-  if (nestStatus === 2) {
-    if (nest.type_egg < maxRareEgg) {
-      const collectEggData = await collectEgg(token, ua, nest.id);
-      // console.log("collectEggData", collectEggData);
+  const collectEggData = await collectEgg(token, ua, nest.id);
+  // console.log("collectEggData", collectEggData);
 
-      if (collectEggData.error_code !== "") {
-        const error_code = collectEggData.error_code;
-        console.log("collectEggData error", error_code);
+  if (collectEggData.error_code !== "") {
+    const error_code = collectEggData.error_code;
+    console.log("collectEggData error", error_code);
 
-        switch (error_code) {
-          case "DUPLICATE_REQUEST":
-            await randomSleep();
-            collectFromList(token, listNests, listDucks);
-            break;
+    switch (error_code) {
+      case "DUPLICATE_REQUEST":
+        await randomSleep();
+        collectFromList(token, listNests, listDucks);
+        break;
 
-          case "THIS_NEST_DONT_HAVE_EGG_AVAILABLE":
-            const layEggData = await layEgg(token, ua, nest.id, duck.id);
-
-            if (layEggData.error_code !== "") {
-              const error_code = layEggData.error_code;
-              console.log("layEggData 1 error", error_code);
-              switch (error_code) {
-                case "THIS_DUCK_NOT_ENOUGH_TIME_TO_LAY":
-                  await randomSleep();
-                  collectFromList(token, listNests, listDucks);
-                  break;
-
-                case "THIS_NEST_IS_UNAVAILABLE":
-                  await randomSleep();
-                  hatchEggGoldenDuck(token);
-                  break;
-
-                default:
-                  await randomSleep();
-                  hatchEggGoldenDuck(token);
-                  break;
-              }
-            } else {
-              listNests = listNests.filter((n) => n.id !== nest.id);
-              listDucks = listDucks.filter((d) => d.id !== duck.id);
-
-              await randomSleep();
-              collectFromList(token, listNests, listDucks);
-            }
-            break;
-          default:
-            await randomSleep();
-            hatchEggGoldenDuck(token);
-            break;
-        }
-      } else {
+      case "THIS_NEST_DONT_HAVE_EGG_AVAILABLE":
         const layEggData = await layEgg(token, ua, nest.id, duck.id);
-        // console.log("layEggData", layEggData);
 
         if (layEggData.error_code !== "") {
           const error_code = layEggData.error_code;
-          console.log("layEggData 2 error", error_code);
+          console.log("layEggData 1 error", error_code);
           switch (error_code) {
             case "THIS_DUCK_NOT_ENOUGH_TIME_TO_LAY":
               await randomSleep();
@@ -158,129 +119,111 @@ async function collectFromListInternal(token, listNests, listDucks) {
               break;
           }
         } else {
-          const rareEgg = RARE_EGG[nest.type_egg];
-          msg = `Da thu hoach [ NEST 🌕 ${nest.id} ] : [ EGG 🥚 ${rareEgg} ]`;
-          console.log(msg);
-
-          balanceEgg++;
-          eggs++;
-
           listNests = listNests.filter((n) => n.id !== nest.id);
           listDucks = listDucks.filter((d) => d.id !== duck.id);
 
           await randomSleep();
           collectFromList(token, listNests, listDucks);
         }
+        break;
+      default:
+        await randomSleep();
+        hatchEggGoldenDuck(token);
+        break;
+    }
+  } else {
+    const layEggData = await layEgg(token, ua, nest.id, duck.id);
+    // console.log("layEggData", layEggData);
+
+    if (layEggData.error_code !== "") {
+      const error_code = layEggData.error_code;
+      console.log("layEggData 2 error", error_code);
+      switch (error_code) {
+        case "THIS_DUCK_NOT_ENOUGH_TIME_TO_LAY":
+          await randomSleep();
+          collectFromList(token, listNests, listDucks);
+          break;
+
+        case "THIS_NEST_IS_UNAVAILABLE":
+          await randomSleep();
+          hatchEggGoldenDuck(token);
+          break;
+
+        default:
+          await randomSleep();
+          hatchEggGoldenDuck(token);
+          break;
       }
     } else {
-      msg = `Dang ap trung [ NEST 🌕 ${nest.id} ] : [ EGG 🥚 ${
-        RARE_EGG[nest.type_egg]
-      } ]`;
+      const rareEgg = RARE_EGG[nest.type_egg];
+      msg = `[ NEST 🌕 ${nest.id} ] : [ EGG 🥚 ${rareEgg} ] -> thu hoach`;
       console.log(msg);
 
-      const hatchEggData = await hatchEgg(token, ua, nest.id);
-      // console.log("hatchEggData", hatchEggData);
+      balanceEgg++;
+      eggs++;
 
-      if (hatchEggData.error_code !== "") {
-        const error_code = hatchEggData.error_code;
+      listNests = listNests.filter((n) => n.id !== nest.id);
+      listDucks = listDucks.filter((d) => d.id !== duck.id);
 
-        switch (error_code) {
-          case "REACH_MAX_NUMBER_OF_DUCK":
-            const rmDuck = listDucks.reduce((prev, curr) =>
-              prev.total_rare < curr.total_rare ? prev : curr
-            );
-            // console.log(duck);
+      await randomSleep();
+      collectFromList(token, listNests, listDucks);
+    }
+  }
+}
 
-            const removeDuckData = await removeDuck(token, ua, rmDuck.id);
-            // console.log("removeDuckData", removeDuckData);
+async function collectFromListInternal(token, listNests, listDucks) {
+  if (isStopHatchMode) return onlyCollectEgg(token, listNests, listDucks);
 
-            msg = `FARM [ DUCK 🦆 ${rmDuck.id} : ${showRareDuck(
-              rmDuck.metadata
-            )} ] > DELETE`;
-            console.log(msg);
-            addLog(msg, "farm");
+  const randomIndex = Math.floor(Math.random() * listNests.length);
+  // console.log(randomIndex);
+  const nest = listNests[randomIndex];
+  // console.log(nest);
+  const duck = getDuckToLay(listDucks);
+  // console.log(duck);
 
-            listDucks = listDucks.filter((d) => d.id !== rmDuck.id);
-            collectFromList(token, listNests, listDucks);
-            break;
+  const nestStatus = nest.status;
 
-          case "THIS_NEST_DONT_HAVE_EGG_AVAILABLE":
-            const layEggData = await layEgg(token, ua, nest.id, duck.id);
+  if (nestStatus === 2) {
+    if (nest.type_egg < maxRareEgg)
+      return onlyCollectEgg(token, listNests, listDucks);
 
-            if (layEggData.error_code !== "") {
-              const error_code = layEggData.error_code;
-              console.log("layEggData 3 error", error_code);
-              switch (error_code) {
-                case "THIS_DUCK_NOT_ENOUGH_TIME_TO_LAY":
-                  await randomSleep();
-                  collectFromList(token, listNests, listDucks);
-                  break;
+    msg = `[ NEST 🌕 ${nest.id} ] : [ EGG 🥚 ${
+      RARE_EGG[nest.type_egg]
+    } ] -> dang ap`;
+    console.log(msg);
 
-                case "THIS_NEST_IS_UNAVAILABLE":
-                  await randomSleep();
-                  hatchEggGoldenDuck(token);
-                  break;
+    const hatchEggData = await hatchEgg(token, ua, nest.id);
+    // console.log("hatchEggData", hatchEggData);
 
-                default:
-                  await randomSleep();
-                  hatchEggGoldenDuck(token);
-                  break;
-              }
-            } else {
-              listNests = listNests.filter((n) => n.id !== nest.id);
-              listDucks = listDucks.filter((d) => d.id !== duck.id);
+    if (hatchEggData.error_code !== "") {
+      const error_code = hatchEggData.error_code;
 
-              await randomSleep();
-              collectFromList(token, listNests, listDucks);
-            }
-            break;
+      switch (error_code) {
+        case "REACH_MAX_NUMBER_OF_DUCK":
+          const rmDuck = listDucks.reduce((prev, curr) =>
+            prev.total_rare < curr.total_rare ? prev : curr
+          );
+          // console.log(duck);
 
-          default:
-            console.log("hatchEggData error", error_code);
-            console.log(ERROR_MESSAGE);
-            break;
-        }
-      } else {
-        await sleep(hatchEggData.data.time_remain);
-        const collectDuckData = await collectDuck(token, ua, nest.id);
-        // console.log("collectDuckData", collectDuckData);
+          const removeDuckData = await removeDuck(token, ua, rmDuck.id);
+          // console.log("removeDuckData", removeDuckData);
 
-        if (collectDuckData.error_code !== "") {
-          console.log("collectDuckData 1 error", collectDuckData.error_code);
-          console.log(ERROR_MESSAGE);
-        } else {
-          let isDeleted = false;
-
-          if (collectDuckData.data.total_rare < maxRareDuck) {
-            const removeDuckData = await removeDuck(
-              token,
-              ua,
-              collectDuckData.data.duck_id
-            );
-            // console.log("removeDuckData", removeDuckData);
-
-            if (removeDuckData.error_code !== "") {
-              console.log("removeDuckData", removeDuckData.error_code);
-              console.log(ERROR_MESSAGE);
-            }
-
-            isDeleted = true;
-          } else isDeleted = false;
-
-          msg = `[ NEST 🌕 ${nest.id} ] : [ EGG 🥚 ${
-            RARE_EGG[nest.type_egg]
-          } ] : [ DUCK 🦆 ${collectDuckData.data.duck_id} : ${showRareDuck(
-            collectDuckData.data.metadata
-          )} ]${isDeleted ? " > DELETE" : ""}`;
+          msg = `FARM [ DUCK 🦆 ${rmDuck.id} : ${showRareDuck(
+            rmDuck.metadata
+          )} ] > DELETE`;
           console.log(msg);
-          if (!isDeleted) addLog(msg, "farm");
+          addLog(msg, "farm");
 
+          listDucks = listDucks.filter((d) => d.id !== rmDuck.id);
+          collectFromList(token, listNests, listDucks);
+          break;
+
+        case "THIS_NEST_DONT_HAVE_EGG_AVAILABLE":
           const layEggData = await layEgg(token, ua, nest.id, duck.id);
-          // console.log("layEggData", layEggData);
 
           if (layEggData.error_code !== "") {
             const error_code = layEggData.error_code;
-            console.log("layEggData 4 error", error_code);
+            console.log("layEggData 3 error", error_code);
             switch (error_code) {
               case "THIS_DUCK_NOT_ENOUGH_TIME_TO_LAY":
                 await randomSleep();
@@ -304,12 +247,82 @@ async function collectFromListInternal(token, listNests, listDucks) {
             await randomSleep();
             collectFromList(token, listNests, listDucks);
           }
+          break;
+
+        default:
+          console.log("hatchEggData error", error_code);
+          console.log(ERROR_MESSAGE);
+          break;
+      }
+    } else {
+      await sleep(hatchEggData.data.time_remain);
+      const collectDuckData = await collectDuck(token, ua, nest.id);
+      // console.log("collectDuckData", collectDuckData);
+
+      if (collectDuckData.error_code !== "") {
+        console.log("collectDuckData 1 error", collectDuckData.error_code);
+        console.log(ERROR_MESSAGE);
+      } else {
+        let isDeleted = false;
+
+        if (collectDuckData.data.total_rare < maxRareDuck) {
+          const removeDuckData = await removeDuck(
+            token,
+            ua,
+            collectDuckData.data.duck_id
+          );
+          // console.log("removeDuckData", removeDuckData);
+
+          if (removeDuckData.error_code !== "") {
+            console.log("removeDuckData", removeDuckData.error_code);
+            console.log(ERROR_MESSAGE);
+          }
+
+          isDeleted = true;
+        } else isDeleted = false;
+
+        msg = `[ EGG 🥚 ${RARE_EGG[nest.type_egg]} ] : [ DUCK 🦆 ${
+          collectDuckData.data.duck_id
+        } : ${showRareDuck(collectDuckData.data.metadata)} ]${
+          isDeleted ? " > da xoa" : ""
+        }`;
+        console.log(msg);
+        if (!isDeleted) addLog(msg, "farm");
+
+        const layEggData = await layEgg(token, ua, nest.id, duck.id);
+        // console.log("layEggData", layEggData);
+
+        if (layEggData.error_code !== "") {
+          const error_code = layEggData.error_code;
+          console.log("layEggData 4 error", error_code);
+          switch (error_code) {
+            case "THIS_DUCK_NOT_ENOUGH_TIME_TO_LAY":
+              await randomSleep();
+              collectFromList(token, listNests, listDucks);
+              break;
+
+            case "THIS_NEST_IS_UNAVAILABLE":
+              await randomSleep();
+              hatchEggGoldenDuck(token);
+              break;
+
+            default:
+              await randomSleep();
+              hatchEggGoldenDuck(token);
+              break;
+          }
+        } else {
+          listNests = listNests.filter((n) => n.id !== nest.id);
+          listDucks = listDucks.filter((d) => d.id !== duck.id);
+
+          await randomSleep();
+          collectFromList(token, listNests, listDucks);
         }
       }
     }
   } else if (nestStatus === 3) {
     console.log(
-      `[ NEST 🌕 ${nest.id} ] dang ap trung > tu dong thu hoach vit de tiep tuc`
+      `[ NEST 🌕 ${nest.id} ] dang ap > tu dong thu hoach vit de tiep tuc`
     );
     const collectDuckData = await collectDuck(token, ua, nest.id);
 
@@ -439,7 +452,7 @@ async function hatchEggGoldenDuck(token) {
     }
   }
 
-  msg = `[ GOLDEN DUCK 🐥 ] : [ ${goldenDuck} 🐥 ] | ${timeToGoldenDuck}s nua gap`;
+  msg = `[ GOLDEN DUCK 🐥 ] : [ ${goldenDuck} lan | ${timeToGoldenDuck}s nua gap ]`;
   console.log(msg);
 
   const { listNests, listDucks } = await getListReload(
@@ -454,38 +467,49 @@ async function hatchEggGoldenDuck(token) {
     switch (maxNestSlot) {
       case 3:
         maxRareEgg = 4;
+        maxRareDuck = 4;
         break;
       case 4:
         maxRareEgg = 6;
+        maxRareDuck = 5;
         break;
       case 5:
         maxRareEgg = 8;
+        maxRareDuck = 6;
         break;
       case 6:
         maxRareEgg = 10;
+        maxRareDuck = 7;
         break;
       case 7:
         maxRareEgg = 12;
+        maxRareDuck = 8;
         break;
       case 8:
         maxRareEgg = 13;
+        maxRareDuck = 9;
         break;
       case 9:
         maxRareEgg = 13;
+        maxRareDuck = 9;
         break;
     }
-    // console.log("maxRareEgg", RARE_EGG[maxRareEgg]);
-
-    const duck = listDucks.reduce((prev, curr) =>
-      prev.total_rare > curr.total_rare ? prev : curr
-    );
-    maxRareDuck = duck.total_rare;
-    // console.log("maxRareDuck", maxRareDuck);
   }
 
   run = true;
   const nestIds = listNests.map((i) => i.id);
-  console.log(`[ ${listNests.length} NEST 🌕 ] : [ ${nestIds.join(", ")} ]`);
+  console.log(`[ ${listNests.length} NEST 🌕 ] :`, nestIds);
+
+  const lowerDuck = listDucks.filter((item) => item.total_rare < maxRareDuck);
+  // console.log(lowerDuck);
+  if (lowerDuck.length === 0 && listDucks.length === maxDuckSlot) {
+    isStopHatchMode = true;
+  }
+
+  !isStopHatchMode
+    ? console.log(`[ Tu dong ap EGG 🥚 ${RARE_EGG[maxRareEgg]} ]`)
+    : console.log(`[ FARM du tieu chuan, khong ap trung nua ]`);
+
   console.log();
   collectFromList(accessToken, listNests, listDucks);
 }
