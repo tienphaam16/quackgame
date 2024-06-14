@@ -278,7 +278,7 @@ async function harvestEggGoldenDuck(token) {
       }
     }
   }
-  msg = `[ GOLDEN DUCK 🐥 ] : [ ${goldenDuck} 🐥 ] | ${timeToGoldenDuck}s nua gap`;
+  msg = `[ GOLDEN DUCK 🐥 ] : [ ${goldenDuck} | ${timeToGoldenDuck}s nua gap ]`;
   console.log(msg);
 
   const { listNests, listDucks } = await getListReload(
