@@ -2,7 +2,9 @@
 
 <img src="./images/13.jpg" />
 
-> Đây công cụ tui làm ra chỉ để thử sức code nên nó rất đơn giản vì công việc của tui là sửa laptop chứ không phải làm về code mấy má ưi 😍
+> Đây là công cụ tui làm ra chỉ để thử sức cũng như học hỏi thêm về code nên nó rất đơn giản và đôi khi có nhiều lỗi 😁
+
+> Vì công việc của tui là sửa laptop chứ không phải làm về code mấy má ưi 😍
 
 > Windows / Mac / Linux đều dùng được miễn có cài khứa này 👉 [NodeJS](https://nodejs.org/en/download/prebuilt-installer)
 
@@ -90,27 +92,15 @@
 
 > Mở Terminal / PowerShell / Cmd trong thư mục Tool (trên Windows thì đè Shift + chuột phải > Open PowerShell window here)
 
-> Gõ vào lệnh ```npm install``` để cài đặt các thư viện cần thiết
+> Nhập vào Terminal dòng code ```npm install``` để cài đặt các thư viện cần thiết
 
-## Tùy chọn tính năng chạy Tool
+> Sau đó nhập vào dòng code với chức năng bạn muốn
 
-- Gõ vào Terminal / PowerShell / Cmd lệnh
-```bash
-node quack
-```
-> để chạy chức năng Lụm tất cả trứng & lụm ZỊT ZÀNG
-
-- Hoặc gõ vào lệnh
-```bash
-node quack 1
-```
-> để chạy chức năng Không lụm trứng mà chỉ lụm ZỊT ZÀNG
-
-- Hoặc gõ vào lệnh
-```bash
-node quack 2
-```
-> để chạy chức năng Lụm trứng lỏ, ấp trứng xịn & lụm ZỊT ZÀNG
+| Code | Chức năng |
+|---|---|
+| ```node quack``` | lụm tất cả trứng & ZỊT ZÀNG |
+| ```node quack 1``` | chỉ lụm ZỊT ZÀNG |
+| ```node quack 2``` | lụm trứng lỏ & ấp trứng hiếm & lụm ZỊT ZÀNG |
 
 <img src="./images/7.png" />
 
