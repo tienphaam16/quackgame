@@ -143,7 +143,7 @@ async function collectGoldenDuck(token) {
   );
   console.log();
 
-  msg = `[ GOLDEN DUCK 🐥 ] : [ ${goldenDuck} 🐥 ] | ${timeToGoldenDuck}s nua gap`;
+  msg = `[ GOLDEN DUCK 🐥 ] : [ ${goldenDuck} | ${timeToGoldenDuck}s nua gap ]`;
   console.log(msg);
 
   collectGoldenDuckInternal(token);
