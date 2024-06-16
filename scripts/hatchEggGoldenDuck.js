@@ -21,7 +21,8 @@ const ua = randomUseragent.getRandom((ua) => {
 });
 // console.log(ua);
 
-const ERROR_MESSAGE = "Chup man hinh va tao issue GitHub de tui tim cach fix";
+const ERROR_MESSAGE =
+  "Take a screenshot and create a GitHub issue so I can find a fix";
 
 const RARE_EGG = [
   undefined,
@@ -162,7 +163,7 @@ async function onlyCollectEgg(token, listNests, listDucks) {
     } else {
       const rareEgg = RARE_EGG[nest.type_egg];
       const amount = `+${AMOUNT_COLLECT[nest.type_egg]}`;
-      msg = `[ NEST 🌕 ${nest.id} ] : [ EGG 🥚 ${rareEgg} ] -> thu hoach (${amount})`;
+      msg = `[ NEST 🌕 ${nest.id} ] : [ EGG 🥚 ${rareEgg} ] -> collected (${amount})`;
       console.log(msg);
 
       balanceEgg += AMOUNT_COLLECT[nest.type_egg];
@@ -195,7 +196,7 @@ async function collectFromListInternal(token, listNests, listDucks) {
 
     msg = `[ NEST 🌕 ${nest.id} ] : [ EGG 🥚 ${
       RARE_EGG[nest.type_egg]
-    } ] -> dang ap`;
+    } ] -> hatching`;
     console.log(msg);
 
     const hatchEggData = await hatchEgg(token, ua, nest.id);
@@ -216,7 +217,7 @@ async function collectFromListInternal(token, listNests, listDucks) {
 
           msg = `FARM [ DUCK 🦆 ${rmDuck.id} : ${showRareDuck(
             rmDuck.metadata
-          )} ] > DELETE`;
+          )} ] -> deleted`;
           console.log(msg);
           addLog(msg, "farm");
 
@@ -290,7 +291,7 @@ async function collectFromListInternal(token, listNests, listDucks) {
         msg = `[ EGG 🥚 ${RARE_EGG[nest.type_egg]} ] : [ DUCK 🦆 ${
           collectDuckData.data.duck_id
         } : ${showRareDuck(collectDuckData.data.metadata)} ]${
-          isDeleted ? " > da xoa" : ""
+          isDeleted ? " > deleted" : ""
         }`;
         console.log(msg);
         if (!isDeleted) addLog(msg, "farm");
@@ -327,7 +328,7 @@ async function collectFromListInternal(token, listNests, listDucks) {
       }
     }
   } else if (nestStatus === 3) {
-    console.log(`[ NEST 🌕 ${nest.id} ] -> thu hoach`);
+    console.log(`[ NEST 🌕 ${nest.id} ] -> collected`);
     const collectDuckData = await collectDuck(token, ua, nest.id);
 
     if (collectDuckData.error_code !== "") {
@@ -381,18 +382,18 @@ async function hatchEggGoldenDuck(token) {
   console.log();
   console.log("Link Tool : [ j2c.cc/quack ]");
   console.log(
-    `Ban dang co : [ ${balanceEgg.toFixed(2)} EGG 🥚 ] [ ${balancePet.toFixed(
+    `Balances : [ ${balanceEgg.toFixed(2)} EGG 🥚 ] [ ${balancePet.toFixed(
       2
     )} PET 🐸 ]`
   );
   console.log();
   console.log(
-    `Thoi gian chay : [ ${timerInstance
+    `Run time : [ ${timerInstance
       .getTimeValues()
       .toString(["days", "hours", "minutes", "seconds"])} ]`
   );
   console.log(
-    `Tong thu hoach : [ ${eggs.toFixed(2)} EGG 🥚 ] [ ${pets.toFixed(
+    `Total harvest : [ ${eggs.toFixed(2)} EGG 🥚 ] [ ${pets.toFixed(
       2
     )} PET 🐸 ]`
   );
@@ -411,7 +412,9 @@ async function hatchEggGoldenDuck(token) {
       if (getGoldenDuckInfoData.data.time_to_golden_duck === 0) {
         clearInterval(myInterval);
 
-        console.log("[ GOLDEN DUCK 🐥 ] : ZIT ZANG xuat hien");
+        console.log(
+          "[ GOLDEN DUCK 🐥 ] : The monster under the river appeared"
+        );
         const getGoldenDuckRewardData = await getGoldenDuckReward(
           accessToken,
           ua
@@ -420,12 +423,11 @@ async function hatchEggGoldenDuck(token) {
         const { data } = getGoldenDuckRewardData;
 
         if (data.type === 0) {
-          msg = "Chuc ban may man lan sau";
-          msg = "";
+          msg = "Better luck next time";
           console.log(msg);
           addLog(`[ GOLDEN DUCK 🐥 ] :  ${msg}`, "golden");
         } else if (data.type === 1 || data.type === 4) {
-          msg = goldenDuckRewardText(data);
+          msg = `${goldenDuckRewardText(data)} -> skip`;
           console.log(` "[ GOLDEN DUCK 🐥 ] : ${msg}`);
           addLog(msg, "golden");
         } else {
@@ -456,7 +458,7 @@ async function hatchEggGoldenDuck(token) {
     }
   }
 
-  msg = `[ GOLDEN DUCK 🐥 ] : [ ${goldenDuck} | ${timeToGoldenDuck}s nua gap ]`;
+  msg = `[ GOLDEN DUCK 🐥 ] : [ ${goldenDuck} | see you in ${timeToGoldenDuck}s ]`;
   console.log(msg);
 
   const { listNests, listDucks } = await getListReload(
@@ -503,6 +505,7 @@ async function hatchEggGoldenDuck(token) {
   run = true;
   const nestIds = listNests.map((i) => i.id);
   console.log(`[ ${listNests.length} NEST 🌕 ] :`, nestIds);
+  console.log(`[ ${listDucks.length}/${maxDuckSlot} DUCKS 🦆 ]`);
 
   const lowerDuck = listDucks.filter((item) => item.total_rare < maxRareDuck);
   // console.log(lowerDuck);
@@ -513,9 +516,9 @@ async function hatchEggGoldenDuck(token) {
 
   if (!hideStopHatchLog) {
     if (!isStopHatchMode) {
-      console.log(`[ Tu dong ap EGG 🥚 ${RARE_EGG[maxRareEgg]} ]`);
+      console.log(`[ Auto hatch EGG 🥚 ${RARE_EGG[maxRareEgg]} ]`);
     } else {
-      console.log(`[ FARM du tieu chuan, khong can ap trung ]`);
+      console.log(`[ FARM qualified, no need hatch ]`);
       hideStopHatchLog = true;
     }
   }

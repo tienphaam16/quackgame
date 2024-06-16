@@ -13,7 +13,8 @@ const ua = randomUseragent.getRandom((ua) => {
 });
 // console.log(ua);
 
-const ERROR_MESSAGE = "Chup man hinh va tao issue GitHub de tui tim cach fix";
+const ERROR_MESSAGE =
+  "Take a screenshot and create a GitHub issue so I can find a fix";
 
 let run = false;
 let timerInstance = new Timer();
@@ -44,7 +45,9 @@ async function collectGoldenDuckInternal(token) {
       if (collectGoldenDuckInternalData.data.time_to_golden_duck === 0) {
         clearInterval(myInterval);
 
-        console.log("[ GOLDEN DUCK 🐥 ] : ZIT ZANG xuat hien");
+        console.log(
+          "[ GOLDEN DUCK 🐥 ] : The monster under the river appeared"
+        );
         const getGoldenDuckRewardData = await getGoldenDuckReward(
           accessToken,
           ua
@@ -52,11 +55,11 @@ async function collectGoldenDuckInternal(token) {
 
         const { data } = getGoldenDuckRewardData;
         if (data.type === 0) {
-          msg = "Chuc ban may man lan sau";
+          msg = "Better luck next time";
           console.log(`[ GOLDEN DUCK 🐥 ] : ${msg}`);
           addLog(msg, "golden");
         } else if (data.type === 1 || data.type === 4) {
-          msg = `${goldenDuckRewardText(data)} > SKIP`;
+          msg = `${goldenDuckRewardText(data)} -> skip`;
           console.log(`[ GOLDEN DUCK 🐥 ] : ${msg}`);
           addLog(msg, "golden");
         } else {
@@ -126,24 +129,24 @@ async function collectGoldenDuck(token) {
   console.log();
   console.log("Link Tool : [ j2c.cc/quack ]");
   console.log(
-    `Ban dang co : [ ${balanceEgg.toFixed(2)} EGG 🥚 ] [ ${balancePet.toFixed(
+    `Balances : [ ${balanceEgg.toFixed(2)} EGG 🥚 ] [ ${balancePet.toFixed(
       2
     )} PET 🐸 ]`
   );
   console.log();
   console.log(
-    `Thoi gian chay : [ ${timerInstance
+    `Run time : [ ${timerInstance
       .getTimeValues()
       .toString(["days", "hours", "minutes", "seconds"])} ]`
   );
   console.log(
-    `Tong thu hoach : [ ${eggs.toFixed(2)} EGG 🥚 ] [ ${pets.toFixed(
+    `Total harvest : [ ${eggs.toFixed(2)} EGG 🥚 ] [ ${pets.toFixed(
       2
     )} PET 🐸 ]`
   );
   console.log();
 
-  msg = `[ GOLDEN DUCK 🐥 ] : [ ${goldenDuck} | ${timeToGoldenDuck}s nua gap ]`;
+  msg = `[ GOLDEN DUCK 🐥 ] : [ ${goldenDuck} | see you in ${timeToGoldenDuck}s ]`;
   console.log(msg);
 
   collectGoldenDuckInternal(token);

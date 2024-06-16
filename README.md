@@ -1,6 +1,6 @@
 # Quack Quack Game Tool
 
-<img src="./images/13.jpg" />
+<img src="./images/16.jpg" />
 
 > Đây là công cụ tui làm ra chỉ để thử sức cũng như học hỏi thêm về code nên nó rất đơn giản và đôi khi có nhiều lỗi 😁
 
@@ -51,6 +51,8 @@
 - COMMON : 1 điểm
 
 > Vịt có tổng điểm cao hơn thì xịn hơn
+
+> Ví dụ vịt có phẩm: RARE + RARE + RARE sẽ bằng điểm với vịt LEGENDARY + RARE + COMMON
 
 > Để có vịt nhiều điểm thì bạn cần có nhiều tổ rơm, này do game quy định, xem lại bảng độ hiếm
 
@@ -104,7 +106,7 @@
 
 <img src="./images/7.png" />
 
-## Video hướng dẫn
+## Video cách dùng
 
 > [Windows](https://vt.tiktok.com/ZSYAonHXF/)
 
@@ -138,7 +140,13 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 > Gặp lỗi này thì dùm ơn, kéo lên trên đọc kỹ lại từ đầu 🤦‍♂️ đã cài NodeJS đâu mà chẳng gặp lỗi này
 
-3. Không hiển thị icon / emoji
+3. Lặp lại nhiều lần lỗi THIS_DUCK_NOT_ENOUGH_TIME_TO_LAY
+
+<img src="./images/17.jpg" />
+
+> Lỗi này do vịt không đẻ kịp, khuyến kích mở thêm vịt để tránh lỗi này (tối thiểu 10 con)
+
+4. Không hiển thị icon / emoji
 
 <img src="./images/12.jpg" />
 
