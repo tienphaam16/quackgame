@@ -1,6 +1,6 @@
 # Quack Quack Game Tool
 
-<img src="./images/16.jpg" />
+<img src="./images/18.jpg" />
 
 > Đây là công cụ tui làm ra chỉ để thử sức cũng như học hỏi thêm về code nên nó rất đơn giản và đôi khi có nhiều lỗi 😁
 
@@ -52,7 +52,7 @@
 
 > Vịt có tổng điểm cao hơn thì xịn hơn
 
-> Ví dụ vịt có phẩm: RARE + RARE + RARE sẽ bằng điểm với vịt LEGENDARY + RARE + COMMON
+> Ví dụ vịt RARE + RARE + RARE sẽ bằng điểm với vịt LEGENDARY + RARE + COMMON
 
 > Để có vịt nhiều điểm thì bạn cần có nhiều tổ rơm, này do game quy định, xem lại bảng độ hiếm
 
