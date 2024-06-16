@@ -123,7 +123,7 @@ async function collectFromListInternal(token, listNests, listDucks) {
       } else {
         const rareEgg = RARE_EGG[nest.type_egg];
         const amount = `+${AMOUNT_COLLECT[nest.type_egg]}`;
-        msg = `[ NEST 🌕 ${nest.id} ] : [ EGG 🥚 ${rareEgg} ] -> harvest (${amount})`;
+        msg = `[ NEST 🌕 ${nest.id} ] : [ EGG 🥚 ${rareEgg} ] -> collected (${amount})`;
         console.log(msg);
 
         balanceEgg += Number(AMOUNT_COLLECT[nest.type_egg]);
@@ -137,7 +137,7 @@ async function collectFromListInternal(token, listNests, listDucks) {
       }
     }
   } else if (nestStatus === 3) {
-    console.log(`[ NEST 🌕 ${nest.id} ] -> collect duck`);
+    console.log(`[ NEST 🌕 ${nest.id} ] -> collect a duck`);
 
     const collectDuckData = await collectDuck(token, ua, nest.id);
     const layEggData = await layEgg(token, ua, nest.id, duck.id);
